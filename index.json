@@ -1,0 +1,52 @@
+{
+  "matilha-init": {
+    "slug": "matilha-init",
+    "name": "Init — Bootstrap project",
+    "skillPath": "skills/matilha-init/SKILL.md"
+  },
+  "matilha-scout": {
+    "slug": "matilha-scout",
+    "name": "Scout (Phase 00) — Map the problem",
+    "skillPath": "skills/matilha-scout/SKILL.md"
+  },
+  "matilha-plan": {
+    "slug": "matilha-plan",
+    "name": "Plan (Phases 10-30) — PRD + Stack + Skills",
+    "skillPath": "skills/matilha-plan/SKILL.md"
+  },
+  "matilha-hunt": {
+    "slug": "matilha-hunt",
+    "name": "Hunt (Phase 40) — Decompose + dispatch waves",
+    "skillPath": "skills/matilha-hunt/SKILL.md"
+  },
+  "matilha-gather": {
+    "slug": "matilha-gather",
+    "name": "Gather — Merge + regression + tag",
+    "skillPath": "skills/matilha-gather/SKILL.md"
+  },
+  "matilha-howl": {
+    "slug": "matilha-howl",
+    "name": "Howl — Status + resume",
+    "skillPath": "skills/matilha-howl/SKILL.md"
+  },
+  "matilha-review": {
+    "slug": "matilha-review",
+    "name": "Review (Phase 50) — Multi-agent quality",
+    "skillPath": "skills/matilha-review/SKILL.md"
+  },
+  "matilha-den": {
+    "slug": "matilha-den",
+    "name": "Den (Phase 60) — Deploy with security gate",
+    "skillPath": "skills/matilha-den/SKILL.md"
+  },
+  "matilha-pack": {
+    "slug": "matilha-pack",
+    "name": "Pack (Phase 70) — Teammate onboarding",
+    "skillPath": "skills/matilha-pack/SKILL.md"
+  },
+  "matilha-design": {
+    "slug": "matilha-design",
+    "name": "Matilha Design — Anti-AI-slop harness",
+    "skillPath": "skills/matilha-design/SKILL.md"
+  }
+}
