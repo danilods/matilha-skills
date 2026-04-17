@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate index.json is valid JSON
+        run: |
+          if [ -f index.json ]; then
+            jq empty index.json
+          fi
+
+      - name: Check markdown files have frontmatter
+        run: |
+          for f in methodology/*.md commands/*.md skills/*/SKILL.md; do
+            if [ -f "$f" ]; then
+              head -1 "$f" | grep -q '^---$' || { echo "Missing frontmatter: $f"; exit 1; }
+            fi
+          done
+
+      - name: Check all skill files have MANAGED block markers
+        run: |
+          for f in skills/*/SKILL.md; do
+            if [ -f "$f" ]; then
+              grep -q "MATILHA_MANAGED_START" "$f" || { echo "Missing MANAGED_START: $f"; exit 1; }
+              grep -q "MATILHA_MANAGED_END" "$f" || { echo "Missing MANAGED_END: $f"; exit 1; }
+            fi
+          done
