@@ -15,75 +15,74 @@ license: MIT
 # /howl — Status + Resume
 
 ## Mission
-Surface the current project state for session resumption. Read `project-status.md`, render a structured summary of phase progress, active waves, pending decisions, blockers, and the recommended next action. Read-only — does not modify any file.
+Surface the current project state for session resumption. Read `project-status.md` and render a colored terminal summary of phase, next action, tools, active waves, blockers, and pending decisions. Supports `--json` for full machine-readable output. Read-only — does not modify any file.
 
 ## SoR Reference
 Content of truth lives in:
-- methodology/index.md (phase descriptions, phase progression order)
+- `project-status.md` — sole source for howl output; no other files are read
 
-Consult this page when `current_phase` value is unclear or when suggesting the next command.
+Howl is intentionally narrow: it reports what is recorded in `project-status.md`, nothing more.
 
 ## Preconditions
-- `project-status.md` exists in project root
-- Caller is in the project root directory (or any subdirectory of the project)
+- `project-status.md` exists in the project root (same directory where `matilha howl` is run)
 
 ## Execution Workflow
-1. Locate `project-status.md` by walking up from current directory; report path found
-2. Parse YAML frontmatter: extract `current_phase`, `archetype`, `aesthetic_direction`, `phase_*_gates`, `active_waves`, `completed_waves`, `blockers`, `recent_decisions`, `feature_artifacts`, `next_action`
-3. Load `methodology/index.md` to map `current_phase` to phase name and description
-4. Render summary output with clear sections:
-   - **Project**: name, archetype, aesthetic (if set)
-   - **Phase**: current phase number + name, status (in-progress / blocked / ready-to-advance)
-   - **Gates**: table of gate keys and values for the current phase (yes/no/pending)
-   - **Active Waves**: for each wave, list SPs and their status
-   - **Completed Waves**: count + list of tags
-   - **Pending Decisions**: from `recent_decisions` where status = pending
-   - **Blockers**: from `blockers` array, numbered
-   - **Next Action**: recommended command based on current state
-5. If `blockers` is non-empty, highlight them prominently
-6. Print suggested next command: `/scout`, `/plan`, `/hunt`, `/gather`, `/review`, `/den`, or `/pack` based on `current_phase`
+1. User runs `matilha howl` (default text mode) or `matilha howl --json`
+2. CLI reads `project-status.md` from the current working directory
+3. **If `--json`**: print `JSON.stringify(projectStatus, null, 2)` and exit — no color, no formatting
+4. **Text mode** — render colored output using `picocolors`:
+   - Header line: project name (bold cyan) + archetype (dim)
+   - `Phase:` current_phase value + phase_status (dim)
+   - `Next:` next_action value
+   - `Tools:` tools_detected array joined by ", " (or dim "none")
+   - `Active waves:` active_waves array (only if non-empty)
+   - `Blockers:` count + each blocker bulleted in red (only if non-empty)
+   - `Pending decisions:` count + each decision bulleted in yellow (only if non-empty)
+5. Print and exit — no file writes, no prompts
 
 ## Rules: Do
-- Report exactly what is in project-status.md — do not infer or assume progress beyond what the file records
-- Show gate status for the current phase prominently
-- Suggest the most logical next command given `current_phase` and gate states
-- Handle missing optional fields gracefully (show "not set" rather than erroring)
+- Report exactly what is in `project-status.md` — do not infer or extrapolate state
+- Surface `next_action` verbatim from the file — this is the primary resumption signal
+- Handle missing optional fields gracefully: `active_waves` / `blockers` / `pending_decisions` absent or empty → skip those lines silently
+- Keep output near-instant — howl is a quick status check, not a computation
 
 ## Rules: Don't
-- Don't modify project-status.md or any other file
-- Don't advance gates or phases during `/howl`
-- Don't fabricate state not present in project-status.md
-- Don't run long operations — `/howl` must be near-instant
+- Don't modify `project-status.md` or any other file
+- Don't advance gates or phases
+- Don't fabricate state not present in `project-status.md`
+- Don't load `methodology/index.md` or any other file beyond `project-status.md`
+- Don't run long operations
 
 ## Expected Behavior
-- Output is formatted for quick scanning: use a summary table for gates, not a wall of text
-- When all gates for current phase are `yes`, note "Phase N complete — ready to advance"
-- When any gate is `pending` or `no`, note "Phase N blocked on: [gate list]"
-- When `next_action` is set in frontmatter, surface it verbatim first before adding suggestions
+- Output scans quickly: one line per field, blockers and pending decisions highlighted in color
+- `--json` output is the full project-status object — useful for piping to other tools or debugging
+- When `active_waves` is empty, that line is omitted entirely (not printed as "Active waves: none")
+- When `blockers` is non-empty, the count and each item appear in red for immediate visibility
 
 ## Quality Gates
 - (Read-only skill — no file mutations to validate)
-- Output includes all 7 sections: Project, Phase, Gates, Active Waves, Completed Waves, Pending Decisions, Next Action
-- Suggested next command maps correctly to `current_phase` per methodology/index.md progression
+- Text output always includes: header (name + archetype), Phase, Next, Tools lines
+- Blockers and Pending decisions lines appear only when those arrays are non-empty
+- `--json` output is valid JSON of the full project-status object
 
 ## Companion Integration
-- If `superpowers` detected: note in output which superpowers skills are available for the current phase
-- If `impeccable` detected and archetype has frontend: surface aesthetic_direction and Impeccable audit status in Project section
-- If `shadcn-skills` detected: note in Active Waves section if any SP involves UI components
+- If `superpowers` detected: after reviewing howl output, consider invoking the relevant superpowers skill for the current phase (e.g. `superpowers:brainstorming` for Phase 10, `superpowers:writing-plans` for Phase 30)
+- If `impeccable` detected and archetype has frontend: check `next_action` — if it references Phase 20, surface aesthetic_direction from project-status.md as a reminder
+- If `shadcn-skills` detected: no special howl behavior; use `matilha plan-status` for wave-level detail
 
 ## Output Artifacts
 - (none — printed to console only, no files written)
 
 ## Example Constraint Language
-- Use "must" for: reading project-status.md, rendering all 7 sections
-- Use "should" for: formatting choices (table vs list), color hints in terminal output
-- Use "may" for: supplementary context from methodology/index.md beyond phase name
+- Use "must" for: reading project-status.md, rendering header + Phase + Next + Tools
+- Use "should" for: color choices (red blockers, yellow pending), omitting empty sections
+- Use "may" for: supplementary context added manually by the AI agent beyond what CLI prints
 
 ## Troubleshooting
-- **"project-status.md not found"**: Walk up directory tree to project root. If still not found, suggest running `/init` to bootstrap scaffolding.
-- **"YAML parse error in project-status.md"**: Report the specific parse error with line number. Do not attempt to auto-fix — show the raw line and ask user to correct it.
-- **"current_phase value is unrecognized"**: Check methodology/index.md for valid phase values. Report the unknown value and the valid range to the user.
-- **"active_waves references a wave-NN-status.md that doesn't exist"**: Report the missing file path. Suggest running `/hunt` to regenerate, or manually creating the file.
-- **"All phases complete"**: Congratulate the user. Suggest tagging the release and running `/pack` to generate the onboarding guide.
+- **"project-status.md not found"**: The CLI reads from the current working directory. Ensure you are in the project root where `matilha init` was run. If `project-status.md` is missing entirely, run `matilha init` to bootstrap.
+- **"Output shows no active waves"**: `active_waves` is empty in project-status.md. This is normal before `/hunt` starts a wave. Check `next_action` for what to do.
+- **"--json output is hard to read"**: Pipe through `jq`: `matilha howl --json | jq '.'`.
+- **"next_action is stale"**: The `next_action` field is written by CLI commands (scout, plan, attest). If it looks outdated, check `current_phase` and `phase_*_gates` in `--json` output and consult `methodology/index.md` to determine the actual next step.
+- **"Blockers list is long"**: Blockers are appended by CLI commands and must be resolved manually. Edit `project-status.md` to remove resolved blockers, then re-run `matilha howl` to confirm.
 
 <!-- MATILHA_MANAGED_END -->
