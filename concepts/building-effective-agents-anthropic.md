@@ -99,7 +99,7 @@ Tools são a parte crítica. "Quanto esforço vai em HCI, invista igual em ACI."
 
 ## Conexão com o vault
 
-- Cluster com [harness-design-anthropic](../concepts/harness-design-anthropic.md) e [codex-agent-centric-world-openai](../concepts/codex-agent-centric-world-openai.md): este artigo é o **catálogo de padrões**; os outros são **aplicações avançadas**.
+- Cluster com harness-design-anthropic e [codex-agent-centric-world-openai](../concepts/codex-agent-centric-world-openai.md): este artigo é o **catálogo de padrões**; os outros são **aplicações avançadas**.
 - Concept derivado: [agentic-patterns](../concepts/agentic-patterns.md) — padrões consumidos por methodology/30-skills-agents.
 - ACI princípios alimentam methodology/30-skills-agents (como desenhar tools) e methodology/50-qualidade-testes (poka-yoke como defesa).
 

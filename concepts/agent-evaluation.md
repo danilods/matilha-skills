@@ -1,7 +1,7 @@
 ---
 type: concept
 sources:
-  - "[demystifying-evals-anthropic](../concepts/demystifying-evals-anthropic.md)"
+  - "demystifying-evals-anthropic"
 created: 2026-04-16
 updated: 2026-04-17
 tags: [concept, agents, evaluation, quality, graders, testing]
@@ -168,6 +168,6 @@ Ver methodology/materializacoes — ação "Design eval suite + graders".
 
 ## Links
 
-- Source: [demystifying-evals-anthropic](../concepts/demystifying-evals-anthropic.md)
+- Source: demystifying-evals-anthropic
 - Cluster agentic: [harness-engineering](../concepts/harness-engineering.md), [agentic-patterns](../concepts/agentic-patterns.md), [agent-centric-codebase](../concepts/agent-centric-codebase.md), [context-engineering](../concepts/context-engineering.md)
 - Methodology consumers: methodology/50-qualidade-testes, methodology/30-skills-agents, methodology/40-execucao

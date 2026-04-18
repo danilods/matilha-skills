@@ -72,4 +72,4 @@ license: MIT
 > [!tip] Decisão prática
 > "Se puder usar Kafka para distribuir writes e permitir que downstream services façam pull em vez de push, faça isso." Event-driven > sincronismo para a maioria dos casos.
 
-Link to [nfr-system-design](../concepts/nfr-system-design.md), [acing-system-design](../concepts/acing-system-design.md), [design-cases](../concepts/design-cases.md), [distributed-transactions](../concepts/distributed-transactions.md)
+Link to [nfr-system-design](../concepts/nfr-system-design.md), acing-system-design, [design-cases](../concepts/design-cases.md), distributed-transactions

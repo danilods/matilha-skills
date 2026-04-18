@@ -70,7 +70,7 @@ Cada volta do ciclo fortalece o habito. O objetivo e transicionar o usuario de t
 
 **VARIABILIDADE** e o que cria desejo. Recompensas previsiveis perdem potencia (Schultz prediction error).
 
-Conexao direta com [dopamina-comportamento](../concepts/dopamina-comportamento.md): dopamina = wanting, nao liking. Variable ratio > fixed ratio ([motivacao-comportamento](../concepts/motivacao-comportamento.md)).
+Conexao direta com dopamina-comportamento: dopamina = wanting, nao liking. Variable ratio > fixed ratio ([motivacao-comportamento](../concepts/motivacao-comportamento.md)).
 
 ---
 
@@ -85,7 +85,7 @@ Conexao direta com [dopamina-comportamento](../concepts/dopamina-comportamento.m
 - Aumenta switching costs e carrega o proximo trigger
 - **NAO** e gratificacao imediata — e armazenar valor futuro
 
-Conexao: [tomada-decisao](../concepts/tomada-decisao.md) — endowment effect, sunk cost.
+Conexao: tomada-decisao — endowment effect, sunk cost.
 
 ---
 
@@ -111,10 +111,10 @@ O Hook Model e uma ferramenta — a intencao determina se cria valor ou dependen
 > [!warning] Conexao com Weinschenk
 > Cada fase do Hook Model tem base neurocientifica documentada na wiki:
 >
-> - **Trigger interno** = [processamento-inconsciente](../concepts/processamento-inconsciente.md) — decisoes emocionais precedem conscientes
-> - **Action** = [cognicao-pensamento](../concepts/cognicao-pensamento.md) — cognitive load, Fitt's Law
-> - **Variable Reward** = [dopamina-comportamento](../concepts/dopamina-comportamento.md) — wanting system, variable ratio
-> - **Investment** = [tomada-decisao](../concepts/tomada-decisao.md) — endowment effect, sunk cost
+> - **Trigger interno** = processamento-inconsciente — decisoes emocionais precedem conscientes
+> - **Action** = cognicao-pensamento — cognitive load, Fitt's Law
+> - **Variable Reward** = dopamina-comportamento — wanting system, variable ratio
+> - **Investment** = tomada-decisao — endowment effect, sunk cost
 
 ---
 
@@ -122,6 +122,6 @@ O Hook Model e uma ferramenta — a intencao determina se cria valor ou dependen
 
 - [frameworks-comportamentais](../concepts/frameworks-comportamentais.md) — outros frameworks comportamentais
 - [padroes-implementacao](../concepts/padroes-implementacao.md) — padroes praticos baseados no Hook Model
-- [neuro-experience-skill](../concepts/neuro-experience-skill.md) — skill completa de Neuro-Experience Design
-- [dopamina-comportamento](../concepts/dopamina-comportamento.md) — sistema dopaminergico e wanting
+- neuro-experience-skill — skill completa de Neuro-Experience Design
+- dopamina-comportamento — sistema dopaminergico e wanting
 - [motivacao-comportamento](../concepts/motivacao-comportamento.md) — motivacao intrinseca vs extrinseca

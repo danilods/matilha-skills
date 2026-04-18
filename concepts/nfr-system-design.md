@@ -61,6 +61,6 @@ license: MIT
 ```
 
 > [!important] Conexão com UX
-> NFRs não são abstrações técnicas — impactam diretamente a experiência do usuário. Latency alta = [reservatorio-boa-vontade](../concepts/reservatorio-boa-vontade.md) esvazia (Krug). Downtime = trust destruído ([emocoes-sentimentos](../concepts/emocoes-sentimentos.md) — trust é visual primeiro mas availability é o que sustenta). Rate limiting protege o sistema mas rate limit agressivo demais frustra o usuário ([erros-usabilidade](../concepts/erros-usabilidade.md) — stress aumenta erros).
+> NFRs não são abstrações técnicas — impactam diretamente a experiência do usuário. Latency alta = reservatorio-boa-vontade esvazia (Krug). Downtime = trust destruído (emocoes-sentimentos — trust é visual primeiro mas availability é o que sustenta). Rate limiting protege o sistema mas rate limit agressivo demais frustra o usuário (erros-usabilidade — stress aumenta erros).
 
-Link to [acing-system-design](../concepts/acing-system-design.md), [scaling-databases](../concepts/scaling-databases.md), [distributed-transactions](../concepts/distributed-transactions.md), [design-cases](../concepts/design-cases.md), [zhiyong-tan](../concepts/zhiyong-tan.md)
+Link to acing-system-design, [scaling-databases](../concepts/scaling-databases.md), distributed-transactions, [design-cases](../concepts/design-cases.md), zhiyong-tan

@@ -86,8 +86,8 @@ license: MIT
 - Não recomendado para serviços distribuídos — preferir Saga/Event Sourcing
 
 > [!warning] Conexão com UX
-> Cada decisão de arquitetura impacta o usuário final. Fan-out on write no news feed = latência menor para leitura = experiência mais fluida ([leis-de-krug](../concepts/leis-de-krug.md) — "não me faça pensar/esperar"). Rate limiting agressivo pode frustrar usuários legítimos ([reservatorio-boa-vontade](../concepts/reservatorio-boa-vontade.md)). Content moderation inadequada destrói trust ([emocoes-sentimentos](../concepts/emocoes-sentimentos.md)).
+> Cada decisão de arquitetura impacta o usuário final. Fan-out on write no news feed = latência menor para leitura = experiência mais fluida ([leis-de-krug](../concepts/leis-de-krug.md) — "não me faça pensar/esperar"). Rate limiting agressivo pode frustrar usuários legítimos (reservatorio-boa-vontade). Content moderation inadequada destrói trust (emocoes-sentimentos).
 
 ---
 
-[acing-system-design](../concepts/acing-system-design.md) | [nfr-system-design](../concepts/nfr-system-design.md) | [scaling-databases](../concepts/scaling-databases.md) | [zhiyong-tan](../concepts/zhiyong-tan.md)
+acing-system-design | [nfr-system-design](../concepts/nfr-system-design.md) | [scaling-databases](../concepts/scaling-databases.md) | zhiyong-tan

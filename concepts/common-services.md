@@ -99,8 +99,8 @@ Exemplo: Kong, AWS API Gateway, Apigee
 - **Alerting**: notificação quando métricas violam thresholds. Runbook para resposta
 
 > [!tip] Padrão recorrente
-> O API Gateway é para microservices o que a navegação é para websites ([navegacao-web](../concepts/navegacao-web.md)): centraliza o ponto de entrada, orienta o tráfego, e garante que cross-cutting concerns (auth, rate limiting) sejam tratados consistentemente — da mesma forma que a navegação persistente garante que o usuário sempre saiba onde está.
+> O API Gateway é para microservices o que a navegação é para websites (navegacao-web): centraliza o ponto de entrada, orienta o tráfego, e garante que cross-cutting concerns (auth, rate limiting) sejam tratados consistentemente — da mesma forma que a navegação persistente garante que o usuário sempre saiba onde está.
 
 ---
 
-[acing-system-design](../concepts/acing-system-design.md) | [nfr-system-design](../concepts/nfr-system-design.md) | [design-cases](../concepts/design-cases.md) | [scaling-databases](../concepts/scaling-databases.md)
+acing-system-design | [nfr-system-design](../concepts/nfr-system-design.md) | [design-cases](../concepts/design-cases.md) | [scaling-databases](../concepts/scaling-databases.md)

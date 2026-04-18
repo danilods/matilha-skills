@@ -18,7 +18,7 @@ license: MIT
 
 # Frameworks de Design Comportamental
 
-15 modelos de design comportamental integrados no meta-framework [neuro-experience-skill](../concepts/neuro-experience-skill.md), organizados por área de aplicação.
+15 modelos de design comportamental integrados no meta-framework neuro-experience-skill, organizados por área de aplicação.
 
 ---
 
@@ -121,7 +121,7 @@ Recipe: **After I** [ANCHOR], **I will** [TINY BEHAVIOR], **then I** [CELEBRATE]
 | **IKEA Effect** | Usuário que personaliza valoriza mais o produto |
 
 > [!tip] Conexão
-> System 1/2 é o mecanismo por trás do que Weinschenk documenta em [processamento-inconsciente](../concepts/processamento-inconsciente.md) e Krug observa empiricamente — satisficing em [leis-de-krug](../concepts/leis-de-krug.md).
+> System 1/2 é o mecanismo por trás do que Weinschenk documenta em processamento-inconsciente e Krug observa empiricamente — satisficing em [leis-de-krug](../concepts/leis-de-krug.md).
 
 ### Cognitive Load Theory — Sweller (1988)
 
@@ -252,12 +252,12 @@ Melhores produtos **equilibram ambos**.
 
 ## Links
 
-- [neuro-experience-skill](../concepts/neuro-experience-skill.md)
-- [principios-cognitivos-produto](../concepts/principios-cognitivos-produto.md)
+- neuro-experience-skill
+- principios-cognitivos-produto
 - [padroes-implementacao](../concepts/padroes-implementacao.md)
 - [hook-model](../concepts/hook-model.md)
 - [peak-end-rule](../concepts/peak-end-rule.md)
-- [dopamina-comportamento](../concepts/dopamina-comportamento.md)
-- [processamento-inconsciente](../concepts/processamento-inconsciente.md)
+- dopamina-comportamento
+- processamento-inconsciente
 - [motivacao-comportamento](../concepts/motivacao-comportamento.md)
-- [tomada-decisao](../concepts/tomada-decisao.md)
+- tomada-decisao

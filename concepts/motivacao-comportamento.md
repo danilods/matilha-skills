@@ -79,7 +79,7 @@ A solucao: pessoas precisam de uma **"desculpa" para se ativar**. Basta um motiv
 
 ## Conexoes
 
-- [tomada-decisao](../concepts/tomada-decisao.md) --- decisoes sobre agir dependem de motivacao
-- [atencao-foco](../concepts/atencao-foco.md) --- motivacao direciona a atencao
-- [emocoes-sentimentos](../concepts/emocoes-sentimentos.md) --- emocoes sao combustivel motivacional
-- [dopamina-comportamento](../concepts/dopamina-comportamento.md) --- mecanismos neurais do wanting vs liking
+- tomada-decisao --- decisoes sobre agir dependem de motivacao
+- atencao-foco --- motivacao direciona a atencao
+- emocoes-sentimentos --- emocoes sao combustivel motivacional
+- dopamina-comportamento --- mecanismos neurais do wanting vs liking

@@ -1,7 +1,7 @@
 ---
 type: concept
 sources:
-  - "[harness-design-anthropic](../concepts/harness-design-anthropic.md)"
+  - "harness-design-anthropic"
   - "2026-04-15-danilo-brain-dump"
 created: 2026-04-16
 updated: 2026-04-17
@@ -136,6 +136,6 @@ Ver methodology/materializacoes ação "Arquitetura de harness multi-agente".
 
 ## Links
 
-- Source: [harness-design-anthropic](../concepts/harness-design-anthropic.md)
+- Source: harness-design-anthropic
 - Methodology consumers: methodology/30-skills-agents, methodology/40-execucao, methodology/50-qualidade-testes
 - Related: [principios-transversais](./principios-transversais.md), [nfr-system-design](../concepts/nfr-system-design.md), [frameworks-comportamentais](../concepts/frameworks-comportamentais.md)

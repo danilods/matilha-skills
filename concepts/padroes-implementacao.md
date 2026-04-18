@@ -264,8 +264,8 @@ Padroes praticos organizados por categoria — cada um conecta principios neuroc
 
 ## Links
 
-- [neuro-experience-skill](../concepts/neuro-experience-skill.md) — skill completa de Neuro-Experience Design
+- neuro-experience-skill — skill completa de Neuro-Experience Design
 - [frameworks-comportamentais](../concepts/frameworks-comportamentais.md) — frameworks teoricos que fundamentam estes padroes
-- [principios-cognitivos-produto](../concepts/principios-cognitivos-produto.md) — principios cognitivos aplicados a produto
+- principios-cognitivos-produto — principios cognitivos aplicados a produto
 - [hook-model](../concepts/hook-model.md) — modelo Hooked detalhado
 - [peak-end-rule](../concepts/peak-end-rule.md) — Peak-End Rule e WOW moments

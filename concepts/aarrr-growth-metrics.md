@@ -51,13 +51,13 @@ license: MIT
 
 - **Métricas**: ARPU, LTV, free-to-paid conversion, expansion revenue
 - **Foco**: alinhar pricing com value delivery
-- **Conexão**: [plg-estrategias-growth](../concepts/plg-estrategias-growth.md) — pricing psychology
+- **Conexão**: plg-estrategias-growth — pricing psychology
 
 ### 5. Referral — Usuários como advocates
 
 - **Métricas**: K-factor (viral coefficient), NPS, referral rate
 - **Foco**: referral mechanisms no fluxo natural, não como afterthought
-- **Conexão**: [plg-estrategias-growth](../concepts/plg-estrategias-growth.md) — viral loops, network effects
+- **Conexão**: plg-estrategias-growth — viral loops, network effects
 
 ### Princípio de Uso
 
@@ -139,7 +139,7 @@ Abaixo de 40%: prioridade é melhorar o produto antes de investir em growth. Foc
 
 ## Links
 
-- [product-growth-hacking](../concepts/product-growth-hacking.md) — Resumo da fonte
-- [plg-estrategias-growth](../concepts/plg-estrategias-growth.md) — PLG Flywheel, JTBD, estratégias por lever
+- product-growth-hacking — Resumo da fonte
+- plg-estrategias-growth — PLG Flywheel, JTBD, estratégias por lever
 - [hook-model](../concepts/hook-model.md) — Ciclo de formação de hábito (Trigger → Action → Variable Reward → Investment)
 - [padroes-implementacao](../concepts/padroes-implementacao.md) — Padrões de onboarding, engagement, retenção

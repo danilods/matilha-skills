@@ -76,7 +76,7 @@ Padrao **"Emotional Bookend"**:
 ### Emotional Design Layers (Norman)
 
 - **Visceral**: beleza sensorial, primeira impressao — "parece bom?"
-  - Conecta com trust visual em [emocoes-sentimentos](../concepts/emocoes-sentimentos.md)
+  - Conecta com trust visual em emocoes-sentimentos
 - **Behavioral**: usabilidade, eficiencia — "funciona como espero?"
   - Conecta com [leis-de-krug](../concepts/leis-de-krug.md)
 - **Reflective**: significado pessoal, auto-imagem — "o que usar isso diz sobre mim?"
@@ -96,8 +96,8 @@ Padrao **"Emotional Bookend"**:
 
 ## Conexoes Teoricas
 
-- **Mitchell (1997)** em [emocoes-sentimentos](../concepts/emocoes-sentimentos.md): antes e depois > durante. Anticipacao e recordacao sao mais intensas que a experiencia em si
-- **Reservatorio de boa vontade** ([reservatorio-boa-vontade](../concepts/reservatorio-boa-vontade.md)): cada problema e um negative peak que drena a reserva. Cada WOW moment recarrega
+- **Mitchell (1997)** em emocoes-sentimentos: antes e depois > durante. Anticipacao e recordacao sao mais intensas que a experiencia em si
+- **Reservatorio de boa vontade** (reservatorio-boa-vontade): cada problema e um negative peak que drena a reserva. Cada WOW moment recarrega
 
 ---
 
@@ -105,6 +105,6 @@ Padrao **"Emotional Bookend"**:
 
 - [frameworks-comportamentais](../concepts/frameworks-comportamentais.md) — frameworks comportamentais relacionados
 - [padroes-implementacao](../concepts/padroes-implementacao.md) — padroes praticos de implementacao
-- [neuro-experience-skill](../concepts/neuro-experience-skill.md) — skill completa de Neuro-Experience Design
-- [emocoes-sentimentos](../concepts/emocoes-sentimentos.md) — emocoes e design emocional
-- [reservatorio-boa-vontade](../concepts/reservatorio-boa-vontade.md) — reservatorio de boa vontade do usuario
+- neuro-experience-skill — skill completa de Neuro-Experience Design
+- emocoes-sentimentos — emocoes e design emocional
+- reservatorio-boa-vontade — reservatorio de boa vontade do usuario
