@@ -1,0 +1,43 @@
+# {{project_name}}
+
+Matilha project — archetype=**{{archetype}}**. Initialized {{date}}.
+
+## Methodology (Source of Truth)
+
+Methodology pages live at https://github.com/danilods/matilha-skills/tree/main/methodology
+
+The 8-phase methodology:
+
+- `methodology/00-mapeamento-problema.md` — Phase 00 Discovery / problem mapping
+- `methodology/10-prd.md` — Phase 10 PRD
+- `methodology/20-stack.md` — Phase 20 Stack decisions (archetype defaults)
+- `methodology/30-skills-agents.md` — Phase 30 Skills / Agents identification
+- `methodology/40-execucao.md` — Phase 40 Wave execution with parallel worktrees
+- `methodology/50-qualidade-testes.md` — Phase 50 Multi-agent quality review
+- `methodology/60-deploy-infra.md` — Phase 60 Deploy with security gate
+- `methodology/70-onboarding-time.md` — Phase 70 Onboarding new teammates
+
+Transversal:
+
+- `methodology/principios-transversais.md` — Cross-phase principles
+- `methodology/materializacoes.md` — Tool-specific concrete manifestations
+
+## Project Structure
+
+{{archetype_index}}
+
+## Commands available
+
+- `/scout` — Phase 00 problem mapping
+- `/plan` — Phases 10-30 PRD + Stack + Skills
+- `/hunt` — Phase 40 decompose plan into waves, dispatch parallel
+- `/gather` — Post-wave merge + regression + tag
+- `/howl` — Status + resume (reads project-status.md)
+- `/review` — Phase 50 multi-agent quality review
+- `/den` — Phase 60 deploy with security gate
+- `/pack` — Phase 70 onboarding guide generation
+- `/matilha-design` — Anti-AI-slop design harness (frontend only)
+
+## Current State
+
+See `project-status.md`. For session resume: run `/howl`.

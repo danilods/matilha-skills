@@ -34,3 +34,17 @@ jobs:
               grep -q "MATILHA_MANAGED_END" "$f" || { echo "Missing MANAGED_END: $f"; exit 1; }
             fi
           done
+
+      - name: Validate templates have placeholder syntax
+        run: |
+          for f in templates/*.tmpl; do
+            if [ -f "$f" ]; then
+              grep -q '{{[a-zA-Z_]*}}' "$f" || { echo "No placeholders found in $f (expected at least one)"; exit 1; }
+            fi
+          done
+
+      - name: Validate companions.json is valid JSON
+        run: |
+          if [ -f companions.json ]; then
+            jq empty companions.json
+          fi

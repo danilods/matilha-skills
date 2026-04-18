@@ -1,0 +1,59 @@
+{
+  "impeccable": {
+    "slug": "impeccable",
+    "name": "Impeccable — Design harness (anti-AI-slop)",
+    "description": "Design language + 18 commands for frontend quality.",
+    "detect": {
+      "claudeCode": "~/.claude/skills/impeccable/",
+      "cursor": ".cursor/skills/impeccable/",
+      "codex": "~/.codex/impeccable/",
+      "gemini": ".gemini/skills/impeccable/"
+    },
+    "install": {
+      "universal": "npx skills add pbakaus/impeccable"
+    },
+    "tutorial": {
+      "title": "Install Impeccable",
+      "body": "Run `npx skills add pbakaus/impeccable` in your project root. Auto-detects the AI tool.\n\nManual per tool:\n- Claude Code (global): `cp -r dist/claude-code/.claude/* ~/.claude/`\n- Cursor: `cp -r dist/cursor/.cursor your-project/` (needs Nightly + Agent Skills enabled)\n- Codex: `cp -r dist/codex/.codex/* ~/.codex/`\n- Gemini: `cp -r dist/gemini/.gemini your-project/` (install preview: npm i -g @google/gemini-cli@preview)"
+    },
+    "optional_per_archetype": ["saas-b2b", "saas-b2c", "frontend-only", "marketplace"]
+  },
+  "shadcn-skills": {
+    "slug": "shadcn-skills",
+    "name": "shadcn/ui skills — Component library context",
+    "description": "Injects shadcn/ui component catalog into AI context.",
+    "detect": {
+      "claudeCode": "~/.claude/skills/shadcn-ui/",
+      "cursor": ".cursor/skills/shadcn-ui/",
+      "codex": "~/.codex/shadcn-ui/",
+      "gemini": ".gemini/skills/shadcn-ui/"
+    },
+    "install": {
+      "universal": "pnpm dlx skills add shadcn/ui"
+    },
+    "tutorial": {
+      "title": "Install shadcn/ui skills",
+      "body": "Run `pnpm dlx skills add shadcn/ui` (or `npm`/`yarn`/`bun` equivalent) in your project root. Works cross-tool.\n\nPrerequisite: project has `components.json` (shadcn/ui initialized via `npx shadcn@latest init`)."
+    },
+    "optional_per_archetype": ["saas-b2b", "saas-b2c", "frontend-only", "marketplace"]
+  },
+  "superpowers": {
+    "slug": "superpowers",
+    "name": "Superpowers — Skills framework",
+    "description": "TDD, systematic debugging, brainstorming, subagent-driven development.",
+    "detect": {
+      "claudeCode": "~/.claude/plugins/cache/claude-plugins-official/superpowers/",
+      "cursor": "~/.cursor/plugins/superpowers/",
+      "codex": "~/.codex/plugins/superpowers/",
+      "gemini": "~/.gemini/extensions/superpowers/"
+    },
+    "install": {
+      "gemini": "gemini extensions install https://github.com/obra/superpowers"
+    },
+    "tutorial": {
+      "title": "Install Superpowers",
+      "body": "Superpowers installation differs by platform:\n\n**Claude Code (official marketplace):**\n`/plugin install superpowers@claude-plugins-official`\n\n**Claude Code (community marketplace):**\n`/plugin marketplace add obra/superpowers-marketplace`\n`/plugin install superpowers@superpowers-marketplace`\n\n**OpenAI Codex CLI:** `/plugins` → search \"superpowers\" → Install\n\n**Cursor:** `/add-plugin superpowers` (Cursor Agent chat)\n\n**OpenCode:** tell OpenCode to \"Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\"\n\n**GitHub Copilot CLI:**\n`copilot plugin marketplace add obra/superpowers-marketplace`\n`copilot plugin install superpowers@superpowers-marketplace`\n\n**Gemini CLI:** `gemini extensions install https://github.com/obra/superpowers`"
+    },
+    "optional_per_archetype": ["saas-b2b", "saas-b2c", "frontend-only", "cli", "library", "ml-service", "marketplace"]
+  }
+}
