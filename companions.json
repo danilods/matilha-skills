@@ -4,10 +4,10 @@
     "name": "Impeccable — Design harness (anti-AI-slop)",
     "description": "Design language + 18 commands for frontend quality.",
     "detect": {
-      "claudeCode": "~/.claude/skills/impeccable/",
+      "claude-code": "~/.claude/skills/impeccable/",
       "cursor": ".cursor/skills/impeccable/",
       "codex": "~/.codex/impeccable/",
-      "gemini": ".gemini/skills/impeccable/"
+      "gemini-cli": ".gemini/skills/impeccable/"
     },
     "install": {
       "universal": "npx skills add pbakaus/impeccable"
@@ -23,10 +23,10 @@
     "name": "shadcn/ui skills — Component library context",
     "description": "Injects shadcn/ui component catalog into AI context.",
     "detect": {
-      "claudeCode": "~/.claude/skills/shadcn-ui/",
+      "claude-code": "~/.claude/skills/shadcn-ui/",
       "cursor": ".cursor/skills/shadcn-ui/",
       "codex": "~/.codex/shadcn-ui/",
-      "gemini": ".gemini/skills/shadcn-ui/"
+      "gemini-cli": ".gemini/skills/shadcn-ui/"
     },
     "install": {
       "universal": "pnpm dlx skills add shadcn/ui"
@@ -42,13 +42,13 @@
     "name": "Superpowers — Skills framework",
     "description": "TDD, systematic debugging, brainstorming, subagent-driven development.",
     "detect": {
-      "claudeCode": "~/.claude/plugins/cache/claude-plugins-official/superpowers/",
+      "claude-code": "~/.claude/plugins/cache/claude-plugins-official/superpowers/",
       "cursor": "~/.cursor/plugins/superpowers/",
       "codex": "~/.codex/plugins/superpowers/",
-      "gemini": "~/.gemini/extensions/superpowers/"
+      "gemini-cli": "~/.gemini/extensions/superpowers/"
     },
     "install": {
-      "gemini": "gemini extensions install https://github.com/obra/superpowers"
+      "gemini-cli": "gemini extensions install https://github.com/obra/superpowers"
     },
     "tutorial": {
       "title": "Install Superpowers",
