@@ -2,42 +2,50 @@
 
 Matilha project — archetype=**{{archetype}}**. Initialized {{date}}.
 
-## Methodology (Source of Truth)
+## Start here
 
-Methodology pages live at https://github.com/danilods/matilha-skills/tree/main/methodology
+- Run `/howl` (or `matilha howl`) to see phase + next action.
+- `project-status.md` is the machine-readable source of truth.
+- Methodology lives in the registry: https://github.com/danilods/matilha-skills/tree/main/methodology
 
-The 8-phase methodology:
+## The 8 phases (what each one does)
 
-- `methodology/00-mapeamento-problema.md` — Phase 00 Discovery / problem mapping
-- `methodology/10-prd.md` — Phase 10 PRD
-- `methodology/20-stack.md` — Phase 20 Stack decisions (archetype defaults)
-- `methodology/30-skills-agents.md` — Phase 30 Skills / Agents identification
-- `methodology/40-execucao.md` — Phase 40 Wave execution with parallel worktrees
-- `methodology/50-qualidade-testes.md` — Phase 50 Multi-agent quality review
-- `methodology/60-deploy-infra.md` — Phase 60 Deploy with security gate
-- `methodology/70-onboarding-time.md` — Phase 70 Onboarding new teammates
+**Planning** (methodology 00-30):
+- `00-mapeamento-problema.md` — discovery & problem mapping (via `/scout`)
+- `10-prd.md` — PRD gates (via `/plan` + `/attest`)
+- `20-stack.md` — stack decisions (archetype defaults)
+- `30-skills-agents.md` — skills / agents / hooks
 
-Transversal:
+**Execution** (40-50):
+- `40-execucao.md` — parallel waves + worktrees (via `/hunt`)
+- `50-qualidade-testes.md` — multi-agent review (via `/review`)
 
-- `methodology/principios-transversais.md` — Cross-phase principles
-- `methodology/materializacoes.md` — Tool-specific concrete manifestations
+**Deploy & handoff** (60-70):
+- `60-deploy-infra.md` — deploy with security gate (via `/den`)
+- `70-onboarding-time.md` — onboarding teammates (via `/pack`)
 
-## Project Structure
+Transversal: `materializacoes.md` (tool adapter), `principios-transversais.md` (cross-phase).
+
+## Commands
+
+| Command | Phase | What it does |
+|---|---|---|
+| `/scout` | 00 | Interview-based discovery |
+| `/plan <slug>` | 10-30 | Scaffold spec + plan; attest gates |
+| `/attest` | 10-30 | Flip a gate (interactive default) |
+| `/hunt <plan>` | 40 | Decompose + worktree dispatch |
+| `/gather` | 40 | Merge wave + regression + tag |
+| `/howl` | any | State + next action |
+| `/review` | 50 | Multi-agent quality review |
+| `/den` | 60 | Deploy with security gate |
+| `/pack` | 70 | Onboarding guide |
+| `/matilha-design` | any | Anti-slop design (frontend only) |
+
+## Project structure
 
 {{archetype_index}}
 
-## Commands available
+## Current state
 
-- `/scout` — Phase 00 problem mapping
-- `/plan` — Phases 10-30 PRD + Stack + Skills
-- `/hunt` — Phase 40 decompose plan into waves, dispatch parallel
-- `/gather` — Post-wave merge + regression + tag
-- `/howl` — Status + resume (reads project-status.md)
-- `/review` — Phase 50 multi-agent quality review
-- `/den` — Phase 60 deploy with security gate
-- `/pack` — Phase 70 onboarding guide generation
-- `/matilha-design` — Anti-AI-slop design harness (frontend only)
-
-## Current State
-
-See `project-status.md`. For session resume: run `/howl`.
+See `project-status.md` for phase, gates, active waves, blockers, pending decisions.
+For session resume: `/howl`.
