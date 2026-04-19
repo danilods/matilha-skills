@@ -1,0 +1,32 @@
+---
+type: sp-done
+sp_id: {{sp_id}}
+feature: {{feature_slug}}
+wave: {{wave_id}}
+status: pending   # fill: completed | failed
+completed_at: null  # fill: ISO 8601 UTC
+commits: []   # fill: list of commit SHAs
+tests:
+  passed: null  # fill: true | false
+  count: null   # fill: integer
+---
+
+# SP-DONE — {{sp_id}} / {{feature_slug}}
+
+## Status
+<!-- fill: one-line summary (completed with X or failed because Y) -->
+
+## Changes summary
+<!-- fill: 2-5 bullets on what this SP delivered -->
+
+## Files modified
+<!-- fill: list of files touched (should match Touches from kickoff.md) -->
+
+## Tests added/modified
+<!-- fill: list of test files -->
+
+## Acceptance verification
+<!-- copy acceptance checklist from kickoff.md with [x]/[ ] status per item -->
+
+## Known issues / caveats
+<!-- fill: anything /gather needs to know before merging -->

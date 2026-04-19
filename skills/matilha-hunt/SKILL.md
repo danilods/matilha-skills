@@ -15,77 +15,122 @@ license: MIT
 # /hunt — Phase 40 (Wave Dispatch)
 
 ## Mission
-Decompose a plan artifact into waves and sub-projects (SPs), create git worktrees per SP, and dispatch parallel agent sessions. Matilha wraps wave-status bookkeeping around the dispatch mechanic, ensuring every SP has a tracked branch, a defined dependency order, and a completion criterion.
+
+Decompose a plan artifact into waves and sub-projects (SPs), create git
+worktrees per SP, and render kickoff.md + SP-DONE.md templates into each.
+Matilha wraps wave-status bookkeeping around this so every SP has a tracked
+branch, a defined dependency order (merge_order), and a completion criterion.
 
 ## SoR Reference
-Content of truth lives in:
-- methodology/40-execucao.md (wave decomposition rules, SP dependencies, worktree conventions)
 
-ALWAYS consult this page for latest SP sizing and merge_order conventions.
+- `methodology/40-execucao.md` — wave decomposition rules, SP sizing, worktree
+  conventions, kickoff/SP-DONE artifacts
+
+Consult this page for latest sizing heuristics and merge_order conventions.
 
 ## Preconditions
-- Plan artifact exists: `docs/matilha/plans/*.md` or `docs/superpowers/plans/*.md`
-- Git repo with worktree capability (`git worktree` available)
-- `current_phase` in project-status.md is ≥ 30
+
+- Plan artifact exists: `docs/matilha/plans/<slug>-plan.md` (or superpowers variant)
+- Git repo with worktree capability (`git worktree add`, requires git ≥ 2.15)
+- `project-status.md` shows `current_phase` ≥ 30
 - No uncommitted changes on current branch
 
 ## Execution Workflow
-1. Load `methodology/40-execucao.md` — extract wave decomposition rules and SP sizing heuristics
-2. Parse the plan artifact: identify waves, SPs per wave, inter-SP dependencies
-3. Present wave breakdown to user for confirmation; adjust SP boundaries if user objects
-4. Validate SP dependencies: detect circular deps, flag ambiguous ordering as blockers
-5. For each SP in wave N: create branch `wave-NN-sp-<name>` and worktree at `../<project>-sp-<name>/`
-6. Write `docs/matilha/waves/wave-NN-status.md` with: SP list, branch names, merge_order, status=pending for each
-7. Invoke dispatch: if `superpowers` detected, delegate to `superpowers:dispatching-parallel-agents` for agent session creation; else print session-start instructions per SP
-8. Update `project-status.md`: set `current_phase: 40`, append wave entry to `active_waves`
+
+1. **Pre-flight (Swiss Cheese)**: plan exists, current_phase ≥ 30, working
+   tree clean, git repo valid.
+2. **Parse plan**: frontmatter + body SP headings (soft-strict: accepts
+   em-dash, colon, or single-hyphen with warnings). Extracts touches,
+   acceptance, tests per SP.
+3. **Validate disjunction**: intra-wave SPs must touch disjoint files. Violation → hard error unless `--allow-overlap`.
+4. **Detect companions**: read `companion_skills.superpowers` from
+   project-status. Kickoff.md adapts (recommends `superpowers:executing-plans`
+   when present).
+5. **Idempotency guard**: if `wave-NN-status.md` already exists, refuse
+   unless `--force`. `--force` logs recovery info (branch commits) before
+   destroying.
+6. **For each SP in target wave**:
+   - `git branch wave-NN-sp-<slug>`
+   - `git worktree add ../<project>-sp-<slug> wave-NN-sp-<slug>`
+   - Render kickoff.md from `templates/kickoff.md.tmpl`; write to worktree root
+   - Render SP-DONE.md from `templates/sp-done.md.tmpl`; write to worktree root
+7. **Update .gitignore**: ensure `kickoff.md` is ignored at main repo root.
+8. **Write `docs/matilha/waves/wave-NN-status.md`** using the `Wave` schema.
+9. **Dispatch**: `PrintDispatcher` emits a cd + editor command per SP.
+   User pastes each in a new terminal.
 
 ## Rules: Do
-- Confirm wave breakdown with user before creating worktrees (worktree creation is hard to undo cleanly)
-- Size SPs to ≤1 day of focused work per `methodology/40-execucao.md` heuristics
-- Write wave-NN-status.md before dispatching (ensures bookkeeping survives partial failures)
-- Record merge_order explicitly — it drives `/gather` later
-- Keep one wave active at a time unless user explicitly enables parallel waves
+
+- Run `matilha hunt <slug>` with no args for the first pending wave.
+- Pass `--wave N` for explicit wave selection.
+- Pass `--dry-run` to preview without mutation.
+- Respect the disjunction gate — edit plan.md to fix overlaps rather than
+  bypassing with `--allow-overlap` (which accepts merge conflict risk).
 
 ## Rules: Don't
-- Don't create worktrees without confirming branch names with user
-- Don't dispatch if any SP has an unresolved dependency cycle
-- Don't advance current_phase to 40 before plan artifact exists and is confirmed
-- Don't modify `methodology/*.md` (read-only SoR)
-- Don't hardcode paths — derive worktree location from `git rev-parse --show-toplevel`
+
+- Don't run `/hunt` if uncommitted changes exist — worktrees will not
+  reflect them.
+- Don't use `--force` if any worktree has a filled SP-DONE.md (that signals
+  completed work).
+- Don't modify `kickoff.md` after dispatch — it's regenerated on `--force`.
 
 ## Expected Behavior
-- If plan has a single wave, skip wave numbering ceremony but still write wave-01-status.md
-- When user wants fewer SPs ("just one big task"), respect it — Matilha's role is to enable parallelism, not enforce it
-- If worktree creation fails (branch exists, path conflict), report precisely and offer resolution options
+
+- If plan has a single wave, still writes `wave-01-status.md` for uniformity.
+- If the user wants fewer SPs ("one big task"), respect it — Matilha enables
+  parallelism, doesn't enforce it.
+- Worktree creation failures report precisely with recovery options.
 
 ## Quality Gates
-- `docs/matilha/waves/wave-NN-status.md` exists for each active wave
-- Every SP in wave-NN-status.md has: branch name, worktree path, status (pending/in-progress/completed), merge_order index
-- `active_waves` in project-status.md references wave-NN-status.md
-- No circular SP dependencies in merge_order
-- `current_phase` is 40 in project-status.md
+
+- `docs/matilha/waves/wave-NN-status.md` exists and conforms to waveSchema
+- Every SP in wave-status has `branch`, `worktree`, `status` fields
+- `.gitignore` contains `kickoff.md` (idempotent)
+- No circular SP dependencies in merge_order (wave 1 is Rendered linearly)
+- `current_phase` is ≥ 30 in project-status.md
 
 ## Companion Integration
-- If `superpowers` detected: delegate parallel agent dispatch to `superpowers:dispatching-parallel-agents`; Matilha provides wave-status.md as the shared state artifact between sessions
-- If `impeccable` + frontend SPs: add Impeccable audit step as the final gate in relevant SP completion criteria
-- If `shadcn-skills` + UI SPs: inject shadcn component list from registry into SP context before dispatch
+
+- **superpowers detected** → kickoff.md recommends `superpowers:executing-plans`
+  as the preferred task-control engine. Matilha provides the harness
+  (worktree isolation, disjunction gates, wave-status); superpowers drives
+  execution with TDD + review checkpoints.
+- **impeccable + frontend SPs** → audit step added to SP exit gates (future).
+- **shadcn-skills + UI SPs** → shadcn component list injected into SP
+  context (future).
 
 ## Output Artifacts
-- `docs/matilha/waves/wave-NN-status.md` (SP list, branch names, merge_order, status per SP)
-- N git worktrees at `../<project>-sp-<name>/` (one per SP)
-- N git branches `wave-NN-sp-<name>` (one per SP)
-- Updated `project-status.md` (`current_phase: 40`, `active_waves`)
+
+- `docs/matilha/waves/wave-NN-status.md` — wave-level tracking
+- N `kickoff.md` files (one per worktree, gitignored)
+- N `SP-DONE.md` templates (one per worktree, committed on SP branch)
+- N git branches `wave-NN-sp-<slug>`
+- N worktrees at `../<project>-sp-<slug>/`
 
 ## Example Constraint Language
-- Use "must" for: wave-NN-status.md existence before dispatch, circular dep validation
-- Use "should" for: SP sizing ≤1 day, single active wave default
-- Use "may" for: parallel waves when user explicitly enables, custom worktree paths
+
+- Use "must" for: `wave-NN-status.md` existing before dispatch completes;
+  disjunction validated before any worktree is created; `current_phase ≥ 30`
+  before `/hunt` proceeds.
+- Use "should" for: running `--dry-run` before the first `/hunt` on a plan;
+  reviewing the `--force` recovery log before confirming destruction; sizing
+  SPs to ≤1 day of focused work per `methodology/40-execucao.md`.
+- Use "may" for: `--allow-overlap` when the overlap is benign and understood;
+  custom `Dispatcher` implementations (future Wave 3a.1 adds
+  `MacTerminalDispatcher` behind the same interface).
 
 ## Troubleshooting
-- **"Branch already exists"**: Check if it's a leftover from a prior attempt. Offer: delete+recreate, rename, or attach existing branch to new worktree.
-- **"Plan has no clear wave structure"**: Ask user to identify a natural first deliverable (vertical slice). That becomes Wave 01. Remaining work is Wave 02+.
-- **"Git worktree not supported"**: Confirm `git version` ≥ 2.15. If unsupported environment, fall back to sequential branches without worktrees; document limitation in wave-NN-status.md.
-- **"User wants to skip decomposition and code directly"**: Respect choice. Create a single SP for the entire plan, write minimal wave-01-status.md, dispatch as one session.
-- **"Circular dependency detected"**: Present the cycle graph to user. Ask which dependency to break; log the decision in project-status.md `recent_decisions`.
+
+- **"branch already exists"**: leftover from prior attempt. Options:
+  `git branch -D <branch>` + retry, or `--force` (destructive, logs recovery).
+- **"worktree path already exists"**: similar. `git worktree remove <path>`
+  or `--force`.
+- **"disjunction violated"**: plan has intra-wave SPs touching same files.
+  Edit plan.md to move one SP to a later wave, OR `--allow-overlap`
+  (not recommended).
+- **"current_phase < 30"**: finish Phase 10/20/30 gates via
+  `matilha attest` first. Run `matilha howl` to see what's pending.
+- **"uncommitted changes"**: commit or stash before running hunt.
 
 <!-- MATILHA_MANAGED_END -->
