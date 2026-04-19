@@ -108,6 +108,18 @@ Consult this page for latest sizing heuristics and merge_order conventions.
 - N git branches `wave-NN-sp-<slug>`
 - N worktrees at `../<project>-sp-<slug>/`
 
+## Example Constraint Language
+
+- Use "must" for: `wave-NN-status.md` existing before dispatch completes;
+  disjunction validated before any worktree is created; `current_phase ≥ 30`
+  before `/hunt` proceeds.
+- Use "should" for: running `--dry-run` before the first `/hunt` on a plan;
+  reviewing the `--force` recovery log before confirming destruction; sizing
+  SPs to ≤1 day of focused work per `methodology/40-execucao.md`.
+- Use "may" for: `--allow-overlap` when the overlap is benign and understood;
+  custom `Dispatcher` implementations (future Wave 3a.1 adds
+  `MacTerminalDispatcher` behind the same interface).
+
 ## Troubleshooting
 
 - **"branch already exists"**: leftover from prior attempt. Options:
