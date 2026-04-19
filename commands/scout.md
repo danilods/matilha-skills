@@ -1,9 +1,6 @@
 ---
-name: scout
-description: Phase 00 — Map the problem before any code. Discovery, user research, existing docs review.
-argument_hint: (none)
+description: "Phase 10 — research subagents explore problem space and produce research markdown"
+argument_hint: "<featureSlug>"
 ---
 
-Execute the `matilha-scout` skill to conduct Phase 00 (problem mapping).
-
-Load the skill and follow its execution workflow. If `project-status.md` doesn't exist, offer to bootstrap via `matilha-init` first.
+Invoke the `matilha:matilha-scout` skill. Dispatches 3-5 research subagents in parallel via Task tool (market, user, competitive, technical) and synthesizes findings at `docs/matilha/research/<slug>-research.md`. Updates project-status to phase 10.

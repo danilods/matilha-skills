@@ -1,9 +1,6 @@
 ---
-name: pack
-description: Phase 70 — Onboard a new teammate. Generate onboarding guide from project state.
-argument_hint: (none)
+description: "Phase 70 — extract reusable artifacts into a companion pack"
+argument_hint: "<packName>"
 ---
 
-Execute the `matilha-pack` skill to generate onboarding for a new pack member.
-
-Produces a guide tailored from `project-status.md` + methodology pages + README. Includes checklist: clone repo, install Matilha, install companions, run `/howl`, shadow first wave.
+Invoke the `matilha:matilha-pack` skill. The skill reads `docs/matilha/den/*.md`, scaffolds a new pack repo under `packs/<name>/` following `docs/matilha/pack-authors.md`, and generates `plugin.json` with the `matilha-pack` keyword.

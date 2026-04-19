@@ -1,0 +1,24 @@
+{
+  "name": "matilha",
+  "version": "0.4.0",
+  "description": "You lead. Agents hunt. A harness for building complex projects with AI — phase-gated methodology plus pluggable intelligence packs.",
+  "author": {
+    "name": "Danilo de Sousa"
+  },
+  "homepage": "https://github.com/danilods/matilha-skills",
+  "repository": "https://github.com/danilods/matilha-skills",
+  "license": "MIT",
+  "keywords": [
+    "methodology",
+    "agentic",
+    "ai",
+    "cognitive-harness",
+    "matilha",
+    "design",
+    "cross-tool",
+    "claude-code",
+    "cursor",
+    "codex",
+    "gemini"
+  ]
+}

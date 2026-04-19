@@ -1,9 +1,6 @@
 ---
-name: plan
-description: Phases 10-30 — PRD + Stack + Skills/Agents with binary gates.
-argument_hint: (none)
+description: "Phase 20-30 — author spec + plan with waves, SPs, merge_order, exit gates"
+argument_hint: "<featureSlug>"
 ---
 
-Execute the `matilha-plan` skill to conduct Phases 10, 20, and 30 sequentially.
-
-Requires `project-status.md` in project root. If Phase 00 (scout) hasn't been completed, suggest running `/scout` first.
+Invoke the `matilha:matilha-plan` skill. The skill delegates clarifying questions to `superpowers:brainstorming` if installed, generates the spec + plan artifacts, validates against `planSchema`, and updates project-status to phase 30.

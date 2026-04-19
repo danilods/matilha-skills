@@ -1,94 +1,76 @@
 ---
 name: matilha-scout
-description: Phase 00 — Map the problem. Discovery via user research, PDF/transcript import, or from-scratch brainstorm.
-metadata:
-  author: matilha
-  phase: "00"
-  version: 1.0.0
-  requires: []
-  optional_companions: [impeccable, shadcn-skills, superpowers]
-license: MIT
+description: Use when user is in Phase 10 discovery for a feature — runs parallel research subagents and produces a research markdown that feeds matilha-plan.
+category: matilha
+version: "1.0.0"
+optional_companions: []
 ---
 
-<!-- MATILHA_MANAGED_START -->
+## When this fires
 
-# /scout — Phase 00 (Problem Mapping)
-
-## Mission
-Map the problem before writing a single line of code. The CLI drives a structured 6-question discovery interview, writes `docs/matilha/discovery-notes.md`, auto-passes all Phase 00 gates, and advances `current_phase` to 10 in one atomic step. Discovery is always guided — not free-form or import-based.
-
-## SoR Reference
-Content of truth lives in:
-- methodology/00-mapeamento-problema.md (discovery gates, user research heuristics)
-- methodology/index.md (phase overview)
-
-Consult `methodology/00-mapeamento-problema.md` before the session to understand what each gate is checking.
+User wants to explore a feature's problem space before writing a spec. `project-status.md` shows `current_phase: 0` or `10`. The skill dispatches research subagents (market, user needs, competitive, technical, regulatory if relevant) in parallel and synthesizes their output.
 
 ## Preconditions
-- `project-status.md` exists (user ran `matilha init` first)
-- `current_phase === 0` — CLI throws if Phase 00 is already complete
+
+- `project-status.md` exists.
+- `current_phase ≤ 10`.
+- Feature slug provided.
 
 ## Execution Workflow
-1. User runs `matilha scout` from the project root
-2. CLI reads `project-status.md` and confirms `current_phase === 0`; aborts with a message if already past Phase 00
-3. CLI launches the interactive discovery session via `@clack/prompts` — 6 sequential questions:
-   1. **Target user** — "Who is the target user?"
-   2. **Primary pain** — "What is their top pain point?"
-   3. **Secondary pain** — "What's a secondary pain point?" (optional, blank OK)
-   4. **Existing solutions** — "What existing solutions/workarounds do they use today?"
-   5. **Success metric** — "How would you measure success?"
-   6. **Out of scope** — "What's explicitly OUT of scope?"
-4. CLI writes `docs/matilha/discovery-notes.md` with sections: Target user, Pain points (primary + secondary), Existing solutions / workarounds, Success metric, Out of scope
-5. CLI auto-advances project state in `project-status.md`:
-   - `phase_00_gates`: all 4 gates set to `yes` (`problem_defined`, `target_user_clear`, `success_metrics_defined`, `scope_boundaries_locked`)
-   - `current_phase`: `0 → 10`
-   - `phase_status`: `"not_started"`
-   - `next_action`: `"Run /plan to begin Phases 10-30 (PRD + Stack + Skills)"`
-   - `last_update`: current ISO timestamp
-6. CLI prints summary note and suggests `matilha plan` as next step
+
+1. Read `project-status.md` via Read tool; verify `current_phase ≤ 10`.
+2. Dispatch 3-5 research subagents via Task tool IN PARALLEL (one Task call per scope: market analysis, user-needs mapping, competitive landscape, technical options, regulatory if applicable).
+3. Wait for all subagents to complete.
+4. Synthesize outputs into `docs/matilha/research/<slug>-research.md` with sections per subagent + a "Key findings" synthesis at the end.
+5. Update `project-status.md`: `current_phase: 10`, `phase_status: in_progress`, `next_action: "Run matilha-plan to write spec + plan"`.
 
 ## Rules: Do
-- Ask "who is the target user?" as the first question — user identity before features, always
-- Document pains in the user's own words from the scout interview answers
-- If the user blanks the secondary pain, record `_(none specified)_` — don't infer a second pain
-- Re-read `methodology/00-mapeamento-problema.md` at session start to understand what the 4 gates represent
+
+- Use parallel subagent dispatch (multiple Task tool calls in a single message).
+- Cite sources in research output.
+- Separate findings from recommendations.
+- Update project-status on success only.
 
 ## Rules: Don't
-- Don't skip the discovery interview even if the user "already knows" the problem — the interview produces the discovery-notes.md artifact
-- Don't assume archetype before completing discovery (let pains inform it; archetype is set during `matilha init` but can be revised)
-- Don't rush to solutions — scout is for understanding, not designing
-- Don't modify `methodology/*.md` (read-only SoR)
+
+- Write the spec yourself (that's matilha-plan).
+- Recommend decisions (research surfaces options, user decides).
+- Advance `current_phase` past 10.
 
 ## Expected Behavior
-- Scout completes in a single session — there is no resume or partial-progress mode for Phase 00
-- When user resists the interview ("just let me build"), acknowledge and remind them that the 6 questions take under 2 minutes and unlock `/plan`
-- If user presses Ctrl+C mid-interview, CLI cancels gracefully ("Scout cancelled. Run again when ready.") without writing any files or mutating project-status.md
+
+Output is a 500-1500 word markdown with structured sections. User reads it, forms a mental model, then invokes matilha-plan. If research surfaces blockers, log them in `project-status.md:pending_decisions`.
 
 ## Quality Gates
-- `docs/matilha/discovery-notes.md` exists and has all 5 sections: Target user, Pain points, Existing solutions, Success metric, Out of scope
-- All 4 `phase_00_gates` in `project-status.md` are `yes`: `problem_defined`, `target_user_clear`, `success_metrics_defined`, `scope_boundaries_locked`
-- `current_phase` is `10`
-- `next_action` points to `/plan`
+
+- Research output exists and is non-empty.
+- `project-status.md` shows `current_phase: 10`.
+- `pending_decisions` populated if blockers found.
 
 ## Companion Integration
-- If `superpowers` detected: after `matilha scout` completes, optionally invoke `superpowers:brainstorming` with the discovery-notes.md as context to enrich the problem framing before running `/plan`
-- If `impeccable` detected and archetype has frontend: flag aesthetic direction as an open question in discovery-notes.md for Phase 20 (manual step — CLI does not do this automatically)
-- If `shadcn-skills` detected: note UI component scope boundaries in the out-of-scope section of discovery-notes.md (manual step)
+
+- If **ux-*** skills from matilha-ux-pack are available: dispatch an additional ux-research subagent via Task tool for cognitive/perception considerations.
+- If **growth-*** skills from matilha-growth-pack are available: dispatch a growth-research subagent mapping JTBD forces-of-progress.
+- Otherwise: proceed with the 3-5 core subagents above.
 
 ## Output Artifacts
-- `docs/matilha/discovery-notes.md` — target user, primary pain, secondary pain, existing solutions, success metric, out of scope
-- Updated `project-status.md` — `phase_00_gates` (all `yes`), `current_phase: 10`, `phase_status: "not_started"`, `next_action`, `last_update`
+
+- `docs/matilha/research/<slug>-research.md`
+- Updated `project-status.md`
 
 ## Example Constraint Language
-- Use "must" for: discovery-notes.md existence, `current_phase === 0` precondition, 6-question sequence
-- Use "should" for: phrasing questions in user's own words, acknowledging blank secondary pain explicitly
-- Use "may" for: optional post-scout enrichment with superpowers:brainstorming
+
+- Use "must" for: every finding cites a source.
+- Use "should" for: dispatch research subagents in parallel (single message with multiple Task calls).
+- Use "may" for: skip competitive analysis if scope is internal-only.
 
 ## Troubleshooting
-- **"CLI throws: Phase 00 already complete"**: Phase 00 is already done. Check `current_phase` in `project-status.md` — if it's `10` or higher, proceed directly to `matilha plan`.
-- **"project-status.md not found"**: Run `matilha init` first to bootstrap project scaffolding, then re-run `matilha scout`.
-- **"User cancelled mid-interview"**: No files were written. Re-run `matilha scout` from the start — answers are not persisted between interrupted runs.
-- **"discovery-notes.md already exists"**: CLI overwrites it on every run. If you want to preserve a previous version, copy it before re-running `matilha scout`.
-- **"Phase 00 gates are all yes but current_phase is still 0"**: Manually set `current_phase: 10` in `project-status.md` — this indicates a partial write during a prior interrupted run.
 
-<!-- MATILHA_MANAGED_END -->
+- **"research output is thin"**: Re-run with more specific sub-topics.
+- **"subagent dispatch fails"**: Check Task tool availability (Codex requires `multi_agent = true` in `~/.codex/config.toml`).
+
+## CLI shortcut (optional)
+
+> If matilha CLI is installed (`matilha --version` succeeds), you can run
+> `matilha scout <slug>` to execute this deterministically. The plugin path
+> above works without any CLI installation.

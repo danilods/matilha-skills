@@ -1,9 +1,6 @@
 ---
-name: hunt
-description: Phase 40 — Decompose PRD into sub-projects (SPs), organize into waves, dispatch parallel worktrees.
-argument_hint: (none)
+description: "Phase 40 — decompose plan into waves, create worktrees, dispatch parallel"
+argument_hint: "<featureSlug>"
 ---
 
-Execute the `matilha-hunt` skill to decompose and dispatch a wave of parallel work.
-
-Requires a Matilha plan artifact (`docs/matilha/plans/*.md` or `docs/superpowers/plans/*.md`). Creates worktrees + launches parallel sessions.
+Invoke the `matilha:matilha-hunt` skill. The skill handles pre-flight gates, disjunction validation, worktree creation, kickoff + SP-DONE rendering, wave-status writing, and dispatch. Flags: --wave <N>, --dry-run, --force, --allow-overlap.

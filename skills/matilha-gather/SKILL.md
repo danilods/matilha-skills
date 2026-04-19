@@ -1,182 +1,88 @@
 ---
 name: matilha-gather
-description: Post-wave — merge worktrees in merge_order, run regression, tag wave-complete, cleanup.
-metadata:
-  author: matilha
-  phase: "40"
-  version: 1.0.0
-  requires: []
-  optional_companions: [impeccable, shadcn-skills, superpowers]
-license: MIT
+description: Use when completed subprojects are ready to merge — validates SP-DONE.md strict gates, merges --no-ff in merge_order, runs per-SP regression, updates wave-NN-status.md.
+category: matilha
+version: "1.0.0"
+optional_companions: []
 ---
 
-<!-- MATILHA_MANAGED_START -->
+## When this fires
 
-# /gather — Phase 40 (Post-Wave Merge)
-
-## Mission
-
-Close the execution loop opened by `/hunt`. After every SP in a wave has
-a filled SP-DONE.md, `/gather` validates the completion gates, merges
-each SP branch into the integration branch in the declared `merge_order`,
-runs the test suite after every merge to localize regressions, and
-updates `wave-NN-status.md` with per-SP + overall state.
-
-Scaffolder only. No auto-`/review`, no phase advancement, no tagging.
-HALT on any failure — Matilha never rolls back on the user's behalf.
-
-## SoR Reference
-
-- `methodology/40-execucao.md` — Phase 40 execution including /hunt and
-  /gather conventions (merge_order, regression, cleanup, SP-DONE contract).
-
-Consult this page for the canonical SP-DONE shape and merge discipline.
+After `/matilha-hunt` dispatched a wave and every SP has written a filled `SP-DONE.md`, the user wants to merge them back and verify regression. This skill is the inverse of `/matilha-hunt`: it consumes `wave-NN-status.md`, validates gates, merges in order, runs tests after each merge, and updates status.
 
 ## Preconditions
 
-- `docs/matilha/waves/wave-NN-status.md` exists and parses cleanly
-  against `waveSchema`.
-- Current branch is an integration branch (not an SP branch `wave-NN-sp-*`).
-- No uncommitted changes on the current branch.
-- For each SP in `merge_order` whose status is `pending` or `in_progress`:
-  `<worktree>/SP-DONE.md` exists and passes strict gates.
-
-### SP-DONE Contract (strict gates)
-
-Each `<worktree>/SP-DONE.md` MUST have frontmatter matching:
-
-```yaml
----
-type: sp-done
-sp_id: SP<N>                   # must match the expected SP id
-feature: <slug>                # must match the gather featureSlug
-wave: w<N>                     # must match the target wave id
-status: completed              # STRICT: exactly "completed"
-completed_at: <ISO8601 UTC>    # non-null
-commits: [<sha>, ...]          # non-empty array
-tests:
-  passed: true                 # STRICT: exactly true
-  count: <positive integer>    # >= 1
----
-```
-
-Any violation halts pre-flight before any merge runs.
+- `docs/matilha/waves/wave-NN-status.md` exists and validates against `waveSchema`.
+- Current branch is the integration branch (not `wave-NN-sp-*`).
+- Working tree clean.
+- Every SP's `SP-DONE.md` passes strict gates.
 
 ## Execution Workflow
 
-1. **Pre-flight (Swiss Cheese — all-or-nothing)**:
-   - Read wave-NN-status.md; validate against `waveSchema`.
-   - Refuse on SP branch.
-   - Refuse on dirty tree.
-   - For each SP not yet merged: validate SP-DONE.md against strict gates.
-2. **Dry-run (if --dry-run)**: print merge plan; zero mutation; exit 0.
-3. **Per-SP loop (in `merge_order`)**:
-   - Skip SPs whose `status: completed` (resume-safe).
-   - `git merge --no-ff <branch>` from the integration branch.
-   - Conflict → `git merge --abort` + HALT with 5-rule error + mark SP failed.
-   - Run test command (default `npm test`) in the integration repo.
-   - Test failure → HALT + mark SP failed + recovery info in error.
-   - Mark SP `completed` in wave-status.
-4. **Finalization**: mark wave `completed`, `regression_status: passed`,
-   `ended: <iso-now>`.
-5. **Optional cleanup (if --cleanup)**: for each merged SP,
-   `git worktree remove --force <path>` + `git branch -d <branch>`.
-   Refuses to delete unmerged branches (uses safe `-d`, not `-D`).
+1. Read `docs/matilha/waves/wave-NN-status.md` via Read tool; validate against `waveSchema`.
+2. Swiss Cheese pre-flight via Bash: verify current branch is not an SP branch (`git rev-parse --abbrev-ref HEAD`); verify clean tree (`git status --porcelain`).
+3. For each SP in `merge_order` where status is not `completed`: validate `<worktree>/SP-DONE.md` strict gates (status=completed, tests.passed=true, non-empty commits[], non-null completed_at, tests.count>=1, sp_id/feature/wave match).
+4. If `--dry-run`: emit merge plan preview and exit.
+5. For each SP in merge_order: `git merge --no-ff <branch>` via Bash; on conflict, run `git merge --abort` and HALT (5-rule error with conflicting files).
+6. After each successful merge: run test command (default `npm test` via Bash); on failure, HALT (5-rule error with `git reset --hard <pre-merge-sha>` recovery).
+7. Update wave-status: mark SP merged (status: completed).
+8. After all SPs merged: mark wave completed, regression_status: passed, ended: <iso>.
+9. If `--cleanup`: for each completed SP, `git worktree remove --force <path>` + `git branch -d <branch>`.
 
 ## Rules: Do
 
-- Run `matilha gather <slug>` with no flags for the latest wave
-  (defaults to --wave 1; pass --wave N for explicit).
-- Pass `--dry-run` first when gathering an unfamiliar wave.
-- Use `--cleanup` only when you are confident the SPs will not need
-  revisiting on the same branches.
-- Resolve merge conflicts by editing the plan (move the overlap to a
-  later wave, re-run /hunt) rather than force-merging by hand.
-- Commit `wave-NN-status.md` after each /gather invocation so the
-  working tree stays clean for the next run.
+- Validate SP-DONE gates BEFORE any merge (all-or-nothing pre-flight).
+- Run `git merge --no-ff` (preserve merge commits as wave markers).
+- Run test command after every merge (localize regressions).
+- Commit wave-status.md after each mutation for atomicity.
 
 ## Rules: Don't
 
-- Don't run `/gather` from an SP branch — it merges INTO the integration
-  branch, so you must be on it.
-- Don't retry `/gather` on a wave in `status: failed` without first
-  resetting the failed SP's entry back to `pending` (human decision).
-- Don't expect `/gather` to call `/review` — review is Wave 3c's job.
-- Don't expect `/gather` to advance `current_phase` — attest that via
-  `matilha attest phase-40-gate` when you're ready.
+- Auto-rollback on failure (HALT preserves state for inspection).
+- Force-merge or skip regression.
+- Delete unmerged branches (safe `-d`, not `-D`).
+- Advance project-status.md current_phase (attest owns that).
 
 ## Expected Behavior
 
-- A wave that completes cleanly ends with `wave-NN-status.md` at
-  `status: completed, regression_status: passed, ended: <iso>`.
-- A wave that halts preserves all partial state for inspection.
-- Re-running `/gather` on a completed wave is a no-op.
-- Per-SP regression makes "which merge broke tests" obvious (the
-  failing SP is the one just merged).
+On success, all SP branches merged into main in declared order + regression passed + wave-status updated. On failure, state preserved; 5-rule error with exact recovery commands.
 
 ## Quality Gates
 
-- All SPs in wave-status have `status: completed` before wave is marked
-  completed.
-- Test suite passes after every merge (not just at the end).
-- `wave-NN-status.md` always round-trips through `waveSchema` between
-  updates (file on disk is always valid).
-- `.gitignore` unchanged by /gather (hunt owns it).
-- `current_phase` unchanged by /gather (attest owns it).
+- All SPs in wave-status have `status: completed`.
+- Test suite passes after every merge.
+- `wave-NN-status.md` always round-trips through `waveSchema` between updates.
+- `.gitignore` unchanged by gather.
+- `current_phase` unchanged by gather.
 
 ## Companion Integration
 
-- **superpowers detected** → no special behavior in /gather itself;
-  review and rollback decisions belong to /review (Wave 3c) and the
-  user. If superpowers is present, consider running
-  `superpowers:executing-plans` inside each worktree during `/hunt` so
-  SP-DONE.md gets filled cleanly — that is /hunt's territory.
-- **impeccable + frontend SPs** → audit step belongs to /review.
-- **shadcn-skills** → component regression belongs to the per-SP tests.
+No companion integrations in Wave 4a. Review and quality delegation is Wave 3c's /matilha-review territory.
 
 ## Output Artifacts
 
-- Updated `docs/matilha/waves/wave-NN-status.md`:
-  `status: completed | failed`, `regression_status: passed | failed`,
-  `started`, `ended`, per-SP `status: completed | failed`.
-- N merge commits on the integration branch (one per SP, `--no-ff`).
-- (Optional, with `--cleanup`) worktrees removed + branches deleted for
-  SPs whose status is `completed`.
+- Updated `docs/matilha/waves/wave-NN-status.md` (status, regression_status, started, ended, per-SP status).
+- N merge commits on integration branch.
+- (With --cleanup) worktrees removed + branches deleted for completed SPs.
 
 ## Example Constraint Language
 
-- Use "must" for: wave-status validates against `waveSchema` before any
-  merge; current branch is not an SP branch; working tree is clean;
-  every SP-DONE.md passes strict gates before the per-SP loop starts.
-- Use "should" for: running `--dry-run` before the first `/gather` on
-  a wave; reviewing the recovery commands in any 5-rule error before
-  running them; waiting to pass `--cleanup` until the wave is settled;
-  committing `wave-NN-status.md` after each gather.
-- Use "may" for: `--cleanup` (opt-in by design); resetting a failed
-  SP's status entry back to `pending` after manual recovery to resume
-  the wave.
+- Use "must" for: wave-status validates against waveSchema before any merge; current branch is not SP branch; working tree is clean; every SP-DONE.md passes strict gates.
+- Use "should" for: run `--dry-run` first; commit wave-status after each gather; wait for wave to settle before `--cleanup`.
+- Use "may" for: `--cleanup` (opt-in); reset failed SP entry to `pending` after manual recovery to resume.
 
 ## Troubleshooting
 
-- **"wave-NN-status.md not found"**: run `matilha hunt <slug> --wave N`
-  first to dispatch the wave.
-- **"SP-DONE.md has status=pending"**: the SP author did not finish or
-  did not update the frontmatter. Ask them, or re-dispatch the SP with
-  `matilha hunt <slug> --force --wave N`.
-- **"merge conflict"**: the plan's intra-wave disjunction check was
-  bypassed (via `--allow-overlap`) or the SPs drifted post-hunt. Edit
-  the plan to move one SP to a later wave, then re-run `/hunt --force`.
-- **"regression failed after merge"**: the SP introduced a regression
-  the local tests did not catch. Revert via `git reset --hard <sha>`
-  (the SHA is in the error output), fix the regression, and re-run
-  `/gather`.
-- **"on SP branch"**: `git checkout main` (or your integration branch)
-  before retrying.
-- **"already gathered — no-op"**: the wave is already at
-  `status: completed`. Nothing to do.
-- **"uncommitted changes" when trying to resume**: `/gather` leaves
-  `wave-NN-status.md` modified after each run. Commit it
-  (`git add docs/matilha/waves && git commit -m "chore: wave N status"`)
-  before re-running gather.
+- **"wave-NN-status.md not found"**: Run `/matilha-hunt <slug> --wave N` first.
+- **"SP-DONE.md has status=pending"**: SP author did not finish; ask them or re-dispatch via `matilha hunt --force --wave N`.
+- **"merge conflict"**: Plan's intra-wave disjunction was bypassed; edit plan to move overlap to later wave, re-run `/matilha-hunt --force`.
+- **"regression failed after merge"**: Revert via `git reset --hard <sha>` (SHA in error output); fix regression; re-run `/matilha-gather`.
+- **"on SP branch"**: `git checkout main` before retrying.
+- **"already gathered — no-op"**: Wave already at status: completed.
+- **"uncommitted changes"**: Commit wave-status.md (or other edits) before resume.
 
-<!-- MATILHA_MANAGED_END -->
+## CLI shortcut (optional)
+
+> If matilha CLI is installed (`matilha --version` succeeds), you can run
+> `matilha gather <slug>` to execute this deterministically. The plugin path
+> above works without any CLI installation.

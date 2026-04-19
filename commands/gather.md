@@ -1,9 +1,6 @@
 ---
-name: gather
-description: Post-wave — merge worktrees, run regression, tag, cleanup.
-argument_hint: (none)
+description: "Phase 40 — merge completed SPs in wave order, run per-SP regression, update wave-status"
+argument_hint: "<featureSlug>"
 ---
 
-Execute the `matilha-gather` skill to consolidate a completed wave.
-
-Reads the most recent `docs/matilha/waves/wave-*-status.md` and processes all SPs in `merge_order`. Triggers `/review` after merge.
+Invoke the `matilha:matilha-gather` skill. The skill handles Swiss Cheese pre-flight (SP-DONE gates, clean tree, integration branch check), per-SP merge `--no-ff`, regression, and wave-status bookkeeping. Flags: --wave <N>, --dry-run, --cleanup.

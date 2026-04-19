@@ -1,96 +1,75 @@
 ---
 name: matilha-design
-description: Design harness — anti-AI-slop frontend. Impeccable + shadcn/ui + curated references + Matilha gates.
-metadata:
-  author: matilha
-  phase: transversal
-  version: 1.0.0
-  requires: []
-  optional_companions: [impeccable, shadcn-skills, superpowers]
-license: MIT
+description: Use when user is making UX, UI, or visual-design decisions in any phase — guides via core design heuristics and delegates to matilha-design-pack or matilha-ux-pack if installed.
+category: matilha
+version: "1.0.0"
+optional_companions: ["matilha-design-pack", "matilha-ux-pack"]
 ---
 
-<!-- MATILHA_MANAGED_START -->
+## When this fires
 
-# /design — Design Harness (Anti-AI-Slop Frontend)
-
-## Mission
-Orchestrate the design harness to produce distinctive, opinionated frontend UI that avoids AI-slop defaults. Lock aesthetic direction, load curated references, activate Impeccable discipline, integrate shadcn/ui components, and gate every UI output through `/impeccable audit` before merge. The design harness coexists with all phases — invoke it whenever UI work is in scope.
-
-## SoR Reference
-Content of truth lives in:
-- methodology/design-premium.md (aesthetic directions, anti-slop gates, reference curation — Wave 4 addition)
-- methodology/materializacoes.md (tool detection, companion availability)
-
-NOTE: `methodology/design-premium.md` is a Wave 4 deliverable and may not yet exist. When absent, fall back to `design-spec.md` + Impeccable native documentation as the source of truth.
-
-ALWAYS consult these pages before committing to an aesthetic direction.
+User asks "how should this look?", "is this UX good?", "what component to use?", or is about to commit design-level changes. Cross-phase; most useful in Phase 20/30 spec authoring and Phase 40 execution.
 
 ## Preconditions
-- Project has frontend archetype (saas-b2b, saas-b2c, frontend-only, marketplace)
-- `design-spec.md` exists in project root (created by `/init`; if absent, offer to create it now)
-- At least one companion is available: Impeccable, shadcn-skills, or superpowers (harness degrades gracefully but warns)
+
+- None (works at any phase).
 
 ## Execution Workflow
-1. Read `design-spec.md` — extract `aesthetic_direction`, `reference_links`, `component_constraints`
-2. If `aesthetic_direction` is unset: present 6 options (brutalist, editorial, organic, luxury, minimal, maximalist) with a one-line description each; ask user to choose; write choice to design-spec.md
-3. Load curated references for the chosen direction:
-   - If `methodology/design-premium.md` exists: pull reference list from it
-   - Else: ask user for 3-5 reference URLs or Figma links; write them to `design-spec.md`
-4. If `impeccable` detected: run `/impeccable teach <aesthetic_direction>` to prime the design discipline
-5. If `shadcn-skills` detected: load component registry context; identify which components apply to current UI scope
-6. Generate UI with aesthetic direction locked — prefix every generation prompt with the direction constraints from design-spec.md
-7. After each UI generation pass: run `/impeccable audit` to check for slop patterns
-8. If audit finds violations: report them, do not merge the UI change; iterate with the audit feedback
-9. On clean audit: mark UI unit as approved in design-spec.md and proceed
+
+1. If `matilha-design-pack:*` skills available, invoke the most relevant via Skill tool.
+2. Else if `matilha-ux-pack:ux-*` or `cog-*` skills available, invoke them via Skill tool.
+3. Else proceed with core heuristics: simplicity (Krug Fato 1), recognition > recall (Weinschenk), progressive disclosure, consistent navigation, 5-rule error format.
+4. Emit design guidance linked to the user's current task.
 
 ## Rules: Do
-- Lock aesthetic direction before generating any UI — unset direction produces generic output
-- Run `/impeccable audit` as a hard gate after every UI generation, not as a suggestion
-- Pull references from curated sources — not generic Dribbble, not the AI's own training defaults
-- Write aesthetic direction and references to design-spec.md (persistent state across sessions)
-- When shadcn components are available, prefer them over generating new primitives from scratch
+
+- Prefer companion-pack skills when available (they carry neuroscience-backed depth).
+- Cite sources in core heuristics (Weinschenk, Krug, wiki concept pages).
+- Keep advice specific to the user's artifact.
 
 ## Rules: Don't
-- Don't generate UI without a locked aesthetic direction
-- Don't skip `/impeccable audit` even for "small" UI changes
-- Don't use generic placeholder patterns (flat cards, rounded-2xl everything, default blue accents)
-- Don't override user's aesthetic choice — enforce it instead
-- Don't generate `design-spec.md` content that contradicts existing `project-status.md` archetype
+
+- Make subjective "good/bad" claims without evidence.
+- Override user's explicit `aesthetic_direction` in project-status.md.
 
 ## Expected Behavior
-- The harness is forceful about design quality — it will reject slop outputs and iterate
-- When Impeccable is absent, fall back to a native design-discipline prompt (less powerful but still opinionated)
-- When shadcn is absent, generate custom components but enforce the same aesthetic gates
-- On invocation without prior `/init`, offer to create design-spec.md inline and proceed
+
+Actionable design guidance. With companion pack installed, output quality is deeper; without companions, output is solid-core but less specialized.
 
 ## Quality Gates
-- `aesthetic_direction` is set and committed in design-spec.md before any UI generation
-- 3+ curated references recorded in design-spec.md for the chosen direction
-- Every UI output has passed `/impeccable audit` (or equivalent native audit if Impeccable absent)
-- No generic AI defaults in generated UI (flagged by audit: border-radius uniformity, default palette, stock icon sets)
-- design-spec.md updated with component inventory after each UI session
+
+- Output references at least one heuristic (source cited).
+- If companion pack invoked, mentions which one and why.
 
 ## Companion Integration
-- Requires `impeccable`: runs `/impeccable teach` at session start, `/impeccable audit` after every generation. Without it, harness operates in degraded mode with native design-discipline prompting.
-- If `shadcn-skills` detected: integrate component registry — every primitive must be sourced from registry or justified as custom
-- If `superpowers` detected: can invoke superpowers frontend-design agent for initial layout generation; Matilha wraps with audit gate
+
+THIS skill is the companion-delegation exemplar.
+- If **matilha-design-pack:*** is available: invoke via Skill tool for deep design patterns (typography, color, spacing, components).
+- If **matilha-ux-pack:ux-*** or **cog-*** skills are available: invoke for cognitive/perception-level guidance (Weinschenk, Krug).
+- Otherwise: apply the core heuristics documented below (simplicity, recognition > recall, progressive disclosure, consistency, 5-rule errors).
 
 ## Output Artifacts
-- Updated `design-spec.md` (aesthetic_direction, reference_links, component_inventory, audit_log)
-- UI component files per project stack (e.g., `components/`, `app/(routes)/`)
-- Impeccable audit report (inline in design-spec.md audit_log section)
+
+Usually chat output only; occasionally a commit to `docs/matilha/design-decisions.md` logging the decision with rationale.
 
 ## Example Constraint Language
-- Use "must" for: aesthetic direction locked before UI generation, /impeccable audit gate, no generic defaults
-- Use "should" for: curated reference sources (not Dribbble-generic), shadcn component preference over scratch
-- Use "may" for: superpowers delegation for initial layout, custom primitives when shadcn has no equivalent
+
+- Use "must" for: cite source for any design claim.
+- Use "should" for: delegate to pack when available.
+- Use "may" for: log decision in `design-decisions.md` if impactful.
 
 ## Troubleshooting
-- **"`methodology/design-premium.md` not found"**: Wave 4 page not yet ingested. Use `design-spec.md` and Impeccable native docs as fallback SoR. Note the gap in output.
-- **"Impeccable not installed"**: Warn user: "Impeccable is strongly recommended for the design harness. Without it, audit quality degrades significantly. Install with: `<tool-specific install command>`." Proceed with native prompt discipline.
-- **"Aesthetic direction locked but user wants to change it"**: Changing direction mid-project is expensive. Ask: "Changing aesthetic direction requires re-auditing all existing UI. Confirm change?" If yes, update design-spec.md and flag all prior UI as "pending re-audit."
-- **"shadcn component doesn't exist for needed pattern"**: Generate a custom component, document it in design-spec.md `custom_components` section, and apply the same aesthetic gates as to shadcn components.
-- **"Impeccable audit keeps failing on the same pattern"**: Surface the pattern to the user — it may indicate a conflict between the aesthetic direction and the project's component library. Offer to refine the direction constraint in design-spec.md.
 
-<!-- MATILHA_MANAGED_END -->
+- **"no pack installed and user wants deep guidance"**: Recommend installing `matilha-ux-pack` or `matilha-design-pack`.
+- **"aesthetic_direction set but user wants to deviate"**: Log the deviation decision in `recent_decisions` via Edit.
+
+## CLI shortcut (optional)
+
+> No CLI equivalent (design guidance is inherently AI-conversational).
+
+## Sources
+
+- [[concepts/leis-de-krug]]
+- [[concepts/reservatorio-boa-vontade]]
+- [[concepts/memoria-cognicao]]
+- [[sources/100-things-every-designer]]

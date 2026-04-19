@@ -1,99 +1,80 @@
 ---
 name: matilha-init
-description: Bootstrap a Matilha project — generate CLAUDE.md, project-status.md, AGENTS.md, design-spec.md, install skills for detected tools.
-metadata:
-  author: matilha
-  phase: transversal
-  version: 1.0.0
-  requires: []
-  optional_companions: [impeccable, shadcn-skills, superpowers]
-license: MIT
+description: Use when starting a new project or initializing Matilha in an existing one — scaffolds project-status.md, AGENTS.md, CLAUDE.md/GEMINI.md, and phase 0 artifacts.
+category: matilha
+version: "1.0.0"
+optional_companions: []
 ---
 
-<!-- MATILHA_MANAGED_START -->
+## When this fires
 
-# /init — Bootstrap Matilha Project
-
-## Mission
-Bootstrap a Matilha project from zero: detect the user's tool, ask about archetype and aesthetic direction, generate scaffolding (CLAUDE.md, project-status.md, design-spec.md, AGENTS.md), offer to install companion skills (Impeccable, shadcn/ui, superpowers), and leave the user ready to run `/scout` or `/plan`.
-
-## SoR Reference
-Content of truth lives in:
-- methodology/index.md
-- methodology/20-stack.md (archetype defaults)
-- methodology/materializacoes.md (tool detection rules)
-
-ALWAYS consult these pages for latest gates and archetype defaults.
+User is at the start of a project (no `project-status.md`) or wants to bootstrap Matilha into an existing codebase. The skill scaffolds the minimum artifacts for Matilha to work: `project-status.md` with initial phase 0 state, `CLAUDE.md` / `AGENTS.md` / `GEMINI.md` as context primers, and the directory scaffold (`docs/matilha/`, `docs/superpowers/`).
 
 ## Preconditions
-- Running in the root of a new or existing project (git repo recommended but not required)
-- User has at least one agentic tool installed (Claude Code, Cursor, Codex, or Gemini CLI)
+
+- Write access to cwd.
+- No existing `project-status.md` unless user explicitly confirms overwrite.
 
 ## Execution Workflow
-1. Check if `project-status.md` already exists; if yes, ask whether to overwrite or skip
-2. Detect agentic tool(s) by inspecting `.claude/`, `.cursor/`, `.codex/`, `.gemini/` directories; report detected
-3. Ask: "What archetype is this project?" from options: saas-b2b, saas-b2c, frontend-only, cli, library, ml-service, marketplace
-4. If archetype has frontend: ask "Aesthetic direction?" from brutalist, editorial, organic, luxury, minimal, maximalist
-5. Generate files from templates with substitutions:
-   - `CLAUDE.md` (from `CLAUDE.md.tmpl`, ≤150 lines, archetype-specific index)
-   - `project-status.md` (frontmatter schema from Zod, gate objects empty, aesthetic filled in)
-   - `AGENTS.md` (SoR for Codex, indexing skills/methodology)
-   - `design-spec.md` (only if frontend; captures aesthetic + references from `references/`)
-6. Ask: "Install recommended companions? (Impeccable ON, shadcn ON-if-frontend, superpowers ON)"
-7. If yes, execute companion install commands appropriate for each detected tool
-8. Write `.claude/skills/matilha-*/SKILL.md` via universal + detected-tool renderers
-9. Print summary: "Matilha initialized. Next: /scout to begin Phase 00 (or /howl to view state)"
+
+1. Verify preconditions via Bash `test -f project-status.md`. If present and user didn't say "force", ask the user before overwriting.
+2. Prompt the user for `archetype` (one of: `api-standalone`, `web-app`, `cli-tool`, `library`, `mobile`, `other`).
+3. Compute ISO-UTC timestamp via Bash `date -u +%Y-%m-%dT%H:%M:%SZ`.
+4. Write `project-status.md` via Write tool. Frontmatter shape: `schema_version: 1`, `name`, `archetype`, `created: <iso>`, `last_update: <iso>`, `current_phase: 0`, `phase_status: not_started`, `next_action: "Run /matilha-scout to enter Phase 10 discovery."`, `tools_detected: []`, `companion_skills: {impeccable: not_installed, shadcn: not_installed, superpowers: not_installed, typeui: not_installed}`, `active_waves: []`, `completed_waves: []`, `feature_artifacts: []`, `recent_decisions: []`, `pending_decisions: []`, `blockers: []`, `aesthetic_direction: null`, `design_locked: false`.
+5. Write `CLAUDE.md` / `AGENTS.md` / `GEMINI.md` if absent (copy from this repo's templates if available via `matilha pull`, else from skeletons).
+6. Create directories `docs/matilha/plans`, `docs/matilha/specs`, `docs/matilha/waves` via Bash `mkdir -p`.
+7. Emit final message: "Initialized Matilha — current_phase: 0. Next: /matilha-scout".
 
 ## Rules: Do
-- Detect tools before asking archetype (influences recommendations)
-- Pre-populate frontmatter of `project-status.md` with defaults reasonable for archetype
-- Preserve existing `CLAUDE.md` content if overwriting; move old content to `CLAUDE.md.old-<timestamp>`
-- Use YAML frontmatter for `project-status.md` (validates against `projectStatusSchema`)
-- Always write universal skill target (`.agents/skills/`) even when no tool detected
+
+- Respect explicit overwrite confirmation; do not silently clobber.
+- Use ISO-UTC timestamps throughout.
+- Create docs/ directories idempotently (skip if they exist).
 
 ## Rules: Don't
-- Don't force companion install (offer with defaults ON, allow skip per companion)
-- Don't overwrite `project-status.md` without asking
-- Don't write to `.claude/` if Claude Code wasn't detected
-- Don't proceed if user doesn't confirm archetype
+
+- Overwrite existing `project-status.md` without explicit user confirmation.
+- Guess archetype from code (ask).
+- Use local-time timestamps.
 
 ## Expected Behavior
-- Defaults are aggressive toward quality (companions ON, aesthetic committed)
-- When user unsure of archetype, offer guidance per `methodology/20-stack.md` heuristics
-- On dry-run (`--dry-run` flag), list what would be written without writing
+
+On success, user has a Matilha-initialized project with the 3 context files + project-status.md. Next skill the user invokes is typically `matilha-scout` (Phase 10) or `matilha-plan` (Phase 20-30) if they already have research.
 
 ## Quality Gates
-- `project-status.md` parses cleanly against `projectStatusSchema` (Zod)
-- All detected tools have corresponding skill files written (`.claude/skills/matilha-*`, etc)
-- `.agents/skills/` universal target always populated
-- Generated `CLAUDE.md` is ≤150 lines
-- `design-spec.md` only generated if archetype has frontend
+
+- `project-status.md` exists with valid frontmatter (conforms to `projectStatusSchema`).
+- `docs/matilha/` directory tree exists.
+- Context files (CLAUDE.md / AGENTS.md / GEMINI.md) exist.
+- User can run `matilha-howl` next and see phase 0 state.
 
 ## Companion Integration
-- If `superpowers` detected: recommend installing Matilha's superpowers-integration mode (doesn't override superpowers, coexists)
-- If `impeccable` detected: pre-configure `design-spec.md` to include `/impeccable teach` step
-- If `shadcn` skills detected: add component import hints to `design-spec.md`
+
+No companion integrations in Wave 4a. Future packs may extend this skill.
 
 ## Output Artifacts
-- `CLAUDE.md` (root)
-- `AGENTS.md` (root)
-- `project-status.md` (root)
-- `design-spec.md` (root, only if frontend archetype)
-- `.claude/skills/matilha-*/SKILL.md` (if Claude Code detected)
-- `.cursor/skills/matilha-*/SKILL.md` (if Cursor detected)
-- `.codex/skills/matilha-*/SKILL.md` (if Codex detected)
-- `.gemini/skills/matilha-*/SKILL.md` (if Gemini CLI detected)
-- `.agents/skills/matilha-*/SKILL.md` (always)
+
+- `project-status.md`
+- `CLAUDE.md` (if absent)
+- `AGENTS.md` (if absent)
+- `GEMINI.md` (if absent)
+- `docs/matilha/plans/`
+- `docs/matilha/specs/`
+- `docs/matilha/waves/`
 
 ## Example Constraint Language
-- Use "must" for: project-status.md schema validation, universal target population
-- Use "should" for: companion install defaults, aesthetic direction commitment
-- Use "may" for: optional companions beyond the 3 recommended (e.g., typeui)
+
+- Use "must" for: project-status.md conforms to `projectStatusSchema`; ISO-UTC timestamps.
+- Use "should" for: prompt interactively for archetype; skip overwrite of existing context files.
+- Use "may" for: scaffold additional directories beyond the required ones if user requests.
 
 ## Troubleshooting
-- **"No tools detected"**: User is in a fresh project. Ask which tool they prefer to target as primary; write skills for that one + universal.
-- **"`project-status.md` already exists"**: Ask: overwrite, skip, or merge? Prefer skip unless user explicitly requests overwrite.
-- **"Companion install failed"**: Report which companion and why. Continue with init; user can install companion manually later.
-- **"User rejects all archetypes"**: Offer `custom` option that defaults to `saas-b2b` templates but flags `archetype: custom` in frontmatter.
 
-<!-- MATILHA_MANAGED_END -->
+- **"project-status.md already exists"**: User confirms overwrite explicitly, or chooses a different directory.
+- **"archetype not recognized"**: Must be one of the enum values; ask user to pick from the list.
+
+## CLI shortcut (optional)
+
+> If matilha CLI is installed (`matilha --version` succeeds), you can run
+> `matilha init` to execute this deterministically. The plugin path
+> above works without any CLI installation.
