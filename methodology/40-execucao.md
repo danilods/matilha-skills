@@ -133,7 +133,7 @@ Para ondas de SPs independentes (arquivos disjuntos) que podem executar em paral
 ```
 Wave N = {SP-A, SP-B, SP-C}  ← tocam arquivos disjuntos
                 ↓
-   /dispatch-wave N (ou ./scripts/dispatch-wave.sh N sp-a sp-b sp-c)
+   matilha hunt <slug> --wave N     (Phase 40 dispatch; Wave 3a shipped)
                 ↓
    ┌────────────┬────────────┬────────────┐
    │ Terminal 1 │ Terminal 2 │ Terminal 3 │
@@ -143,33 +143,44 @@ Wave N = {SP-A, SP-B, SP-C}  ← tocam arquivos disjuntos
    └─────┬──────┴─────┬──────┴─────┬──────┘
          │            │            │
          ▼            ▼            ▼
-   SP-A-DONE.md  SP-B-DONE.md  SP-C-DONE.md
+    SP-DONE.md   SP-DONE.md   SP-DONE.md
+   (um por worktree; frontmatter com gates strict)
                 ↓
-   /merge-wave N (ou ./scripts/merge-wave.sh N sp-a sp-b sp-c)
+   matilha gather <slug> --wave N   (Phase 40 merge; Wave 3b shipped)
                 ↓
-   merge sequencial → regression → tag → cleanup worktrees
+   merge sequencial (--no-ff) → per-SP regression → wave-status atualizado
+                ↓
+   (opcional: --cleanup remove worktrees + branches merged)
 ```
 
-**Gates de entrada** (não dispatche sem):
-- [ ] SPs da wave tocam arquivos DISJUNTOS (senão merge conflict é certo)
-- [ ] Waves anteriores mergeadas em main
-- [ ] Planos de cada SP existem e estão aprovados
+**Gates de entrada do `matilha hunt`** (pre-flight Swiss Cheese):
+- [ ] Plano existe em `docs/matilha/plans/<slug>-plan.md`
+- [ ] `project-status.md` mostra `current_phase >= 30`
+- [ ] Árvore de trabalho limpa
+- [ ] Disjunção intra-wave validada (SPs tocam arquivos disjuntos); bypass via `--allow-overlap`
 
-**Gates de saída** (não merge sem):
-- [ ] `SP-DONE.md` existe em cada worktree
-- [ ] Testes passam em cada worktree individualmente
-- [ ] Merge sem conflito (ou conflitos resolvidos)
-- [ ] Regression suite passa em main APÓS todos os merges
-- [ ] Tag criada: `vX.Y-ondaN-complete`
-- [ ] Worktrees limpos
-- [ ] `wave-status.md` atualizado
+**Gates de entrada do `matilha gather`** (pre-flight Swiss Cheese):
+- [ ] `wave-NN-status.md` existe e valida contra `waveSchema`
+- [ ] Branch atual é a integração (não um branch SP `wave-NN-sp-*`)
+- [ ] Árvore de trabalho limpa
+- [ ] Cada SP pendente tem `SP-DONE.md` passando gates strict (status=completed, tests.passed=true, commits não-vazio, completed_at non-null, tests.count>=1)
+
+**Gates de saída de `/gather`** (registrados em `wave-NN-status.md`):
+- [ ] Todos os SPs em `status: completed`
+- [ ] `regression_status: passed`
+- [ ] `ended: <ISO8601 UTC>`
+- [ ] `status: completed` (wave-level)
+
+**Tag e phase advance são decisões humanas separadas** (não feitas por /gather):
+- Tag `wave-N-complete` é opcional (git tag manual quando a wave se estabilizar).
+- `current_phase` avança via `matilha attest phase-40-gate` quando você decidir.
 
 **Artefatos:**
-- `kickoff.md` — gerado automaticamente em cada worktree com prompt completo (plano + contexto + quality gates)
-- `wave-status.md` — tabela de tracking de todas as waves (criado no repo principal, não nos worktrees)
-- `SP-DONE.md` — sinal de completude escrito pelo agent ao terminar (lista de commits + test results)
+- `kickoff.md` — gerado por `/hunt` em cada worktree com prompt completo (plano + contexto + quality gates); gitignorado no repo principal.
+- `docs/matilha/waves/wave-NN-status.md` — wave-level tracking (lido + escrito por /hunt e /gather; conforma `waveSchema`).
+- `SP-DONE.md` — sinal de completude escrito pelo agent ao terminar cada SP (frontmatter strict: status, completed_at, commits[], tests.passed/count).
 
-**Templates disponíveis:** ver docs/templates/dispatch-wave-command-template (Claude Code) e docs/templates/scripts/dispatch-wave.sh (bash agnóstico).
+**Templates disponíveis no registry `matilha-skills`:** `templates/kickoff.md.tmpl` + `templates/sp-done.md.tmpl`. Gerados em cada worktree por `matilha hunt`.
 
 **Quando usar sessões separadas vs Agent tool paralelo:**
 - SPs de **>1h** cada → sessões separadas (terminais distintos). Cada sessão tem contexto próprio, não compartilha window. Correto.
