@@ -1,9 +1,6 @@
 ---
-name: matilha-design
-description: Design harness — orchestrate anti-AI-slop frontend. Impeccable + shadcn/ui + 21st.dev + Matilha references.
-argument_hint: (none)
+description: "Design guidance via core heuristics, delegates to matilha-design-pack or matilha-ux-pack if installed"
+argument_hint: "(none)"
 ---
 
-Execute the `matilha-design` skill to conduct design work.
-
-Requires `design-spec.md` in project root (created by `matilha-init`). Guides aesthetic-direction decision, queries curated references, generates UI with determinism gates. If Impeccable installed, runs `/audit` as final check.
+Invoke the `matilha:matilha-design` skill. The skill is the companion-delegation exemplar — prefers matilha-design-pack or matilha-ux-pack when available, falls back to core heuristics (Krug, Weinschenk) otherwise.

@@ -1,9 +1,6 @@
 ---
-name: howl
-description: Status + resume. Read project-status.md frontmatter, report current state, suggest next action.
-argument_hint: (none)
+description: "Phase 0 — show project state, current phase, active waves, and next action"
+argument_hint: "(none)"
 ---
 
-Execute the `matilha-howl` skill to surface project state.
-
-Reads `project-status.md` frontmatter, displays: current_phase, phase_status, active_waves, pending_decisions, blockers, next_action. Useful for session resumption after break.
+Invoke the `matilha:matilha-howl` skill. Read-only. Reads `project-status.md` + any `wave-NN-status.md` files and surfaces a streaming summary with the next action.

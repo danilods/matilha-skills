@@ -1,9 +1,6 @@
 ---
-name: den
-description: Phase 60 — Deploy. Security gate + infra choice (DO, Vercel, Cloudflare, EKS).
-argument_hint: (none)
+description: "Phase 60 — capture project learnings into the knowledge base"
+argument_hint: "(optional: topic)"
 ---
 
-Execute the `matilha-den` skill for deployment phase.
-
-Requires `/review` to pass + security gate (no secrets committed, CORS configured, HTTPS, rate limiting). Opens deploy checklist from `methodology/60-deploy-infra.md`.
+Invoke the `matilha:matilha-den` skill. The skill prompts for a topic, reads completed waves, and writes `docs/matilha/den/<date>-<topic>.md` with patterns + decisions + would-do-differently.
