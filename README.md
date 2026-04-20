@@ -71,10 +71,11 @@ The CLI and the plugin are in full parity. The plugin path is self-sufficient �
 Matilha core stays lean (10 skills, 2 agents). Domain expertise lives in companion packs the user installs separately:
 
 - **[matilha-ux-pack](https://github.com/danilods/matilha-ux-pack)** (shipped 2026-04-19 v0.1.0) — 22 UX + cognitive skills from Weinschenk, Krug, and neuroscience research. The first shipped companion pack and reference implementation for future packs.
-- `matilha-growth-pack` (Wave 5b) — AARRR, JTBD, positioning, Fogg B=MAP, Hook Model.
-- `matilha-design-pack` (Wave 5c) — design systems, typography, color, accessibility.
-- `matilha-harness-pack` (Wave 5d) — agent orchestration patterns (Planner/Generator/Evaluator).
-- `matilha-security-pack` (Wave 5f, deferred) — threat modeling, OWASP, secrets, dependency audit.
+- **[matilha-growth-pack](https://github.com/danilods/matilha-growth-pack)** (shipped 2026-04-19 v0.1.0) — 20 growth + product-strategy skills from AARRR, JTBD, positioning, behavioral frameworks, pricing, and retention canon. Second shipped pack; complements matilha-ux-pack at product/business strategy level.
+- `matilha-harness-pack` (Wave 5c) — agent orchestration patterns (Planner/Generator/Evaluator, context engineering, evals).
+- `matilha-design-pack` (Wave 5c or later) — design systems, typography, color, accessibility.
+- `matilha-security-pack` (deferred) — threat modeling, OWASP, secrets, dependency audit.
+- `matilha-software-eng-pack` (future, post Wave 5c) — software engineering / architecture opinions from Danilo's practice.
 
 Packs are detected automatically — Matilha core skills delegate when available, fall back to core heuristics when absent. Write your own pack via [`docs/matilha/pack-authors.md`](docs/matilha/pack-authors.md).
 
