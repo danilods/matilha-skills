@@ -11,7 +11,7 @@
 | `growth-*`    | `matilha-growth-pack`       | `growth-aarrr`, `growth-jtbd-forces` |
 | `design-*`    | `matilha-design-pack`       | `design-typography`, `design-color`  |
 | `security-*`  | `matilha-security-pack`     | `security-threat-modeling`           |
-| `harness-*`   | `matilha-harness-pack`      | `harness-planner-generator-evaluator`|
+| `harness-*`   | `matilha-harness-pack` (shipped 2026-04-21 v0.1.0) | `harness-architecture`, `harness-code-is-free` |
 | `cog-*`       | `matilha-ux-pack` (shared)  | `cog-memoria-trabalho`               |
 | `<author>-*`  | Community pack              | `acme-fintech-*`                     |
 
