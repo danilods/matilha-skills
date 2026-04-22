@@ -39,16 +39,172 @@ Files to modify:
 
 ## Invariant decisions locked from spec
 
-1. **13-section body for `matilha-compose`**: 12 canonical sections (enforced by existing validator line 50-74) + 2 extra compose-specific sections (`Pack awareness`, `Fallback semantics`). The spec § 4.1 listed 13 but omitted `Companion Integration` — the plan adds it back to pass the existing 12-section validator. Final body section count: **14**.
+1. **14-section body for `matilha-compose`**: 12 canonical sections (enforced by existing validator line 50-74) + 2 extra compose-specific sections (`Pack awareness`, `Fallback semantics`). The spec § 4.1 listed 13 but omitted `Companion Integration` — the plan adds it back to pass the existing 12-section validator. Final body section count: **14**.
 2. **Description starts with "You MUST"** — new form deviating from the existing "Use when" / "When" linter check. See SP3 Task 3.4 for how the validator accommodates this.
 3. **Compose's `category` = `matilha`** — consistent with other core skills (enforced by existing Zod enum).
 4. **Preamble emitted only when terminal destination is `superpowers:brainstorming` directly**. When routing to matilha-plan or matilha-design, compose does NOT emit a preamble — those skills run their own pack-aware logic per SP2.
+
+## Integration ordering (for parallel-safe SP execution)
+
+SPs 1–3 can write in parallel (different files, no write conflicts) but their tests only go green at integration. Explicit expectations per SP when run in isolation:
+
+- **SP3 Tasks 3.2–3.3 (compose tests)** — fail until SP1 commits land. Writing the tests is still safe (stable target contract).
+- **SP3 Task 3.5 (plan + design refactor tests)** — fail until SP2 commits land.
+- **Integration point** — SP4 Task 4.0 (added below) verifies SP1, SP2, SP3 all green together before running runtime smoke.
+
+The subagent dispatch prompts must explicitly state "expected red in these specific tests until integration — do not debug, do not modify scope to force green".
+
+## Pre-flight verification (done before SP0)
+
+Verified prior to plan execution (2026-04-22):
+- `matilha-harness-pack/0.1.0/.claude-plugin/plugin.json` declares `name: matilha-harness-pack`. By isomorphism with `superpowers` plugin.json (`name: superpowers` → appears as `superpowers:brainstorming`), harness-pack will appear in the ambient skill list as `matilha-harness-pack:<skill-name>` when enabled in Claude Code.
+- Current dev session does not have matilha packs in `enabledPlugins` (only in cache). Runtime smoke tests (SP4) must happen in a session where packs are explicitly enabled via `/plugin install matilha-harness-pack@matilha-harness-pack` and equivalents for ux-pack / growth-pack (which are not yet cached; install via `/plugin marketplace add danilods/matilha-ux-pack` + install, same for growth-pack).
+
+---
+
+## SP0 — Activation-gate pre-flight spike (15 minutes)
+
+**Estimated effort:** 15 minutes. **Must complete before SP1, SP2, SP3.** De-risks Risk #1 ("Description gate does not out-trigger brainstorming") from the spec. If compose's description does not win activation against `superpowers:brainstorming`, iterate the description wording before investing in body + refactors + validator.
+
+### Task 0.1: Minimal compose skill (frontmatter only)
+
+**Files:**
+- Create: `skills/matilha-compose/SKILL.md` (minimal stub — replaced by SP1 Task 1.2+ if gate passes)
+
+- [ ] **Step 1: Create directory + minimal SKILL.md**
+
+Run: `mkdir -p /Users/danilodesousa/Documents/Projetos/matilha-skills/skills/matilha-compose`
+
+File: `skills/matilha-compose/SKILL.md` (stub content):
+
+```markdown
+---
+name: matilha-compose
+description: "You MUST use this skill before invoking superpowers:brainstorming when the user prompt signals creative work (building, designing, planning, adding, modifying a system/feature/product) AND the current project is a matilha project (docs/matilha/ exists, project-status.md exists, OR any skill with plugin namespace matching matilha-*-pack is visible in your skill list). Detects installed companion packs via plugin-namespace inspection, classifies intent, injects pack-aware preamble, then dispatches to brainstorming (or directly to matilha-plan/matilha-design for explicit planning/design prompts). If neither activation condition holds, defer to superpowers:brainstorming directly."
+category: matilha
+version: "0.0.1-spike"
+optional_companions: ["superpowers:brainstorming", "matilha-plan", "matilha-design"]
+---
+
+## When this fires
+
+(Stub — replaced by SP1 full body if activation gate test passes.)
+
+When activation gate wins: emit marker text **"MATILHA-COMPOSE ACTIVATED (SP0 SPIKE)"** in the output so the spike test can confirm which skill handled the prompt. Then defer to `superpowers:brainstorming` via the Skill tool.
+
+## Preconditions
+
+- Ambient skill list available.
+
+## Execution Workflow
+
+1. Emit marker text.
+2. Invoke `superpowers:brainstorming` via Skill tool.
+
+## Rules: Do
+
+- Emit the marker text literally.
+
+## Rules: Don't
+
+- Don't perform full composition logic — this is a spike.
+
+## Expected Behavior
+
+If compose wins activation against brainstorming, marker appears in output.
+
+## Quality Gates
+
+Marker emitted on activation.
+
+## Companion Integration
+
+Defers to superpowers:brainstorming after emitting marker.
+
+## Output Artifacts
+
+None.
+
+## Example Constraint Language
+
+Must emit marker.
+
+## Troubleshooting
+
+If marker absent → description gate failed, iterate wording.
+
+## CLI shortcut (optional)
+
+None (spike).
+```
+
+Body length is intentionally minimal — this skill must be temporarily installable for the spike test. It includes all 12 canonical sections so it passes the existing validator if npm test runs, but the content is stub.
+
+- [ ] **Step 2: Commit the spike**
+
+```bash
+cd /Users/danilodesousa/Documents/Projetos/matilha-skills
+git add skills/matilha-compose/SKILL.md
+git commit -m "spike(wave-5d): minimal matilha-compose stub for activation-gate verification"
+```
+
+- [ ] **Step 3: Open a fresh Claude Code session in a matilha project directory**
+
+Use the matilha-skills repo itself as the matilha project (docs/matilha/ exists).
+
+- [ ] **Step 4: Verify the stub compose skill is visible**
+
+In the session's skill list (auto-loaded system reminder), verify an entry like `matilha-skills:matilha-compose` appears (or similar namespacing per Claude Code convention).
+
+If absent: reload the plugin in Claude Code (`/plugin reload matilha-skills` or equivalent), or verify the plugin is enabled.
+
+- [ ] **Step 5: Run the activation-gate test prompt**
+
+Enter prompt: **"Estou construindo MVP de 4 semanas que precisa rodar autonomamente. Como estruturo os agents?"**
+
+- [ ] **Step 6: Observe**
+
+Three possible outcomes:
+
+- **Outcome A — compose wins, marker appears**: Description gate works. Proceed to SP1 — remove stub body (commit 1 reverted), SP1 writes the full 14-section body.
+- **Outcome B — compose fires but superpowers:brainstorming fired first**: Partial win. Matters because the spec's design assumes compose is the gateway. If brainstorming gate-crashes first, the preamble injection in step 5 never happens for generic creative-work prompts.
+  - Iterate: strengthen description wording (e.g., "CRITICAL: Before ANY skill invocation in a matilha project…"). Re-run step 5. Repeat until Outcome A.
+- **Outcome C — compose doesn't fire at all, brainstorming wins**: Description gate completely lost. Iterate immediately. If three iterations fail → escalate design: consider CLAUDE.md injection in matilha-init (backup plan noted in spec § 11 risk #1).
+
+- [ ] **Step 7: Record outcome + iteration count**
+
+Record in a spike-note file: `docs/matilha/smoke-results/wave-5d-sp0-spike.md` with:
+- Final description text that won activation.
+- Number of iterations required.
+- Outcome A vs B vs C.
+
+- [ ] **Step 8: Revert spike commit before SP1**
+
+The stub body must not survive into SP1. Revert the spike commit or hard-reset the SKILL.md to restore the clean slate for SP1 Task 1.1.
+
+```bash
+cd /Users/danilodesousa/Documents/Projetos/matilha-skills
+git revert HEAD --no-edit  # or rm the skill and commit the removal
+```
+
+Keep the `wave-5d-sp0-spike.md` document — it's the evidence the gate was validated.
+
+- [ ] **Step 9: Decision gate**
+
+Before starting SP1, confirm:
+- Outcome A achieved (compose wins activation reliably)
+- Final description wording captured in spike doc
+- Spike commit reverted OR documented as temporary
+
+If Outcome A not achieved after 3 iterations: **STOP**. Reassess design. Do not proceed to SP1–SP4 with a broken activation gate.
 
 ---
 
 ## SP1 — Author `matilha-compose/SKILL.md`
 
-**Estimated effort:** 2.5h. **Parallel-safe** with SP2, SP3.
+**Estimated effort:** 2.5h. **Parallel-safe** with SP2, SP3. Requires SP0 complete with Outcome A.
+
+> **IMPORTANT — use the description from SP0 spike**: SP1 Task 1.2 should use the exact description text validated in SP0 (which may differ from the initial draft if iteration was needed). Reference `docs/matilha/smoke-results/wave-5d-sp0-spike.md` before writing Task 1.2.
 
 ### Task 1.1: Create directory + empty SKILL.md + register in index.json
 
@@ -547,7 +703,9 @@ git commit -m "refactor(wave-5d): matilha-design Companion Integration cross-ref
 
 ## SP3 — Validator extensions in matilha CLI
 
-**Estimated effort:** 2.5h. **Parallel-safe** with SP1, SP2.
+**Estimated effort:** 2.5h. **Parallel-safe** with SP1, SP2 for writing.
+
+> **Subagent dispatch note — expected red tests until integration**: this SP writes tests that target artifacts produced by SP1 (compose skill) and SP2 (plan + design refactors). If SP3 runs in its own worktree before SP1/SP2 have merged, Tasks 3.2–3.3 tests will fail (compose skill file missing) and Task 3.5 tests will fail (plan/design refactors not applied). **This is expected. Do NOT debug. Do NOT rewrite tests to force green. Do NOT reduce test scope.** The tests go green at integration (SP4 Task 4.0) when all three SPs merge to main. The subagent's contract is: write the tests exactly as specified here, verify their syntax is valid (lint passes), commit, report back.
 
 ### Task 3.1: Verify baseline test count
 
@@ -865,21 +1023,62 @@ Capture the exact count for the smoke results doc (SP4 Task 4.1).
 
 ## SP4 — Smoke + ship
 
-**Estimated effort:** 3h. **Sequential** — requires SP1, SP2, SP3 complete and merged.
+**Estimated effort:** 3h + 15min integration check. **Sequential** — requires SP1, SP2, SP3 complete and merged.
+
+### Task 4.0: Integration check — merge all SPs to main + verify green tests
+
+**Files:**
+- None (integration)
+
+- [ ] **Step 1: Merge SP1, SP2, SP3 commits to main**
+
+If SPs were executed in separate worktrees, merge each worktree's branch back to main. Resolve conflicts (none expected — SPs touch disjoint files except that both SP1 and SP3's tests reference compose).
+
+- [ ] **Step 2: Run full validator suite on merged state**
+
+Run: `cd /Users/danilodesousa/Documents/Projetos/matilha && npm test 2>&1 | tail -10`
+Expected: `Tests  ~920 passed`. All previously-red tests from SP3 (compose frontmatter, compose body, plan refactor, design refactor) now green.
+
+- [ ] **Step 3: Verify no regressions in pre-Wave-5d tests**
+
+Compare against baseline from SP3 Task 3.1 (903 tests). Post-integration count should be baseline + 16–18.
+Expected: zero regressions. If any previously-green test is now red, investigate before proceeding to smoke.
+
+- [ ] **Step 4: Verify matilha-skills body files match expectations**
+
+Quick visual check:
+- `skills/matilha-compose/SKILL.md` exists, ~180–220 lines body, all 14 sections.
+- `skills/matilha-plan/SKILL.md` contains "pack-aware" and "matilha-compose" strings.
+- `skills/matilha-design/SKILL.md` contains "Pack detection" and "matilha-compose" strings.
+
+If any check fails: pause, root-cause the integration issue, do not proceed to smoke.
 
 ### Task 4.1: Prepare smoke test environment
 
 **Files:**
 - None (environment setup)
 
-- [ ] **Step 1: Verify all companion packs installed in Claude Code**
+- [ ] **Step 1: Verify all companion packs installed + enabled in Claude Code**
 
 Run the slash command in the user's Claude Code instance: `/plugin list`
-Expected: output includes `matilha-skills`, `matilha-ux-pack`, `matilha-growth-pack`, `matilha-harness-pack`.
+Expected: output includes `matilha-skills`, `matilha-ux-pack`, `matilha-growth-pack`, `matilha-harness-pack` — all with status `enabled`.
 
-If a pack is missing, install via `/plugin marketplace add danilods/<pack>` followed by `/plugin install <pack>@<pack>`.
+If a pack is missing, install via `/plugin marketplace add danilods/<pack>` followed by `/plugin install <pack>@<pack>`. Note: as of 2026-04-22 pre-flight check, only matilha-harness-pack is in the local cache (ux-pack and growth-pack require `/plugin marketplace add danilods/matilha-ux-pack` + install, same for growth-pack). All three must be enabled (in settings.json `enabledPlugins`) for smoke Tests 1–2 to cover cross-pack and harness detection.
 
-- [ ] **Step 2: Verify matilha-skills includes matilha-compose after SP1 merge**
+- [ ] **Step 2: Verify plugin-namespace format in ambient skill list (CRITICAL)**
+
+The entire detection mechanism depends on pack skills appearing as `matilha-<packname>-pack:<skill-name>` (e.g., `matilha-harness-pack:harness-architecture`). Verify empirically before running any smoke test:
+
+Open a fresh session in the matilha-skills project and inspect the ambient skill list (system reminder at session start). Find at least one harness-pack skill entry.
+
+Three possible outcomes:
+- **Expected**: `matilha-harness-pack:harness-architecture` (or similar) — namespace format matches spec assumption. Proceed.
+- **Without namespace**: `harness-architecture` appears without prefix — detection signal must be rethought. **STOP** before smoke tests and revisit detection logic. Likely need to fall back to skill-prefix-heuristic (the thing Danilo pushed back on) OR find another signal.
+- **Unexpected format** (e.g., `matilha-harness-pack/harness-architecture` or different separator): Document the actual format. Update SP1's body (sections 1-9) to match. Re-validate SP3's no-hardcoded-prefix test still works for the actual format.
+
+Record the observed format in `docs/matilha/smoke-results/wave-5d-smoke.md` under an "Environment" header.
+
+- [ ] **Step 3: Verify matilha-skills includes matilha-compose after SP1 merge**
 
 Run: `cd /Users/danilodesousa/Documents/Projetos/matilha-skills && git log --oneline -5 | grep -i compose`
 Expected: commits from SP1 visible on main.
