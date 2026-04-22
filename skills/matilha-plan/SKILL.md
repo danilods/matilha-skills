@@ -12,12 +12,14 @@ User has Phase 10 research (or skips scout) and wants spec + plan artifacts befo
 
 ## Preconditions
 
-- `project-status.md` exists.
-- `current_phase ≥ 10`.
+- None. matilha-plan lazy-bootstraps project structure as needed.
 
 ## Execution Workflow
 
-1. Read research (if exists) + project-status.md.
+1. **Lazy bootstrap**: Check for `project-status.md` and `docs/matilha/`. If absent, create minimally:
+   - `mkdir -p docs/matilha/specs docs/matilha/plans docs/matilha/research`
+   - If `project-status.md` missing, write a minimal stub with frontmatter `current_phase: 10`, `phase_status: in_progress`, `project_slug: <derived from cwd or user-provided>`, `next_action: "matilha-plan in progress"`. User can later run matilha-init for fuller bootstrap.
+   - Then read `project-status.md` and any existing research in `docs/matilha/research/`.
 2. **Pack-aware brainstorming delegation** (see `matilha-compose` for canonical template):
    - (a) If `superpowers:brainstorming` is available, inspect the ambient skill list for skills with plugin namespace matching `matilha-*-pack` (installed companion packs). Group by plugin namespace.
    - (b) Classify user intent semantically against each installed pack's domain using the pack skills' descriptions visible in the ambient list. Err inclusive — prefer injecting a marginally-relevant pack over omitting it.

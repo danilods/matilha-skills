@@ -12,11 +12,11 @@ User asks "where am I?", "what's next?", "what's the state?", or similar intent.
 
 ## Preconditions
 
-- `project-status.md` exists.
+- None. matilha-howl lazy-bootstraps `project-status.md` stub when absent, then reports on the stub.
 
 ## Execution Workflow
 
-1. Read `project-status.md` via Read tool.
+1. Check `project-status.md`. If missing, write a minimal stub (`current_phase: 0`, `phase_status: not_started`, `project_slug: <cwd basename>`, `next_action: "Run matilha-scout to begin discovery, matilha-plan to plan a feature, or matilha-init for fuller bootstrap"`). Then read it via Read tool.
 2. Parse frontmatter.
 3. Read any `docs/matilha/waves/wave-*-status.md` files via Glob + Read; summarize (how many active, completed, failed).
 4. Emit a streaming section listing: current_phase, phase_status, next_action, active_waves, recent_decisions (last 3), blockers.

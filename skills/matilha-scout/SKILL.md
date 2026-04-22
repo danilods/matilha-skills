@@ -12,13 +12,12 @@ User wants to explore a feature's problem space before writing a spec. `project-
 
 ## Preconditions
 
-- `project-status.md` exists.
-- `current_phase ≤ 10`.
-- Feature slug provided.
+- Feature slug provided (or inferable from prompt).
+- matilha-scout lazy-bootstraps project structure; `project-status.md` is created if absent.
 
 ## Execution Workflow
 
-1. Read `project-status.md` via Read tool; verify `current_phase ≤ 10`.
+1. **Lazy bootstrap**: Ensure `docs/matilha/research/` exists (`mkdir -p`). If `project-status.md` missing, write a minimal stub (`current_phase: 0`, `phase_status: in_progress`, `project_slug: <from cwd or prompt>`, `next_action: "matilha-scout running"`). Read `project-status.md`; verify `current_phase ≤ 10` (if present and higher, warn user — scout is Phase 10 territory).
 2. Dispatch 3-5 research subagents via Task tool IN PARALLEL (one Task call per scope: market analysis, user-needs mapping, competitive landscape, technical options, regulatory if applicable).
 3. Wait for all subagents to complete.
 4. Synthesize outputs into `docs/matilha/research/<slug>-research.md` with sections per subagent + a "Key findings" synthesis at the end.
