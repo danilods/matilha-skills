@@ -16,9 +16,15 @@ User asks "how should this look?", "is this UX good?", "what component to use?",
 
 ## Execution Workflow
 
-1. If `matilha-design-pack:*` skills available, invoke the most relevant via Skill tool.
-2. Else if `matilha-ux-pack:ux-*` or `cog-*` skills available, invoke them via Skill tool.
-3. Else proceed with core heuristics: simplicity (Krug Fato 1), recognition > recall (Weinschenk), progressive disclosure, consistent navigation, 5-rule error format.
+1. **Pack detection**: Inspect the ambient skill list for skills with plugin namespace matching `matilha-*-pack` (e.g., `matilha-ux-pack:*`, `matilha-growth-pack:*`, `matilha-design-pack:*` if installed). Group by plugin namespace. See `skills/matilha-compose/SKILL.md` for the canonical detection logic.
+
+2. **Intent classification**: Does the user's design question touch cognitive load, error presentation, forms, accessibility, visual perception, growth-relevant moments (signup, paywall, activation), or broader design-system concerns? Use pack skill descriptions to inform the decision. Classify per pack: yes / no / partial.
+
+3. **Route based on intent**:
+   - **Narrow intent** (e.g., "which form component?", "what error format?"): invoke the single most relevant pack skill directly via the Skill tool. No preamble needed.
+   - **Exploratory intent** (e.g., "how should this flow feel?", "is this UX good?"): if `superpowers:brainstorming` available AND ≥1 pack classified yes, build preamble per `matilha-compose` Step 4 template, emit it, then invoke brainstorming via Skill tool.
+   - **No packs installed OR packs irrelevant**: apply core heuristics inline — simplicity (Krug Fato 1), recognition > recall (Weinschenk), progressive disclosure, consistent navigation, 5-rule error format.
+
 4. Emit design guidance linked to the user's current task.
 
 ## Rules: Do
