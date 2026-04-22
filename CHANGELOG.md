@@ -1,5 +1,24 @@
 # Changelog
 
+## [Wave 5d.1] — 2026-04-22 — Methodology-First Pivot
+
+Broadens Wave 5d activation scope from "matilha projects only" to "any workspace where matilha is installed". Matilha methodology is now universally available whenever the plugin is loaded; companion packs become optional enrichment rather than activation gates. Corrects the value-proposition inversion that Wave 5d's narrow gate had introduced.
+
+### Changed
+
+- `skills/matilha-compose/SKILL.md` — activation gate expanded from "matilha project context" to "matilha installed" (self-detected via ambient skill list presence). Intent classification expanded from creative-work-only to full software-construction (planning / designing / researching / building / reviewing / dispatching / status / merging). Dispatch table expanded to 12 routing targets (7 matilha phase skills + brainstorming + writing-plans + ambiguous fallback). `docs/matilha/`, `project-status.md`, and `matilha-*-pack` visibility reclassified as supplementary routing signals, not activation gates. Companion Integration restructured into three-tier model: superpowers (craft layer), matilha phases (methodology layer), packs (domain knowledge layer). Explicit "Matilha is never hostage to superpowers" — standalone mode via internal clarifying flows when superpowers absent.
+- `CLAUDE.md` — activation priority instruction broadened from "in matilha projects" to "whenever matilha is installed in this workspace". Explicit note that matilha wraps superpowers (not replaces) and that phase skills lazy-create `docs/matilha/` structure without requiring matilha-init.
+- `skills/matilha-plan/SKILL.md` — `project-status.md` precondition removed. Step 1 now lazy-bootstraps: `mkdir -p docs/matilha/{specs,plans,research}` and writes minimal `project-status.md` stub if absent before proceeding.
+- `skills/matilha-scout/SKILL.md` — same lazy-bootstrap pattern. Mkdir `docs/matilha/research/`, stub project-status.md when absent.
+- `skills/matilha-howl/SKILL.md` — reports on a lazy-bootstrapped stub when `project-status.md` is missing (next_action points user to scout/plan/init).
+
+### Philosophy
+
+- **Matilha as methodology harness applicable everywhere** — the plugin install is the opt-in signal; no per-project bootstrap required.
+- **Superpowers as craft engine** — matilha routes to superpowers for the how-do-I-brainstorm / how-do-I-write-plans / how-do-I-TDD craft concerns; matilha tracks phases + state + learnings on top.
+- **Packs as optional domain enrichment** — surface value when installed + relevant; silent pass-through when absent. Never the reason matilha fires or doesn't.
+- **Lazy bootstrap** — matilha-init becomes implicit, invoked as a side effect of the first phase skill that needs to write artifacts.
+
 ## [Wave 5d] — 2026-04-22 — Composition Layer
 
 Make matilha core skills pack-aware orchestrators. Closes the Wave 5c smoke gap where `superpowers:brainstorming` intercepted creative-work prompts in matilha projects without companion-pack awareness.
