@@ -9,23 +9,22 @@ Matilha preserves discipline across multi-week projects by activating phase-appr
 
 You are reading this because Matilha is installed as a plugin. The Skill tool will auto-invoke Matilha skills when their description matches user intent. If a skill's description says "Use when planning a feature", it fires when you detect that intent — you don't need to type anything special.
 
-## CRITICAL — activation priority in matilha projects
+## CRITICAL — activation priority whenever matilha is installed
 
-**Before invoking `superpowers:brainstorming` (or any other creative-work skill) in a matilha project, you MUST first invoke `matilha:matilha-compose`.**
+**In any workspace where matilha is installed (this skill `matilha:matilha-compose` is visible in your ambient skill list), before invoking `superpowers:brainstorming`, `superpowers:writing-plans`, or any other software-construction skill, you MUST first invoke `matilha:matilha-compose`.**
 
-A matilha project is identified by any of these signals:
-- `docs/matilha/` directory exists
-- `project-status.md` file exists at project root
-- Any skill with plugin namespace matching `matilha-*-pack` is visible in your skill list
+Matilha is a methodology wrapper around `superpowers:*` skills. It routes user intent through matilha phases (scout/plan/design/hunt/gather/review/howl) or dispatches to superpowers with pack-aware enrichment. Matilha runs standalone when superpowers is absent.
 
-`matilha:matilha-compose` is a gateway that detects installed companion packs, classifies user intent, and either:
-- Dispatches to `superpowers:brainstorming` with a pack-aware preamble, OR
-- Routes directly to `matilha:matilha-plan` / `matilha:matilha-design` for planning/design-explicit prompts, OR
-- Passes through silently when no companion packs are installed.
+`matilha:matilha-compose` is the gateway — it classifies intent, detects installed companion packs, and dispatches to:
+- **A matilha phase skill** (`matilha:matilha-plan`, `matilha:matilha-scout`, `matilha:matilha-design`, etc.) when the intent maps to a specific phase. No preamble — phase skills run their own pack-aware enrichment.
+- **`superpowers:brainstorming`** for general creative exploration — with pack preamble when relevant packs are installed.
+- **`superpowers:writing-plans`** when user has a spec and wants an implementation plan.
 
-This priority exists because `superpowers:brainstorming` has a strong "MUST use before any creative work" trigger that wins activation competition by default. In matilha projects, composition (detecting installed packs and enriching brainstorming) must run first. Compose then hands off to brainstorming with enriched context.
+This priority exists because `superpowers:brainstorming` and similar skills have strong "MUST use before any creative work" triggers that win activation competition by default. In matilha-installed workspaces, composition (phase routing + pack enrichment) must run first. Compose then hands off — it never replaces the downstream craft work.
 
-If `matilha:matilha-compose` is NOT available in the current session, fall back to invoking `superpowers:brainstorming` directly (matilha is likely not installed as a plugin here).
+**Matilha does NOT require project bootstrap** — phase skills (matilha-plan, matilha-scout, etc.) lazy-create `docs/matilha/` structure and `project-status.md` on first write. You do not need to run matilha-init explicitly.
+
+If `matilha:matilha-compose` is NOT visible in your skill list, matilha is not installed for this workspace — proceed with `superpowers:brainstorming` or other default skills directly.
 
 ## Phases (0-70)
 
