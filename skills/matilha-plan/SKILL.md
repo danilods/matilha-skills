@@ -18,7 +18,12 @@ User has Phase 10 research (or skips scout) and wants spec + plan artifacts befo
 ## Execution Workflow
 
 1. Read research (if exists) + project-status.md.
-2. If `superpowers:brainstorming` available, invoke via Skill tool for the initial clarifying-questions phase. Otherwise, run a condensed clarifying inline via chat.
+2. **Pack-aware brainstorming delegation** (see `matilha-compose` for canonical template):
+   - (a) If `superpowers:brainstorming` is available, inspect the ambient skill list for skills with plugin namespace matching `matilha-*-pack` (installed companion packs). Group by plugin namespace.
+   - (b) Classify user intent semantically against each installed pack's domain using the pack skills' descriptions visible in the ambient list. Err inclusive — prefer injecting a marginally-relevant pack over omitting it.
+   - (c) Build preamble using the canonical template documented in `skills/matilha-compose/SKILL.md` Step 4 (per-pack mini-synthesis + skill list + guidance paragraph for the receiving skill).
+   - (d) Emit the preamble in the current turn output, then invoke `superpowers:brainstorming` via the Skill tool.
+   - (e) Fallback: if `superpowers:brainstorming` is absent OR zero packs are detected, run the condensed clarifying flow inline (existing behavior — ask 3–5 questions drawing on detected pack skills if any, else use methodology-core heuristics).
 3. Write `docs/matilha/specs/<slug>-spec.md` with: purpose, context, design principles, target deliverables, architecture, data flow, open questions, exit criteria.
 4. If `superpowers:writing-plans` available, invoke via Skill tool to generate the task-by-task plan. Otherwise, write the plan inline following `methodology/40-execucao.md` conventions.
 5. Plan output lands at `docs/matilha/plans/<slug>-plan.md` with: goal, architecture, SPs, per-task steps, exit gates.
