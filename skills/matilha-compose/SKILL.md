@@ -1,6 +1,6 @@
 ---
 name: matilha-compose
-description: "You MUST use this skill before invoking superpowers:brainstorming when the user prompt signals creative work (building, designing, planning, adding, modifying a system/feature/product) AND the current project is a matilha project (docs/matilha/ exists, project-status.md exists, OR any skill with plugin namespace matching matilha-*-pack is visible in your skill list). Detects installed companion packs via plugin-namespace inspection, classifies intent, injects pack-aware preamble, then dispatches to brainstorming (or directly to matilha-plan/matilha-design for explicit planning/design prompts). If neither activation condition holds, defer to superpowers:brainstorming directly."
+description: "You MUST use this skill before any creative work — building, designing, planning, adding, or modifying features, systems, products, components, agents, workflows, or flows — when in a matilha project (docs/matilha/ directory exists, project-status.md file exists, or any matilha-*-pack skill is visible). SUPERSEDES superpowers:brainstorming in matilha projects. Detects installed companion packs via plugin-namespace inspection, injects pack-aware preamble, then dispatches to brainstorming or to matilha-plan/matilha-design."
 category: matilha
 version: "1.0.0"
 optional_companions: ["superpowers:brainstorming", "matilha-plan", "matilha-design"]
