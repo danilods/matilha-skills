@@ -1,6 +1,6 @@
 ---
 name: matilha-compose
-description: "You MUST use this skill before any creative work — building, designing, planning, adding, or modifying features, systems, products, components, agents, workflows, or flows — when in a matilha project (docs/matilha/ directory exists, project-status.md file exists, or any matilha-*-pack skill is visible). SUPERSEDES superpowers:brainstorming in matilha projects. Detects installed companion packs via plugin-namespace inspection, injects pack-aware preamble, then dispatches to brainstorming or to matilha-plan/matilha-design."
+description: "You MUST use this skill before any software-construction work — planning, designing, researching, building, reviewing, dispatching, merging, or modifying features/systems/products/components/agents/workflows — whenever matilha is installed (this skill is visible in your ambient skill list). Matilha is a methodology wrapper around superpowers:* skills; compose routes user intent to the right matilha phase (scout/plan/design/hunt/gather/review/howl) or dispatches to superpowers:brainstorming with pack-aware preamble. Runs standalone when superpowers is absent. Detects companion packs (matilha-*-pack namespace) as optional enrichment. Lazy-bootstraps matilha project structure on demand."
 category: matilha
 version: "1.0.0"
 optional_companions: ["superpowers:brainstorming", "matilha-plan", "matilha-design"]
@@ -8,24 +8,32 @@ optional_companions: ["superpowers:brainstorming", "matilha-plan", "matilha-desi
 
 ## When this fires
 
-Fires BEFORE `superpowers:brainstorming` when two conditions both hold:
+Fires BEFORE any creative-work or software-construction skill (including `superpowers:brainstorming`, `superpowers:writing-plans`) when BOTH conditions hold:
 
-1. **Creative-work intent** — the user prompt signals building, designing, planning, adding, or modifying a system, feature, product, or component. Examples: "Estou construindo MVP...", "How should I design...", "Want to add a new feature for...", "Planning a refactor of...".
+1. **Matilha is installed** — this skill (`matilha:matilha-compose`) is visible in the ambient skill list. This is implicit: if you are reading this body, matilha is loaded for the current workspace.
 
-2. **Matilha project context** — at least one of these signals is present:
-   - `docs/matilha/` directory exists in the current project.
-   - `project-status.md` file exists at the project root.
-   - At least one skill with plugin namespace matching `matilha-*-pack` (e.g., `matilha-harness-pack:harness-architecture`) is visible in the ambient skill list.
+2. **Software-construction intent** — the user prompt signals any of:
+   - Planning / spec authoring ("plan this", "write a spec", "lay out phases")
+   - Designing / UX / UI ("how should this look", "which UI", "what component")
+   - Researching / discovery ("what are the options for...", "investigate...")
+   - Building / implementing ("I'm building...", "adding...", "construindo...")
+   - Reviewing / quality ("review this PR", "check this code")
+   - Dispatching waves / parallel work ("split this into SPs", "dispatch waves")
+   - Status / next action ("where am I?", "what's next?")
+   - General creative exploration ("I'm thinking about...", "exploring...")
 
-If EITHER condition fails, do NOT fire. Defer to `superpowers:brainstorming` or other appropriate skills directly.
+Project-context signals (`docs/matilha/` directory, `project-status.md` file, any `matilha-*-pack` skill visible) are **supplementary context for routing decisions**, not activation gates. Matilha methodology applies broadly whenever the plugin is installed — these signals only shift how compose dispatches (to which specific matilha phase skill vs. superpowers skill).
 
-**Positive examples:**
-- "Estou construindo MVP de 4 semanas que precisa rodar autonomamente. Como estruturo os agents?" (matilha project + creative work → fires)
-- "Quero desenhar o signup flow desse SaaS — precisa ter baixa fricção e maximizar activation." (matilha project + creative work → fires)
+**Positive examples (compose fires):**
+- "Estou construindo MVP de 4 semanas... Como estruturo os agents?" → general creative → brainstorming with pack preamble (harness-pack if visible)
+- "Quero planejar a feature de export CSV" → planning intent → matilha-plan (may lazy-bootstrap docs/matilha/)
+- "What's the current phase?" → status intent → matilha-howl
+- "Review my code changes" → quality intent → superpowers:brainstorming or matilha-review depending on what matilha finds
 
-**Negative examples:**
-- "What's the current phase?" (not creative work → defer to matilha-howl)
-- "Add OAuth to this non-matilha project." (non-matilha project → defer to brainstorming)
+**Negative examples (compose does NOT fire):**
+- Compose is NOT installed (different workspace) → this skill is absent from ambient list
+- Prompt is pure factual / non-construction ("what's the capital of France?") → no software-construction signal
+- User invokes a specific skill directly via slash command (e.g., `/matilha-howl`) → direct invocation bypasses compose
 
 ## Preconditions
 
@@ -57,12 +65,26 @@ Do NOT use hardcoded keyword maps. Rely on semantic judgment based on skill desc
 
 **Step 3 — Dispatch decision.**
 
-Choose the terminal destination based on intent signals in the user prompt:
+Choose the terminal destination based on intent-to-phase classification. Matilha phase skills handle their own pack-aware enrichment — compose routes without emitting preamble for them. Only the `superpowers:brainstorming` path gets preamble emission.
 
-- **Planning-explicit** ("plan this", "write a spec for", "lay out the phases") → `matilha-plan`. **Do NOT emit preamble** — matilha-plan runs its own pack-aware preamble logic when it delegates to brainstorming. Compose's job is routing only.
-- **Design-explicit** ("how should this look", "which UI", "what component") → `matilha-design`. **Do NOT emit preamble** — matilha-design runs its own pack-aware logic.
-- **General creative work** ("I'm building", "I'm exploring", "thinking about") → `superpowers:brainstorming`. **Emit preamble** — this is the only terminal-brainstorming path.
-- **Ambiguous** → default to `superpowers:brainstorming` with preamble emitted.
+| Intent signal | Dispatch target | Preamble emitted by compose? | Notes |
+|---|---|---|---|
+| Planning / spec authoring | `matilha:matilha-plan` | No | matilha-plan runs own pack logic; lazy-bootstraps docs/matilha/specs/ if missing |
+| Design / UX / UI | `matilha:matilha-design` | No | matilha-design runs own pack logic |
+| Discovery / research | `matilha:matilha-scout` | No | matilha-scout dispatches research subagents; lazy-bootstraps docs/matilha/research/ |
+| Status / next action | `matilha:matilha-howl` | No | Read-only; lazy-bootstraps project-status.md stub if missing |
+| Dispatch waves / parallel SPs | `matilha:matilha-hunt` | No | Requires existing plan.md — if absent, fall back to matilha-plan first |
+| Merge / regression / wave integration | `matilha:matilha-gather` | No | Requires active wave status |
+| Quality review | `matilha:matilha-review` | No | (Wave 3c runtime pending — currently stub) |
+| Deploy / production gate | `matilha:matilha-den` | No | Phase 60 |
+| Teammate onboarding | `matilha:matilha-pack` | No | Phase 70 |
+| General creative exploration ("I'm building", "exploring", "thinking about") | `superpowers:brainstorming` | **Yes** (if ≥1 pack classified relevant) | Only terminal-brainstorming path gets enrichment |
+| Implementation plan authoring (existing spec in context) | `superpowers:writing-plans` | No | Superpowers handles craft; matilha tracks phase advancement via plan status |
+| Ambiguous | `superpowers:brainstorming` with preamble | Yes | Default — brainstorming explores intent, may surface need for phase-specific skill |
+
+**Lazy bootstrap rule**: if the chosen matilha phase skill needs filesystem structure that doesn't yet exist (e.g., matilha-plan writes to `docs/matilha/specs/<slug>-spec.md`), the skill itself creates the directory on first write. Compose does not pre-create — that's delegated to the downstream skill's body. This keeps compose stateless.
+
+**Superpowers fallback**: if the chosen matilha phase skill delegates to a superpowers skill (e.g., matilha-plan delegates to `superpowers:brainstorming` during clarifying questions), that delegation is the matilha phase skill's responsibility, not compose's.
 
 **Step 4 — Build preamble (only if terminal is brainstorming AND ≥1 pack classified yes).**
 
@@ -109,7 +131,7 @@ If no preamble (pass-through or routing to plan/design): invoke target skill via
 ## Rules: Don't
 
 - Don't hardcode pack names or skill prefixes in detection logic. Prefixes like those used by companion packs may appear in this skill body only inside examples or illustrative contexts — never inside detection instructions. Use the `matilha-*-pack` namespace pattern as the sole detection mechanism.
-- Don't fire in non-matilha projects (description gate prevents this; body double-checks via Step 1 of "When this fires").
+- Don't fire when matilha plugin is not installed (this skill is absent from the ambient list). No self-check needed — if you are reading this body, matilha is loaded.
 - Don't duplicate brainstorming's clarifying-questions flow when `superpowers:brainstorming` is available — dispatch to it.
 - Don't inject full skill bodies into the preamble — descriptions only.
 - Don't emit empty preambles ("no packs detected...") — if pack list is empty, just pass through.
@@ -117,16 +139,16 @@ If no preamble (pass-through or routing to plan/design): invoke target skill via
 
 ## Expected Behavior
 
-With matilha-compose in the activation loop, creative-work prompts in matilha projects flow:
+With matilha-compose in the activation loop, software-construction prompts flow:
 
-1. User writes a creative-work prompt.
-2. matilha-compose wins activation over `superpowers:brainstorming` (description gate).
-3. Compose detects installed packs via ambient skill list inspection.
-4. Compose classifies user intent semantically against each pack's domain.
-5. Compose routes: either to brainstorming (with preamble) or to matilha-plan / matilha-design (without preamble).
-6. The terminal skill runs, surfaces relevant pack skills during exploration, and produces output enriched with pack-sourced recommendations.
+1. User writes any software-construction prompt (planning, designing, building, reviewing, exploring).
+2. matilha-compose wins activation over `superpowers:brainstorming` and other creative-work skills (description gate + CLAUDE.md ambient priority).
+3. Compose classifies intent into a matilha phase (or "general creative") and detects installed companion packs.
+4. Compose routes to the appropriate matilha phase skill (no preamble — they run their own enrichment) OR to `superpowers:brainstorming` (with pack preamble if packs are relevant).
+5. The terminal skill runs — matilha phase skills persist artifacts to `docs/matilha/` (lazy-bootstrapping as needed); brainstorming explores intent with pack-aware context.
+6. User gets methodology-guided output whether the workspace was pre-bootstrapped as a matilha project or not.
 
-The user experiences brainstorming (or planning/design) as more informed about the methodology's installed context, without any explicit invocation of pack skills on their part.
+The user's experience: methodology guidance everywhere matilha is installed, with pack enrichment where packs are installed, without any need to run matilha-init explicitly. Matilha project structure (docs/matilha/, project-status.md) materializes on demand when matilha phase skills need it.
 
 ## Quality Gates
 
@@ -137,14 +159,26 @@ The user experiences brainstorming (or planning/design) as more informed about t
 
 ## Companion Integration
 
-`matilha-compose` is the companion-pack-aware gateway. Its entire purpose is companion integration. Relationships:
+`matilha-compose` is the methodology orchestrator and companion-pack-aware gateway. Relationships:
 
-- **superpowers:brainstorming** — the most common dispatch target. Compose emits preamble before invoking it.
-- **matilha-plan** — dispatch target for planning-explicit prompts. matilha-plan runs its own pack-aware preamble logic downstream.
-- **matilha-design** — dispatch target for design-explicit prompts. matilha-design runs its own pack-aware logic.
-- **Any skill with plugin namespace `matilha-*-pack`** — detected at runtime via ambient skill list; referenced by name in the emitted preamble; available for direct invocation by the downstream skill via the Skill tool.
+**Superpowers (craft layer):**
+- **superpowers:brainstorming** — common dispatch target for general creative exploration. Compose emits pack preamble before invoking when packs are relevant.
+- **superpowers:writing-plans** — invoked when user has an existing spec and wants an implementation plan; compose routes without preamble (superpowers handles the craft, matilha tracks phase advancement).
+- **superpowers:*** other skills — compose generally hands off craft concerns (TDD, debugging, verification) to superpowers without interference.
 
-The detection pattern here is canonical for Matilha. When `matilha-plan` or `matilha-design` perform their own pack-aware logic, they reference this skill as the template source.
+**Matilha phase skills (methodology layer):**
+- **matilha-scout** — research dispatch for discovery-intent prompts. Lazy-bootstraps `docs/matilha/research/`.
+- **matilha-plan** — spec + plan authoring for planning-intent prompts. Lazy-bootstraps `docs/matilha/specs/` and `docs/matilha/plans/`.
+- **matilha-design** — UX/UI guidance for design-intent prompts.
+- **matilha-hunt / matilha-gather / matilha-review / matilha-den / matilha-pack** — later-phase skills (dispatch, merge, quality, deploy, onboarding).
+- **matilha-howl** — status reporter for "where am I?" prompts. Lazy-bootstraps `project-status.md`.
+
+**Companion packs (domain knowledge layer):**
+- **Any skill with plugin namespace `matilha-*-pack`** (e.g., `matilha-harness-pack:harness-architecture`, `matilha-ux-pack:ux-reservatorio-boa-vontade`) — detected at runtime via ambient skill list; referenced by name in the emitted preamble when compose dispatches to brainstorming; available for direct invocation by the downstream skill via the Skill tool.
+
+**Standalone mode**: when `superpowers:*` skills are absent, compose and matilha phase skills implement inline fallback flows (clarifying questions, spec drafting, etc.) using matilha's own methodology content. Matilha is never hostage to superpowers — it enhances superpowers when present and runs independently when absent.
+
+The detection pattern here is canonical for Matilha. When `matilha-plan` or `matilha-design` perform their own pack-aware enrichment (delegating to brainstorming with preamble), they reference this skill as the template source.
 
 ## Pack awareness
 
@@ -166,24 +200,26 @@ This section documents the detection + classification contract in auditable pros
 
 ## Fallback semantics
 
-Four cases based on (a) whether `superpowers:brainstorming` is available, (b) whether ≥1 pack is detected:
+Cases are organized along two axes: (a) superpowers availability, (b) pack availability. Applied AFTER intent classification in Step 2 when the dispatch target (Step 3) resolves to `superpowers:brainstorming` specifically — matilha phase skill routes use their own downstream logic.
 
-**Case A — happy path (superpowers present, ≥1 pack)**: Standard flow. Detect → classify → preamble → emit → invoke brainstorming.
+**Case A — happy path (superpowers present, ≥1 relevant pack)**: Detect → classify → preamble → emit → invoke brainstorming. Terminal skill surfaces pack skills during exploration.
 
-**Case B — matilha standalone with packs (superpowers absent, ≥1 pack)**: Run matilha-internal clarifying flow inline. Steps:
-1. Treat the built preamble as your own context guide.
-2. Ask the user ONE clarifying question at a time. Target pack domain(s) classified most relevant. If a pack classifies `yes` and the user mentioned a specific concern, frame a question drawing on that pack's skill descriptions.
-3. After 3–5 clarifying questions, summarize intent and propose 2–3 approaches drawing on pack skills.
-4. On approach approval, invoke `matilha-plan` (if planning-shaped), `matilha-design` (if design-shaped), or output inline guidance.
+**Case B — matilha standalone with packs (superpowers absent, ≥1 pack)**: Run matilha-internal clarifying flow inline using the built preamble as context guide. Steps:
+1. Ask the user ONE clarifying question at a time, drawing on the most-relevant pack skill's domain.
+2. After 3–5 clarifying questions, summarize intent and propose 2–3 approaches drawing on pack skills.
+3. On approach approval, invoke an appropriate matilha phase skill (matilha-plan if planning-shaped, matilha-design if design-shaped) or output inline guidance.
 
-**Case C — silent pass-through (superpowers present, zero packs)**: Detect zero packs → skip preamble construction → invoke `superpowers:brainstorming` directly without any preamble. Output is indistinguishable from brainstorming-without-compose. Do NOT emit any "no packs detected" notice.
+**Case C — silent pass-through (superpowers present, zero packs)**: Skip preamble construction → invoke `superpowers:brainstorming` directly without any preamble. Output is indistinguishable from brainstorming-without-compose. Do NOT emit "no packs detected" notice. Matilha methodology value still lands via the routing itself (compose fired, observed intent was general creative, correctly handed off).
 
-**Case D — baseline (both absent)**: Run matilha-internal clarifying flow inline using only core heuristics (Krug recognizability, Weinschenk perception rules, methodology core from `methodology/`). Equivalent to pre-Wave-5d behavior.
+**Case D — matilha methodology standalone (both absent)**: Run matilha-internal clarifying flow inline using methodology core (phases from `methodology/`, design heuristics from matilha-design, etc.). Equivalent to "matilha works when nothing else is installed".
 
 **Invariants across all cases:**
 - Never crash on absent dependencies.
 - Empty preamble never emitted.
-- If activation gate let through a non-matilha-project prompt by mistake, body re-checks at Step 1; if all three matilha-project signals fail, immediately invoke `superpowers:brainstorming` without preamble and exit.
+- Matilha methodology guidance is always accessible — activation gate is plugin-installed, not project-configured.
+- Project structure (`docs/matilha/`, `project-status.md`) is created lazily by downstream phase skills when they need to write artifacts — not a prerequisite for compose firing.
+
+**What compose does NOT fallback**: intent-classification logic is always prose-semantic. No alternate keyword-map path. No "simple mode" for quick dispatch. The classification is cheap (LLM already running) and the correctness is worth the consistency.
 
 ## Output Artifacts
 
@@ -199,7 +235,7 @@ Optional: emit a log line to `docs/matilha/compose-log.md` capturing (timestamp,
 
 ## Troubleshooting
 
-- **"superpowers:brainstorming still wins activation"** → Check the description begins with "You MUST use this skill before invoking superpowers:brainstorming when...". Verify both conjuncts of the activation gate are clearly worded.
+- **"superpowers:brainstorming still wins activation"** → Description strength alone does not reliably win activation. The primary mechanism is the `CRITICAL — activation priority in matilha projects` section in the plugin's CLAUDE.md, which is loaded ambiently. Verify that CLAUDE.md contains the priority instruction and the user's session loaded it. Description gate is a secondary reinforcement.
 - **"Preamble too large (> 60 lines)"** → Trim per-pack skill lists to top 5 most intent-relevant. Drop packs classified `partial` if preamble remains over budget.
 - **"Pack detected but its skills don't surface in downstream exploration"** → Strengthen the guidance paragraph with a concrete example of how to reference a pack skill during clarifying questions.
 - **"Compose fires in a non-matilha project"** → Verify none of the three matilha-project signals present (docs/matilha/, project-status.md, matilha-*-pack namespace in skill list). If all absent, treat this as a description-gate false-positive — immediately invoke `superpowers:brainstorming` without preamble and exit.
