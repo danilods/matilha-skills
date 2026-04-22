@@ -51,6 +51,30 @@ Three non-negotiable rules:
 2. **Companion integration is a QUALITY enhancement**, not a requirement.
 3. **If a companion's skill fails at runtime**, the core skill catches the error (5-rule format) and continues with core instructions. Never cascades.
 
+## Install scope (user vs project)
+
+Claude Code supports two install scopes per plugin: **user scope** (available globally across all workspaces for a given user) and **project scope** (available only in the specific workspace where installed).
+
+**Recommended install scope for matilha core and companion packs: user scope.**
+
+Reasons:
+- Matilha is a methodology harness meant to guide development everywhere, not a per-project tool. User scope matches the "methodology-everywhere" intent (see Wave 5d.1 methodology-first pivot).
+- Companion packs enrich matilha's methodology. Installing them user-scope means any matilha workspace gets the enrichment automatically when matilha itself is user-scoped.
+- Per-project installs require repeating `/plugin install` for every new project — high friction for methodology-level tooling.
+
+Pack authors should include user-scope recommendation in their pack README:
+
+```
+/plugin marketplace add <owner>/<pack-repo>
+/plugin install <pack-name>@<pack-name> --user   # recommended for packs
+```
+
+(Exact flag syntax depends on Claude Code version; the interactive `/plugin` menu always exposes the scope option.)
+
+**Project scope is appropriate when:**
+- The workspace is the development repo for the plugin itself (meta-development).
+- The user wants isolated experimentation without affecting their global matilha setup.
+
 ## Runtime versioning
 
 Packs declare Matilha core compatibility via semver range in their own plugin.json (e.g., `"matilha-core": ">=0.4.0"`). Matilha does not enforce this at runtime in Wave 4a; Wave 5+ ships a linter.
