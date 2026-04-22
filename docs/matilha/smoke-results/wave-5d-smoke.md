@@ -62,13 +62,40 @@ Skill(superpowers:brainstorming)
 
 **Outcome A** achieved for activation gate: compose invoked first, ran full 5-step workflow, classified intent correctly, executed Case C pass-through (no packs enabled in workspace), then dispatched to brainstorming.
 
-### Sub-result 1c — full Case A (pending pack install)
+### Sub-result 1c — full Case A (captured 2026-04-22 with user-scope harness-pack)
 
-To prove the full happy path (pack detected → preamble injected → brainstorming enriched), matilha-harness-pack needs to be installed into the matilha-skills workspace. Currently harness-pack is installed only in `/Memory/` workspace per `installed_plugins.json`.
+After installing both matilha and matilha-harness-pack at user scope (globally for the user), user invoked `/matilha:matilha-compose` directly in a non-matilha project (DynamoDB/Lambda scheduling module scenario).
 
-**Status**: 1a captured as regression baseline. 1b proves activation + dispatch + Case C. 1c blocked on pack install; re-run after `/plugin install matilha-harness-pack@matilha-harness-pack` in the matilha-skills workspace.
+Full output trace:
 
-**Pass/Fail**: **PASS (partial)** — composition flow proven end-to-end. Full Case A pending workspace pack install. Non-blocking for ship if documented.
+```
+Step 1 — Pack detection: identifico um pack instalado com namespace matilha-*-pack:
+  - matilha-harness-pack — padrões de arquitetura de harness para sistemas
+    orientados a agentes/workers
+
+Step 2 — Intent classification: o prompt "como estrutura um módulo..." é
+exploração criativa geral — o usuário ainda está descobrindo a arquitetura antes
+de commitar um spec. Rota → superpowers:brainstorming.
+
+Classificação do pack: matilha-harness-pack = yes — skills como
+harness-orchestrator-workers, harness-routing-parallelization e
+harness-architecture mapeiam diretamente para a dinâmica Lambda/EventBridge/
+DynamoDB sendo explorada.
+
+[Preamble emitted with 8 harness-pack skills + guidance paragraph]
+
+Skill(superpowers:brainstorming)
+  Successfully loaded skill
+```
+
+**All 5 compose steps verified**:
+- Step 1 Pack detection via plugin-namespace → matilha-harness-pack identified
+- Step 2 Intent classification → harness-pack classified yes with domain reasoning
+- Step 3 Dispatch decision → superpowers:brainstorming (general creative exploration)
+- Step 4 Preamble built with 8 skills (harness-orchestrator-workers, harness-routing-parallelization, harness-architecture, harness-nfrs-as-prompts, harness-docs-as-system-of-record, harness-long-horizon-strategies, harness-jit-retrieval, harness-evaluator-optimizer-loop) + Guidance paragraph
+- Step 5 Emit + invoke → preamble in output + brainstorming invoked
+
+**Pass/Fail**: **PASS (full Case A)** — composition flow proven end-to-end in a cross-project context. Invocation was manual (`/matilha:matilha-compose`) — auto-activation requires matilha-bootstrap skill which is in a later commit than the user-scope install captured at smoke time.
 
 ## Test 2 — Cross-pack intent
 
