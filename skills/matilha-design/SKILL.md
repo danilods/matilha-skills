@@ -49,10 +49,11 @@ Actionable design guidance. With companion pack installed, output quality is dee
 
 ## Companion Integration
 
-THIS skill is the companion-delegation exemplar.
-- If **matilha-design-pack:*** is available: invoke via Skill tool for deep design patterns (typography, color, spacing, components).
-- If **matilha-ux-pack:ux-*** or **cog-*** skills are available: invoke for cognitive/perception-level guidance (Weinschenk, Krug).
-- Otherwise: apply the core heuristics documented below (simplicity, recognition > recall, progressive disclosure, consistency, 5-rule errors).
+Companion-pack awareness is handled via the pack detection + intent classification in steps 1–3 of the Execution Workflow. See `skills/matilha-compose/SKILL.md` for the canonical pack detection and preamble template.
+
+- **Any skill with plugin namespace `matilha-*-pack`** (e.g., `matilha-ux-pack:ux-*`, `matilha-ux-pack:cog-*`, `matilha-growth-pack:*`, `matilha-design-pack:*` when installed) — detected at runtime via ambient skill list. Narrow-intent design questions invoke the most relevant pack skill directly; exploratory-intent questions emit a pack-aware preamble to `superpowers:brainstorming`.
+- **superpowers:brainstorming** — invoked for exploratory-intent design questions (with pack-aware preamble emitted when ≥1 pack classifies yes).
+- Otherwise: apply the core heuristics documented in Step 3 (simplicity, recognition > recall, progressive disclosure, consistency, 5-rule errors).
 
 ## Output Artifacts
 
