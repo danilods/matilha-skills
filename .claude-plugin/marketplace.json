@@ -8,14 +8,14 @@
   },
   "metadata": {
     "description": "Matilha core methodology plugin — phase-gated skills (scout, plan, hunt, gather, howl, review, den, pack) plus the matilha-compose companion-pack-aware gateway.",
-    "version": "0.5.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
-      "name": "matilha-skills",
+      "name": "matilha",
       "source": "./",
       "description": "11 methodology orchestration skills — init, scout, plan, hunt, gather, howl, review, den, pack, design, and compose (Wave 5d gateway).",
-      "version": "0.5.0",
+      "version": "0.4.0",
       "category": "workflow",
       "tags": ["matilha", "methodology", "agentic", "cognitive-harness", "cross-tool"]
     }
