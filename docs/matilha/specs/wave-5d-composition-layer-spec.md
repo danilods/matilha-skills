@@ -71,7 +71,7 @@ Body — 13 required sections:
    - Step 2 — Intent classification. Prose semantic: for each installed pack, decide (yes/no/partial) whether the user prompt touches its domain. Use pack skill descriptions (visible in the ambient list) to inform the decision. Err inclusive.
    - Step 3 — Dispatch decision: planning-explicit → matilha-plan; design-explicit → matilha-design; generic creative work → superpowers:brainstorming; ambiguous → default to brainstorming.
    - Step 4 — Build preamble (template below).
-   - Step 5 — Invoke target skill via Skill tool with preamble as first message content.
+   - Step 5 — Emit preamble into the current turn output (so it enters the conversation context), then invoke the target skill via Skill tool. Preamble is only emitted when the target is `superpowers:brainstorming`; when the target is `matilha-plan` or `matilha-design`, skip preamble emission — those skills perform their own pack-aware preamble construction when they delegate to brainstorming downstream. This prevents double-preamble pollution.
 4. **Rules: Do** — always include guidance line; include skill names; prefer false-positive pack inclusion.
 5. **Rules: Don't** — no hardcoded pack names or prefixes in detection logic; no firing in non-matilha projects; no duplication of brainstorming's clarifying flow when superpowers present; no injection of full skill bodies (descriptions only).
 6. **Expected Behavior** — downstream skill runs enriched; pack skills surface by name during exploration; output includes pack-sourced recommendations.
@@ -251,12 +251,12 @@ The guidance line is critical — without it, the receiving skill treats the pre
 
 Compose routes based on intent signals in the user prompt:
 
-- Planning-explicit ("plan this", "write a spec for", "lay out the phases") → `matilha-plan`.
-- Design-explicit ("how should this look", "which UI", "what component") → `matilha-design`.
-- General creative work ("I'm building X", "exploring Y", "thinking about Z") → `superpowers:brainstorming`.
-- Ambiguous → default to `superpowers:brainstorming` (it explores intent and may surface planning/design needs for a follow-up).
+- Planning-explicit ("plan this", "write a spec for", "lay out the phases") → `matilha-plan`. **Preamble NOT emitted by compose** — matilha-plan runs its own pack-aware preamble logic during its delegation step.
+- Design-explicit ("how should this look", "which UI", "what component") → `matilha-design`. **Preamble NOT emitted by compose** — matilha-design runs its own pack-aware logic.
+- General creative work ("I'm building X", "exploring Y", "thinking about Z") → `superpowers:brainstorming`. **Preamble IS emitted by compose** — this is the only path where the terminal skill is brainstorming, so compose handles enrichment.
+- Ambiguous → default to `superpowers:brainstorming` (preamble emitted).
 
-Compose is a router + enricher — it does not replace the destination skills.
+Compose is a router + enricher. It only enriches when the terminal destination is `superpowers:brainstorming` directly. When routing to `matilha-plan` or `matilha-design`, the target skills handle their own enrichment — compose's job is routing decision only. This avoids double-preamble pollution in the conversation context.
 
 ## 6. Fallback semantics
 
