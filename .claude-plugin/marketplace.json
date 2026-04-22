@@ -1,10 +1,23 @@
 {
-  "name": "matilha",
-  "displayName": "Matilha",
-  "description": "You lead. Agents hunt. A harness for building complex projects with AI — phase-gated methodology plus pluggable intelligence packs.",
-  "author": "Danilo de Sousa",
-  "category": "workflow",
-  "version": "0.4.0",
-  "license": "MIT",
-  "repository": "https://github.com/danilods/matilha-skills"
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "matilha-skills",
+  "owner": {
+    "name": "Danilo de Sousa",
+    "email": "danilod2.sousa@gmail.com",
+    "url": "https://github.com/danilods"
+  },
+  "metadata": {
+    "description": "Matilha core methodology plugin — phase-gated skills (scout, plan, hunt, gather, howl, review, den, pack) plus the matilha-compose companion-pack-aware gateway.",
+    "version": "0.5.0"
+  },
+  "plugins": [
+    {
+      "name": "matilha-skills",
+      "source": "./",
+      "description": "11 methodology orchestration skills — init, scout, plan, hunt, gather, howl, review, den, pack, design, and compose (Wave 5d gateway).",
+      "version": "0.5.0",
+      "category": "workflow",
+      "tags": ["matilha", "methodology", "agentic", "cognitive-harness", "cross-tool"]
+    }
+  ]
 }
