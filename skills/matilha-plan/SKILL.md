@@ -52,10 +52,12 @@ User gets two artifacts ready for hunt/gather. Plan must be directly executable 
 
 ## Companion Integration
 
-- If **superpowers:brainstorming** is available: invoke via Skill tool for the initial clarifying-questions phase.
-- If **superpowers:writing-plans** is available: invoke via Skill tool for the task-by-task plan generation.
-- If **ux-*** skills from matilha-ux-pack are available: invoke an ux-design-constraints skill during spec authoring.
-- Otherwise: run the clarifying + drafting inline.
+Companion-pack awareness is handled via the pack-aware preamble-injection logic in Step 2 of the Execution Workflow. See `skills/matilha-compose/SKILL.md` for the canonical pack detection, intent classification, and preamble template.
+
+- **superpowers:brainstorming** — invoked in step 2 with pack-aware preamble emitted in the current turn output (when installed companion packs classify as intent-relevant).
+- **superpowers:writing-plans** — invoked in step 4 for task-by-task plan generation. No preamble needed here (plan-generation is post-spec; pack context is already embedded in the spec).
+- **Any skill with plugin namespace `matilha-*-pack`** (e.g., `matilha-harness-pack:*`, `matilha-ux-pack:*`, `matilha-growth-pack:*`) — detected at runtime via ambient skill list, referenced by name in the preamble, available for direct invocation downstream.
+- Otherwise: run the clarifying + drafting inline using methodology-core heuristics.
 
 ## Output Artifacts
 
