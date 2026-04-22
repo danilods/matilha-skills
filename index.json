@@ -53,5 +53,10 @@
     "slug": "matilha-compose",
     "name": "Compose — Companion-pack-aware gateway",
     "skillPath": "skills/matilha-compose/SKILL.md"
+  },
+  "matilha-bootstrap": {
+    "slug": "matilha-bootstrap",
+    "name": "Bootstrap — Auto-boot activation priority at conversation start",
+    "skillPath": "skills/matilha-bootstrap/SKILL.md"
   }
 }
