@@ -48,5 +48,10 @@
     "slug": "matilha-design",
     "name": "Matilha Design — Anti-AI-slop harness",
     "skillPath": "skills/matilha-design/SKILL.md"
+  },
+  "matilha-compose": {
+    "slug": "matilha-compose",
+    "name": "Compose — Companion-pack-aware gateway",
+    "skillPath": "skills/matilha-compose/SKILL.md"
   }
 }
