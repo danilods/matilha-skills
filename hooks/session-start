@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# SessionStart hook for matilha plugin
+#
+# Injects matilha methodology activation priority into session context.
+# Mirrors the superpowers:using-superpowers auto-boot pattern so matilha-compose
+# wins activation competition in any workspace where matilha is installed.
+
+set -euo pipefail
+
+# Determine plugin root directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Read matilha-bootstrap content (if present)
+bootstrap_content=""
+if [ -f "${PLUGIN_ROOT}/skills/matilha-bootstrap/SKILL.md" ]; then
+    bootstrap_content=$(cat "${PLUGIN_ROOT}/skills/matilha-bootstrap/SKILL.md" 2>&1 || echo "")
+fi
+
+# Escape string for JSON embedding
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+bootstrap_escaped=$(escape_for_json "$bootstrap_content")
+
+# Build session context. The instruction block is self-contained so it works
+# even if matilha-bootstrap skill file is missing (e.g., older plugin version).
+session_context="<EXTREMELY_IMPORTANT>\nYou have matilha methodology available.\n\n**Matilha activation priority (applies for this entire conversation):**\n\nBefore you invoke any of the following creative-work or software-construction skills:\n- \`superpowers:brainstorming\`\n- \`superpowers:writing-plans\`\n- \`superpowers:frontend-design\` (or other superpowers craft skills with similar descriptions)\n- Any skill whose description matches 'creative work', 'building', 'planning', 'designing', 'software construction'\n\nYou MUST first invoke \`matilha:matilha-compose\` via the Skill tool. Matilha is a methodology wrapper around superpowers:* skills. Compose will:\n\n1. Classify the user intent into a matilha phase (scout / plan / design / hunt / gather / review / howl) or recognize general creative exploration.\n2. Detect installed companion packs (namespace \`matilha-*-pack\`) as optional domain enrichment.\n3. Dispatch to the right destination — a matilha phase skill (matilha-plan, matilha-scout, matilha-design, etc.) OR superpowers:brainstorming with pack-aware preamble.\n\nCompose hands off to the dispatched skill. It does NOT replace craft work — superpowers still runs the actual brainstorming / planning / design flows. Matilha just ensures methodology context wraps them.\n\n**This priority applies to every turn in this conversation, not just the first.** Every new topic that could match a creative-work / software-construction skill goes through matilha-compose first.\n\n**Slash-command invocation bypasses this priority** — if the user types \`/matilha:matilha-plan\` or similar directly, honor the explicit invocation.\n\n**If matilha-compose is NOT visible in your skill list**, matilha is not installed for this workspace — proceed with superpowers or default skills directly.\n\n---\n\nFull matilha-bootstrap skill content (for reference; already internalized above):\n\n${bootstrap_escaped}\n</EXTREMELY_IMPORTANT>"
+
+# Output context injection as JSON. Handle both Cursor and Claude Code conventions.
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$session_context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context"
+else
+  # Copilot CLI and others use top-level additionalContext
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context"
+fi
