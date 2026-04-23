@@ -55,11 +55,13 @@ Do NOT maintain any hardcoded list of skill prefixes or pack names in this skill
 
 If no skills match the `matilha-*-pack` namespace pattern, proceed to Step 3 with zero packs detected.
 
-**Step 2 — Intent classification (prose semantic).**
+**Step 2 — Intent classification (prose semantic, inclusive).**
 
-For each detected pack, decide whether the user prompt touches its domain. Use the pack's shipped skill descriptions (visible in the ambient list) to inform the decision. Output per pack: `yes` | `no` | `partial`.
+For each detected pack, decide whether the user prompt touches its domain in ANY way. Use the pack's shipped skill descriptions (visible in the ambient list) to inform the decision. Binary output per pack: `relevant` | `off-topic`.
 
-Prefer false-positive inclusion — a marginally relevant pack is better included than omitted. When multiple packs classify `yes`, include all.
+**Strongly bias toward `relevant`**: if the pack touches ANY aspect of the user's prompt (even a minor one), classify it `relevant`. The preamble serves brainstorming by surfacing the pack's vocabulary — even a tangential pack is more useful than no pack context. Only mark `off-topic` when the pack's domain is clearly unrelated (e.g., growth-pack for a pure-infrastructure prompt with zero product/user-experience dimension).
+
+When in doubt, classify `relevant`. The brainstorming downstream will naturally skip irrelevant skills during exploration — the cost of including a marginal pack is low; the cost of omitting a relevant one is a missed aha moment.
 
 Do NOT use hardcoded keyword maps. Rely on semantic judgment based on skill descriptions.
 
@@ -86,7 +88,13 @@ Choose the terminal destination based on intent-to-phase classification. Matilha
 
 **Superpowers fallback**: if the chosen matilha phase skill delegates to a superpowers skill (e.g., matilha-plan delegates to `superpowers:brainstorming` during clarifying questions), that delegation is the matilha phase skill's responsibility, not compose's.
 
-**Step 4 — Build preamble (only if terminal is brainstorming AND ≥1 pack classified yes).**
+**Step 4 — Build preamble (if terminal is brainstorming AND ≥1 pack classified `relevant`).**
+
+**Default is EMIT.** If any installed pack is relevant (by the bias-inclusive rule from Step 2), build the preamble. Skip only when:
+- Zero companion packs installed (ambient list contains no `matilha-*-pack` namespaces), OR
+- All installed packs are clearly off-topic (e.g., only growth-pack installed, and prompt is pure DevOps/infrastructure with zero product dimension).
+
+In any other case — especially when the prompt is technical/creative/software-construction-shaped and at least one pack is installed — EMIT the full sigil + atmospheric + pack lines + closing. This is the matilha signature and the user's aha moment; withholding it when a pack is available wastes the harness.
 
 Use this canonical template. The goal combines three purposes at once: (a) signal to the user that matilha's methodology layer activated, (b) make the "aha" moment visible (LLM mirroring domain-specific language proves it *read* the prompt), (c) inject pack context for brainstorming to weave skills naturally.
 
