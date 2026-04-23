@@ -62,6 +62,56 @@ Skill(superpowers:brainstorming)
 
 **Outcome A** achieved for activation gate: compose invoked first, ran full 5-step workflow, classified intent correctly, executed Case C pass-through (no packs enabled in workspace), then dispatched to brainstorming.
 
+### Sub-result 1d — storytelling-mode Case A (captured 2026-04-23, post Wave 5d.1)
+
+After Wave 5d.1 (methodology-first pivot + SessionStart hook + storytelling sigil), user tested a mixed-domain prompt in a non-matilha project with matilha + matilha-harness-pack both at user scope:
+
+Prompt: **"como estruturar um modulo completo administrativo, com governança, tabelas no postgres e frontend para controle de agendamento de páginas e urls alvos com dynamo db, lambda, admin, event bridge?"**
+
+Auto-activation output (no slash-command invocation):
+
+```
+Skill(matilha:matilha-compose)
+  Successfully loaded skill
+
+            ♛
+        /\___/\
+       ( ◉   ◉ )
+        \  v  /
+         ‾‾‾‾‾
+
+   /\_/\   /\_/\   /\_/\
+  ( ● ● ) ( ● ● ) ( ● ● )
+    \/      \/      \/
+          matilha
+
+A alcateia farejou território familiar: governança de módulo administrativo
+com agendamento de páginas/URLs sobre Lambda, EventBridge, DynamoDB e
+PostgreSQL.
+
+matilha-harness-pack ao lado → harness-architecture,
+harness-workflow-vs-agent-decision, harness-orchestrator-workers,
+harness-routing-parallelization, harness-nfrs-as-prompts.
+
+Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
+
+Skill(superpowers:brainstorming)
+  Successfully loaded skill
+```
+
+Then brainstorming picked up with a domain-specific insight (via ★ Insight explanatory-output pattern) about the Ticker pattern (Lambda + DynamoDB GSI by-next-check-at), referencing the user's existing Argos spec pulled from Obsidian MCP. Proceeded to a 4-option clarifying question.
+
+**All Wave 5d.1 invariants verified live:**
+- Auto-activation via SessionStart hook (no slash-command needed)
+- Description-free routing (hook injects priority into system prompt)
+- Sigil ASCII renders correctly in user's terminal
+- Atmospheric line mirrors ALL 4 technologies from user prompt (Lambda, EventBridge, DynamoDB, PostgreSQL) PLUS user's own framing ("governança", "módulo administrativo", "páginas/URLs") — proof of recognition aha moment
+- Pack line compact: 5 harness skills named without inline descriptions
+- Closing transition non-disruptive
+- Downstream brainstorming runs enriched — surfaced Ticker pattern insight, pulled Obsidian context, formulated contextual clarifying question
+
+**Outcome**: **PASS (full Case A with storytelling mode)**. Ship gate cleared.
+
 ### Sub-result 1c — full Case A (captured 2026-04-22 with user-scope harness-pack)
 
 After installing both matilha and matilha-harness-pack at user scope (globally for the user), user invoked `/matilha:matilha-compose` directly in a non-matilha project (DynamoDB/Lambda scheduling module scenario).
