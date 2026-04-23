@@ -1,109 +1,356 @@
-# Matilha
+# matilha
 
 > **You lead. Agents hunt.**
-> A harness for building complex projects with AI.
-
-Matilha is a cross-platform plugin for Claude Code, Cursor, Codex CLI, and Gemini CLI. It preserves discipline across multi-week projects by activating phase-appropriate skills automatically. The human stays in the decision seat (intent, gates, judgment); the agents execute (parallel worktrees, per-SP focus, gated output).
-
-## Install
-
-### Claude Code
-
-Via the plugin marketplace (when published):
+> A cognitive + methodological harness for building complex projects with AI.
 
 ```
-/plugin install matilha
+            ♛
+        /\___/\
+       ( ◉   ◉ )
+        \  v  /
+         ‾‾‾‾‾
+
+   /\_/\   /\_/\   /\_/\
+  ( ● ● ) ( ● ● ) ( ● ● )
+    \/      \/      \/
+          matilha
 ```
 
-Or locally during development:
+**You are the alpha.** The pack hunts at your side — companion packs with 98+ skills across UX, growth, agent architecture, system design, and engineering discipline. Methodology wraps craft; the wolf does not replace your thinking.
+
+---
+
+## Why matilha exists
+
+Multi-week AI-assisted software projects fail in predictable ways: context is lost between sessions, methodology erodes under time pressure, companion knowledge (UX heuristics, scaling patterns, growth frameworks) stays scattered in books nobody re-reads.
+
+Matilha is a harness — a methodology wrapper around `superpowers:*` skills + a companion-pack composition layer — that keeps discipline across weeks. You lead (intent, gates, decisions). Agents hunt (parallel worktrees, per-SP focus, gated output). Companion packs enrich brainstorming with domain-specific expertise automatically.
+
+**What makes matilha different from "skills in a marketplace"**:
+
+- **Composition, not competition.** Core skills delegate to companion packs via plugin-namespace detection. No hardcoded pack list; new packs are picked up automatically.
+- **Methodology wraps craft.** Matilha orchestrates phases (scout/plan/design/hunt/gather/review/howl) around `superpowers:brainstorming` + `superpowers:writing-plans`. Superpowers stays the craft engine; matilha tracks where you are in the process and enriches context.
+- **Works everywhere.** SessionStart hook activates matilha priority in any workspace where the plugin is installed. No `matilha-init` required for casual use — phase skills lazy-bootstrap structure on demand.
+- **Runs standalone.** Matilha does not require superpowers. When superpowers is absent, matilha runs inline clarifying flows using its own methodology core.
+
+---
+
+## Quick start
+
+### Install (recommended: user scope)
+
+Matilha is most valuable when installed globally (available in every workspace), not per-project:
 
 ```
-/plugin install /path/to/matilha-skills
+/plugin marketplace add danilods/matilha-skills
+/plugin install matilha@matilha-skills --user
 ```
 
-### Cursor
+(If `--user` is not recognized, use the `/plugin` interactive menu and select **user scope**.)
 
-Same `/plugin install` flow — Cursor's plugin system is compatible with Claude Code's `.claude-plugin/plugin.json` format.
+Then install whichever companion packs match your work:
 
-### Codex CLI
+```
+/plugin marketplace add danilods/matilha-ux-pack
+/plugin install matilha-ux-pack@matilha-ux-pack --user
 
-Codex loads skills natively from the plugin directory. Enable subagent features:
+/plugin marketplace add danilods/matilha-growth-pack
+/plugin install matilha-growth-pack@matilha-growth-pack --user
 
-```toml
-# ~/.codex/config.toml
-[features]
-multi_agent = true
+/plugin marketplace add danilods/matilha-harness-pack
+/plugin install matilha-harness-pack@matilha-harness-pack --user
+
+/plugin marketplace add danilods/matilha-sysdesign-pack
+/plugin install matilha-sysdesign-pack@matilha-sysdesign-pack --user
+
+/plugin marketplace add danilods/matilha-software-eng-pack
+/plugin install matilha-software-eng-pack@matilha-software-eng-pack --user
 ```
 
-Then point Codex at this repo as a skills source.
+### Try it
 
-### Gemini CLI
+Open any project (matilha-bootstrapped or not) and type:
 
-Install as a Gemini extension using `gemini-extension.json` (this repo).
+> "Estou construindo MVP de 4 semanas que precisa rodar autonomamente. Como estruturo os agents?"
 
-### Optional: TypeScript CLI
+Expected output:
 
-For CI, automation, or power-user determinism:
+```
+[compose fires] → sigil emitted
+A alcateia farejou território familiar: arquitetura de agentes
+autônomos em Lambda/EventBridge/DynamoDB.
 
-```bash
-npm install -g matilha
+matilha-harness-pack ao lado → harness-orchestrator-workers,
+harness-routing-parallelization, harness-architecture,
+harness-nfrs-as-prompts, harness-long-horizon-strategies.
+
+Brainstorming adiante. Skills entram em cena conforme tópicos surgirem.
+
+[superpowers:brainstorming] → runs enriched, references pack skills
+during clarifying questions.
 ```
 
-The CLI and the plugin are in full parity. The plugin path is self-sufficient — no `npm install` required.
+---
 
-## Phases
+## Companion packs — 98 skills across 5 domains
 
-| Phase | Purpose                      | Entry skill         | Slash command    |
-|-------|------------------------------|---------------------|------------------|
-| init  | Bootstrap new project        | `matilha-init`      | `/init`          |
-| 0     | Project state + next action  | `matilha-howl`      | `/howl`          |
-| 10    | Discovery / research         | `matilha-scout`     | `/scout`         |
-| 20-30 | Spec + plan authoring        | `matilha-plan`      | `/plan`          |
-| 40    | Wave dispatch                | `matilha-hunt`      | `/hunt`          |
-| 40    | Wave merge                   | `matilha-gather`    | `/gather`        |
-| 50    | Quality review (Wave 3c)     | `matilha-review`    | `/review`        |
-| 60    | Knowledge capture            | `matilha-den`       | `/den`           |
-| 70    | Reusable artifacts           | `matilha-pack`      | `/pack`          |
-| any   | UX/UI design guidance        | `matilha-design`    | `/matilha-design`|
+| Pack | Skills | What it covers | Install |
+|---|---|---|---|
+| **[matilha-ux-pack](https://github.com/danilods/matilha-ux-pack)** | 22 | UX + cognitive principles (Weinschenk, Krug, attention, memory, error tolerance, reservatório de boa vontade) | `/plugin install matilha-ux-pack@matilha-ux-pack` |
+| **[matilha-growth-pack](https://github.com/danilods/matilha-growth-pack)** | 20 | Product growth — AARRR, JTBD, positioning, pricing, activation, retention, forces-of-progress | `/plugin install matilha-growth-pack@matilha-growth-pack` |
+| **[matilha-harness-pack](https://github.com/danilods/matilha-harness-pack)** | 22 | Agent architecture — Anthropic Planner/Generator/Evaluator, context engineering, agentic patterns, evals, team operational rituals | `/plugin install matilha-harness-pack@matilha-harness-pack` |
+| **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack)** | 19 | Distributed systems — NFRs, scalability, availability, CAP, Kafka, CDN, rate limiting, 11 design cases (Tan) | `/plugin install matilha-sysdesign-pack@matilha-sysdesign-pack` |
+| **[matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack)** | 15 | Day-to-day engineering discipline (Danilo-experience) — KISS, RORO, Pythonic idioms, commits, documentation, task tracking, critical analysis | `/plugin install matilha-software-eng-pack@matilha-software-eng-pack` |
 
-## Companion packs
+### What makes the packs different from each other
 
-Matilha core stays lean (10 skills, 2 agents). Domain expertise lives in companion packs the user installs separately:
+- **Literature packs** (ux, growth, harness, sysdesign) — synthesized from published sources (Weinschenk, Krug, Eyal, Anthropic, OpenAI Codex, Tan). 3-layer paraphrase discipline (source → wiki → skill).
+- **Opinions-from-practice pack** (software-eng) — distilled from curated engineering rules refined across multi-week projects. 2-layer distillation, preserves the author's voice.
 
-- **[matilha-ux-pack](https://github.com/danilods/matilha-ux-pack)** (shipped 2026-04-19 v0.1.0) — 22 UX + cognitive skills from Weinschenk, Krug, and neuroscience research. The first shipped companion pack and reference implementation for future packs.
-- **[matilha-growth-pack](https://github.com/danilods/matilha-growth-pack)** (shipped 2026-04-19 v0.1.0) — 20 growth + product-strategy skills from AARRR, JTBD, positioning, behavioral frameworks, pricing, and retention canon. Second shipped pack; complements matilha-ux-pack at product/business strategy level.
-- **[matilha-harness-pack](https://github.com/danilods/matilha-harness-pack)** (shipped 2026-04-21 v0.1.0) — 22 harness-engineering skills from Anthropic harness/agentic/context/evals + OpenAI Codex agent-centric + Lopopolo operational rituals. Third shipped pack; complements ux + growth at agent architecture and team operations level.
-- **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack)** (shipped 2026-04-23 v0.1.0) — 19 system-design skills from Zhiyong Tan's *Acing the System Design Interview* (NFRs, scalability, CDN, Kafka, design cases, 50-min interview flow, tradeoff framing). Fourth shipped pack; complements ux + growth + harness at distributed-systems and infrastructure level.
-- **[matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack)** (shipped 2026-04-23 v0.1.0) — 15 software-engineering skills distilled from Danilo-experience rules (KISS anti-overengineering, RORO pattern, Pythonic idioms, README/CHANGELOG discipline, commits + session checklists, @TODO + progresso tracking, critical analysis structure). Fifth shipped pack and first Caminho C (opinions-from-practice) pack; complements ux + growth + harness + sysdesign at day-to-day coding discipline level.
-- `matilha-software-arch-pack` (Wave 5h+, deferred) — hexagonal, clean architecture, DDD, layering (requires wiki ingestion of Uncle Bob + Evans + Cockburn).
-- `matilha-security-pack` (deferred) — threat modeling, OWASP, secrets, dependency audit (requires OWASP + Shostack wiki ingestion).
+---
 
-Packs are detected automatically — Matilha core skills delegate when available, fall back to core heuristics when absent. Write your own pack via [`docs/matilha/pack-authors.md`](docs/matilha/pack-authors.md).
+## Core methodology — 11 skills across 7 phases
 
-## Interop with superpowers
+Matilha organizes multi-week work across 7 phases. Each has an entry-point skill. All are auto-activated via matilha-compose (the gateway) when user intent matches.
 
-If [`obra/superpowers`](https://github.com/obra/superpowers) is installed, Matilha delegates to:
+| Phase | Purpose | Entry skill |
+|---|---|---|
+| 0 | Project state + next action | `matilha-howl` |
+| 10 | Discovery / research | `matilha-scout` |
+| 20–30 | Spec + plan authoring | `matilha-plan` |
+| 40 | Dispatch + merge (waves, SPs, worktrees) | `matilha-hunt`, `matilha-gather` |
+| 50 | Multi-agent quality review | `matilha-review` (runtime Wave 3c pending) |
+| 60 | Deploy with security gate | `matilha-den` |
+| 70 | Teammate onboarding artifacts | `matilha-pack` |
+| Cross-phase | Gateway + routing | `matilha-compose` |
+| Cross-phase | UX/UI guidance | `matilha-design` |
+| Bootstrap | Initialize new matilha project | `matilha-init` |
 
-- `superpowers:brainstorming` during spec authoring.
-- `superpowers:writing-plans` during plan generation.
-- `superpowers:executing-plans` inside each wave worktree.
-- `superpowers:dispatching-parallel-agents` for the quality review step (Wave 3c).
+Plus a SessionStart hook that injects matilha activation priority — compose runs BEFORE `superpowers:brainstorming` in every session, ensuring methodology wraps every creative-work prompt.
 
-Matilha provides the harness (phases, worktree isolation, disjunction gates, wave-status bookkeeping); superpowers drives the actual execution.
+---
 
-## Docs
+## The composition architecture (why it works)
 
-- [`docs/matilha/skill-authoring-guide.md`](docs/matilha/skill-authoring-guide.md) — how to write a Matilha-compatible skill.
-- [`docs/matilha/naming-conventions.md`](docs/matilha/naming-conventions.md) — prefix rules for skills, agents, commands.
-- [`docs/matilha/companions-contract.md`](docs/matilha/companions-contract.md) — how pack detection + delegation works.
-- [`docs/matilha/pack-authors.md`](docs/matilha/pack-authors.md) — ship your own pack.
-- [`docs/platform-tool-mapping.md`](docs/platform-tool-mapping.md) — Claude Code ↔ Cursor ↔ Codex ↔ Gemini tool equivalents.
-- [`methodology/`](methodology/) — source of record for Matilha's 0-70 phase methodology.
+Most plugin ecosystems are flat — each skill fires independently when its description matches. Matilha introduces a **composition layer**:
 
-## Version
+```
+┌─────────────────────────────────────────────────────────┐
+│ SessionStart hook (any workspace, matilha user-scope)    │
+└─────────────────────────────────────────────────────────┘
+                          │
+                          ▼ injects activation priority
+┌─────────────────────────────────────────────────────────┐
+│ User prompt — software-construction intent              │
+└─────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│ matilha:matilha-compose (gateway)                       │
+│   1. Pack detection (plugin-namespace matilha-*-pack)   │
+│   2. Intent classification (prose semantic)             │
+│   3. Dispatch decision (phase skill OR brainstorming)   │
+│   4. Build preamble (sigil + atmospheric + pack lines)  │
+│   5. Emit + invoke downstream                           │
+└─────────────────────────────────────────────────────────┘
+                          │
+          ┌───────────────┴───────────────┐
+          ▼                               ▼
+┌─────────────────────┐       ┌──────────────────────────┐
+│ Matilha phase skill │       │ superpowers:brainstorming │
+│ (plan/design/scout/ │       │ (with pack-aware preamble)│
+│  hunt/gather/howl/  │       │                          │
+│  review)            │       │ Runs enriched. Pack       │
+│                     │       │ skills referenced by name │
+│ Lazy-bootstraps     │       │ during clarifying.        │
+│ docs/matilha/       │       │                          │
+│ if missing.         │       │                          │
+└─────────────────────┘       └──────────────────────────┘
+```
 
-0.4.0 (2026-04-19). Tagged `wave-4a-plugin`. Paired with `matilha` CLI 0.4.0.
+**Key invariants**:
+
+- **Dynamic detection**: plugin namespace `matilha-*-pack` is the sole signal. No hardcoded pack list; removing or adding a pack reflects next turn.
+- **Self-healing**: packs uninstalled disappear from ambient list → stop being detected. New packs installed → appear → detected.
+- **Never competes with superpowers**: matilha wraps, not replaces. Brainstorming/writing-plans still run the clarifying-questions / plan-authoring flows — matilha just ensures methodology context wraps them.
+- **Works standalone**: if superpowers is absent, matilha runs inline clarifying flows using methodology core.
+
+Composition details in [`docs/matilha/companions-contract.md`](docs/matilha/companions-contract.md).
+
+---
+
+## Real examples — what you'll see
+
+### Example 1 — system design prompt
+
+Input:
+> "Como escalo o meu sistema pra 10k QPS com P99 < 100ms?"
+
+Output:
+```
+            ♛
+        /\___/\
+       ( ◉   ◉ )
+        \  v  /
+         ‾‾‾‾‾
+
+   /\_/\   /\_/\   /\_/\
+  ( ● ● ) ( ● ● ) ( ● ● )
+    \/      \/      \/
+          matilha
+
+A alcateia farejou território familiar: escalabilidade de sistema
+distribuído com metas rígidas de latência.
+
+matilha-sysdesign-pack ao lado → sysdesign-scalability-horizontal-vs-vertical,
+sysdesign-load-balancers, sysdesign-latency-targets-techniques,
+sysdesign-consistency-cap, sysdesign-monitoring-4-golden-signals.
+
+Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
+```
+
+### Example 2 — multi-pack prompt (UX + growth)
+
+Input:
+> "Quero desenhar o signup flow desse SaaS — precisa ter baixa fricção
+> (UX) mas também maximizar activation rate (growth)."
+
+Output:
+```
+[sigil]
+
+A alcateia farejou território misto: UX de onboarding com foco em
+ativação.
+
+matilha-ux-pack ao lado → cog-cognitive-load,
+ux-recognition-over-recall, ux-error-format, ux-swiss-cheese-errors.
+matilha-growth-pack ao lado → growth-signup-flow-cro,
+growth-activation-emails, growth-aarrr, growth-jtbd-forces.
+
+Brainstorming adiante.
+```
+
+### Example 3 — zero packs relevant
+
+Input:
+> "Quero refatorar a função calcula_taxa pra ser mais idiomática Python."
+
+Output:
+```
+[sigil]
+
+A alcateia farejou território familiar: qualidade de código Python
+e refatoração idiomática.
+
+matilha-software-eng-pack ao lado → sweng-pythonic-idioms,
+sweng-roro-pattern, sweng-kiss-antidote-overengineering,
+sweng-nomenclatura-clareza.
+
+Brainstorming adiante.
+```
+
+### Example 4 — no packs installed
+
+Input: same as above, but with only core matilha-skills installed.
+
+Output:
+```
+[compose silent pass-through]
+[superpowers:brainstorming fires directly, no sigil emitted]
+```
+
+The pack does not howl without territory — compose is invisible when it has no enrichment to add.
+
+---
+
+## Relationship to superpowers
+
+If [`obra/superpowers`](https://github.com/obra/superpowers) is installed, matilha-compose dispatches to:
+
+- `superpowers:brainstorming` — for general creative exploration
+- `superpowers:writing-plans` — for implementation plan authoring
+
+Matilha never replaces craft work. Matilha adds **methodology layer** (phase awareness, state tracking, lazy bootstrap, knowledge capture) + **pack enrichment** (domain skills surface during exploration). Superpowers stays the craft engine.
+
+If superpowers is absent, matilha runs inline fallback flows using its own methodology core — it is not hostage to superpowers.
+
+---
+
+## Writing your own pack
+
+Ship a companion pack in ~10 hours following the documented workflow:
+
+1. **Name the plugin** `matilha-<domain>-pack` — this is how matilha-compose detects the pack (plugin-namespace inspection).
+2. **Add `matilha-pack` to keywords** in your `plugin.json`.
+3. **Skill prefix** `<domain>-*` (see [naming-conventions.md](docs/matilha/naming-conventions.md)).
+4. **Paraphrase discipline** — 3 layers of remove (source book → wiki concept → skill body) for literature packs, or 2 layers (rule → skill) for opinions-from-practice.
+5. **12 required body sections** per skill + mandatory `## Sources` section + wikilinks.
+6. **Overlap disclosure** — if your skill derives from wiki pages used by another pack, declare `Complementa matilha-<otherpack>:<slug> at <angle>`.
+
+Full details:
+- [`docs/matilha/pack-authors.md`](docs/matilha/pack-authors.md) — pack authoring guide
+- [`docs/matilha/skill-authoring-guide.md`](docs/matilha/skill-authoring-guide.md) — frontmatter schema + body structure
+- [`docs/matilha/companions-contract.md`](docs/matilha/companions-contract.md) — detection + delegation contract
+- [`docs/matilha/naming-conventions.md`](docs/matilha/naming-conventions.md) — reserved prefixes
+
+---
+
+## Roadmap
+
+### Shipped
+- **Core plugin** — 11 methodology skills + composition layer + SessionStart hook + 1211 validator tests
+- **matilha-ux-pack** — 22 skills (Weinschenk + Krug + cognitive)
+- **matilha-growth-pack** — 20 skills (AARRR + JTBD + pricing + retention)
+- **matilha-harness-pack** — 22 skills (Anthropic + OpenAI Codex + Lopopolo)
+- **matilha-sysdesign-pack** — 19 skills (Zhiyong Tan + NFRs + 11 cases)
+- **matilha-software-eng-pack** — 15 skills (Danilo-experience rules)
+
+### Planned (requires source material / wiki ingestion)
+- `matilha-software-arch-pack` — hexagonal + Clean Arch + DDD (Cockburn + Uncle Bob + Evans)
+- `matilha-security-pack` — threat modeling + OWASP Top 10 (Shostack + OWASP)
+- Additional B packs — domain-specific (TBD)
+
+### Under design
+- Wave 3c `matilha-review` runtime (6-agent parallel quality review)
+- Marketplace submission + public announcement
+
+---
+
+## Architecture highlights
+
+- **Twin Identity** (Wave 4a) — matilha ships as **both** npm CLI (`matilha` command, deterministic engine for CI) and Claude Code plugin (cross-tool — Claude Code / Cursor / Codex / Gemini). Same skill content, two surfaces.
+- **SessionStart hook** (Wave 5d.1) — auto-activation in any workspace where matilha is installed. No `matilha-init` required; compose fires on software-construction intent.
+- **Plugin-namespace detection** (Wave 5d) — packs detected dynamically via `matilha-*-pack` namespace pattern. Zero hardcoded state, self-healing.
+- **Lazy bootstrap** (Wave 5d.1) — `matilha-plan`, `matilha-scout`, `matilha-howl` create `docs/matilha/` structure on first write. Methodology available without project-level setup.
+- **Sigil storytelling** (Wave 5d.1) — compose emits atmospheric ASCII preamble with user's domain language mirrored, creating a recognition aha moment before brainstorming begins.
+
+---
+
+## Project state
+
+- **Main plugin**: `wave-5d1-storytelling` tag, stable
+- **Test baseline**: 1211 validator tests passing (matilha CLI)
+- **Live-verified**: SessionStart hook + pack detection + sigil emission confirmed in runtime smoke (see `docs/matilha/smoke-results/wave-5d-smoke.md`)
+- **Active development**: Wave 5g (B packs), then software-arch-pack + security-pack after wiki ingestion
+
+---
+
+## Contributing
+
+Bug reports + feature requests via [issues](https://github.com/danilods/matilha-skills/issues).
+
+Pack authors: see `docs/matilha/pack-authors.md`. Community packs can use any `<author>-*` prefix per naming-conventions.md; reserved prefixes (`matilha-*`, `ux-*`, `cog-*`, `growth-*`, `harness-*`, `sysdesign-*`, `sweng-*`) are for the official pack ecosystem.
+
+Methodology contributions: the `methodology/` directory is the source of record for phases 0-70. Amendments welcome via PR with rationale.
+
+---
 
 ## License
 
-MIT © Danilo de Sousa
+MIT — see [LICENSE](LICENSE).
+
+Matilha is opinionated methodology distilled from building complex AI-assisted software projects. Use it as-is, fork it, extend it, disagree with it. The alpha is yours.
+
+---
+
+**You lead. Agents hunt.**
