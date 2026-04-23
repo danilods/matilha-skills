@@ -73,9 +73,10 @@ Matilha core stays lean (10 skills, 2 agents). Domain expertise lives in compani
 - **[matilha-ux-pack](https://github.com/danilods/matilha-ux-pack)** (shipped 2026-04-19 v0.1.0) — 22 UX + cognitive skills from Weinschenk, Krug, and neuroscience research. The first shipped companion pack and reference implementation for future packs.
 - **[matilha-growth-pack](https://github.com/danilods/matilha-growth-pack)** (shipped 2026-04-19 v0.1.0) — 20 growth + product-strategy skills from AARRR, JTBD, positioning, behavioral frameworks, pricing, and retention canon. Second shipped pack; complements matilha-ux-pack at product/business strategy level.
 - **[matilha-harness-pack](https://github.com/danilods/matilha-harness-pack)** (shipped 2026-04-21 v0.1.0) — 22 harness-engineering skills from Anthropic harness/agentic/context/evals + OpenAI Codex agent-centric + Lopopolo operational rituals. Third shipped pack; complements ux + growth at agent architecture and team operations level.
-- `matilha-design-pack` (Wave 5c or later) — design systems, typography, color, accessibility.
-- `matilha-security-pack` (deferred) — threat modeling, OWASP, secrets, dependency audit.
-- `matilha-software-eng-pack` (future, post Wave 5c) — software engineering / architecture opinions from Danilo's practice.
+- **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack)** (shipped 2026-04-23 v0.1.0) — 19 system-design skills from Zhiyong Tan's *Acing the System Design Interview* (NFRs, scalability, CDN, Kafka, design cases, 50-min interview flow, tradeoff framing). Fourth shipped pack; complements ux + growth + harness at distributed-systems and infrastructure level.
+- `matilha-software-eng-pack` (Wave 5f, next) — Danilo-experience rules: KISS, code quality (Python), commits + tracking, documentation discipline, task execution methodology.
+- `matilha-software-arch-pack` (Wave 5h+, deferred) — hexagonal, clean architecture, DDD, layering (requires wiki ingestion of Uncle Bob + Evans + Cockburn).
+- `matilha-security-pack` (deferred) — threat modeling, OWASP, secrets, dependency audit (requires OWASP + Shostack wiki ingestion).
 
 Packs are detected automatically — Matilha core skills delegate when available, fall back to core heuristics when absent. Write your own pack via [`docs/matilha/pack-authors.md`](docs/matilha/pack-authors.md).
 

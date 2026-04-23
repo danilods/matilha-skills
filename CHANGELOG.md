@@ -1,5 +1,25 @@
 # Changelog
 
+## [Wave 5e] — 2026-04-23 — matilha-sysdesign-pack shipped
+
+Fourth companion pack shipped. Distributed-systems methodology layer, zero overlap with ux/growth/harness. Established from Wave 5d.1 composition infrastructure (plugin-namespace detection, sigil emission, lazy-bootstrap).
+
+### New external pack
+
+- **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack) v0.1.0** — 19 skills synthesized from Zhiyong Tan's *Acing the System Design Interview*. Families: NFR framework (6), common services (3), design patterns (5), case-specific patterns (3), methodology (2). Tag `wave-5e-sysdesign-pack-0.1.0`.
+
+### Updated
+
+- `README.md` — companion packs list now references sysdesign-pack as 4th shipped pack. Reserved-pack list updated to reflect Wave 5d.1 decisions (software-eng-pack next, software-arch-pack deferred until Uncle Bob + Evans wiki ingestion, security-pack deferred until OWASP + Shostack ingestion).
+
+### Cross-repo
+
+- `matilha` CLI validator extended with 157 new tests (frontmatter schema, body section compliance, overlap disclosure). Total validator tests: 928 → 1085, zero regressions.
+
+### Overlap disclosures
+
+- `sysdesign-nfr-clarification` **Complementa** `matilha-harness-pack:harness-nfrs-as-prompts`. Sysdesign encodes NFRs as clarifying questions during spec/design authoring (human-facing); harness encodes NFRs as system-prompt constraints for AI agents (agent-facing). Same principle ("requirements before decisions"), different audiences.
+
 ## [Wave 5d.1] — 2026-04-22 — Methodology-First Pivot
 
 Broadens Wave 5d activation scope from "matilha projects only" to "any workspace where matilha is installed". Matilha methodology is now universally available whenever the plugin is loaded; companion packs become optional enrichment rather than activation gates. Corrects the value-proposition inversion that Wave 5d's narrow gate had introduced.
