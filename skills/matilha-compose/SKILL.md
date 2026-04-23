@@ -88,24 +88,60 @@ Choose the terminal destination based on intent-to-phase classification. Matilha
 
 **Step 4 — Build preamble (only if terminal is brainstorming AND ≥1 pack classified yes).**
 
-Use this compact template. The goal is to inject enough context for brainstorming to weave pack skills naturally — NOT to produce debugging output.
+Use this canonical template. The goal combines three purposes at once: (a) signal to the user that matilha's methodology layer activated, (b) make the "aha" moment visible (LLM mirroring domain-specific language proves it *read* the prompt), (c) inject pack context for brainstorming to weave skills naturally.
 
 ```text
-_Matilha context: <pack-name-1>, <pack-name-2>. Skills relevantes: `<skill-1>`, `<skill-2>`, `<skill-3>`, `<skill-4>`, `<skill-5>`. Guidance: referenciar pelo nome conforme tópicos surgirem durante clarifying questions._
+            ♛
+        /\___/\
+       ( ◉   ◉ )
+        \  v  /
+         ‾‾‾‾‾
+
+   /\_/\   /\_/\   /\_/\
+  ( ● ● ) ( ● ● ) ( ● ● )
+    \/      \/      \/
+          matilha
+
+A alcateia farejou território familiar: <specific domain phrase mirroring
+the user's prompt — e.g., "orquestração de eventos com Lambda, EventBridge
+e DynamoDB" or "fluxo de signup com foco em ativação" or "arquitetura de
+agentes com planner/executor">.
+
+<pack-name-1> ao lado → <skill-1>, <skill-2>, <skill-3>, <skill-4>, <skill-5>.
+[repeat per pack classified yes, one line per pack]
+
+Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 ```
 
-Guidelines:
-- **One italicized paragraph**, ~3-4 sentences max. Pack names + top 4-6 most-relevant skill names + one guidance line. No skill descriptions inline (brainstorming can invoke the skill if it needs the detail).
-- Emit as a single italic line or short paragraph, clearly separated from the conversational flow but compact. The user should read it as "ok, matilha noted context" not "LLM dumped metadata".
-- If zero packs classified yes, skip preamble entirely. No "no packs detected" noise.
+**Semiotics of the sigil** (why this matters, not just decoration):
+- **♛** (crown) — the user is the alpha; matilha leads them, doesn't replace them. "You lead. Agents hunt."
+- **Alpha face with `◉`** eyes — distinct from pack, in focus.
+- **3 pack dogs with `●`** eyes — the skills/companion packs mobilizing in formation.
+- **`matilha`** label — grounds the glyph to the harness name.
 
-**Step 5 — Emit + invoke (silent mode).**
+**Language rules for the atmospheric paragraph** (line starting "A alcateia farejou território familiar"):
+- The domain phrase MUST mirror concrete language from the user's prompt (technology names, specific nouns). This is the aha-moment trigger — the user sees "oh, it actually understood what I'm asking about, not generic help."
+- Keep it to one sentence maximum.
+- Do not summarize the prompt — name the *territory* (the domain / problem space).
 
-Emit the compact preamble (if built) and invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+**Pack lines**:
+- One line per pack classified yes.
+- Format: `<pack-name> ao lado → <skill>, <skill>, <skill>, <skill>, <skill>` (4-6 most relevant skills per pack).
+- Skill names only, no inline descriptions. Brainstorming can invoke skills via Skill tool if it needs detail.
 
-**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the compact preamble (if any) and the skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+**Closing line** (`Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.`):
+- Signals to user that the conversation flow continues; establishes anticipation without listing all skills upfront.
+- In English contexts, use: `Brainstorming ahead. Skills enter as topics surface.`
 
-Goal: the user experiences compose as a quiet orchestration layer that hands them to the right skill without debugging-level narration.
+**If zero packs classified yes**: skip preamble entirely, including the sigil. The pack doesn't howl when there's no territory to hunt (silent pass-through Case C). The user just sees brainstorming running directly.
+
+**Step 5 — Emit + invoke (storytelling mode, not debug mode).**
+
+Emit the preamble with sigil + atmospheric paragraph + pack lines + closing line. Then invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+
+**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the preamble and the skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+
+Goal: the user experiences compose as an atmospheric opening — the pack's presence acknowledged with a wink of recognition, then the work begins.
 
 If no preamble (pass-through or routing to plan/design): invoke target skill via Skill tool directly.
 
