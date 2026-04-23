@@ -1,5 +1,32 @@
 # Changelog
 
+## [Wave 5h] — 2026-04-23 — matilha-software-arch-pack shipped (Caminho C)
+
+Sixth companion pack shipped. Second Caminho C pack — architectural patterns distilled from Argos + Gravicode practice. 17 skills in 5 families.
+
+### New external pack
+
+- **[matilha-software-arch-pack](https://github.com/danilods/matilha-software-arch-pack) v0.1.0** — 17 skills in 5 families (layering × 3, event-driven × 4, data architecture × 4, bounded contexts × 3, scaling × 3). Caminho C source: 5 rules drafted in `docs/rules/` (981 lines, same content shipped inside the pack for transparency). Tag `wave-5h-software-arch-pack-0.1.0`.
+
+### New rules (in matilha-skills)
+
+- `docs/rules/Layering e Dependency Direction.md` (156 lines)
+- `docs/rules/Event-Driven Decoupling.md` (187 lines)
+- `docs/rules/Dual-Store Architecture.md` (201 lines)
+- `docs/rules/Bounded Contexts na Prática.md` (212 lines)
+- `docs/rules/Escalabilidade sem Prematuridade.md` (225 lines)
+
+### Cross-repo
+
+- `matilha` CLI validator extended with 145 new tests. Total: 1211 → 1356 passing, zero regressions.
+
+### Overlap disclosures (5)
+
+- `swarch-dual-store-source-of-truth` **Complementa** `matilha-sysdesign-pack:sysdesign-dual-write-event-sourcing` — sysdesign treats dual-write as anti-pattern + 3 alternatives; swarch focuses on Postgres-SoT + Dynamo-hot-state via CDC.
+- `swarch-event-gateway-boundary` **Complementa** `matilha-sysdesign-pack:sysdesign-event-streaming-kafka` — sysdesign decides Kafka vs alternatives; swarch designs Event Gateway boundary for fan-out.
+- `swarch-ticker-vs-rule-per-entity` + `swarch-pull-over-push-orchestration` **Complementam** `matilha-sysdesign-pack:sysdesign-scalability-horizontal-vs-vertical` — sysdesign structural; swarch brings concrete Argos cases.
+- `swarch-lambda-chain-shape` **Complementa** `matilha-harness-pack:harness-orchestrator-workers` — same abstract shape, different substrates (AWS Lambda vs LLM agents).
+
 ## [Wave 5f] — 2026-04-23 — matilha-software-eng-pack shipped (Caminho C)
 
 Fifth companion pack shipped. First Caminho C (opinions-from-practice) pack — distilled from Danilo-experience rules, not literature. 15 skills on day-to-day coding discipline.

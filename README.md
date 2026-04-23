@@ -101,6 +101,7 @@ during clarifying questions.
 | **[matilha-harness-pack](https://github.com/danilods/matilha-harness-pack)** | 22 | Agent architecture — Anthropic Planner/Generator/Evaluator, context engineering, agentic patterns, evals, team operational rituals | `/plugin install matilha-harness-pack@matilha-harness-pack` |
 | **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack)** | 19 | Distributed systems — NFRs, scalability, availability, CAP, Kafka, CDN, rate limiting, 11 design cases (Tan) | `/plugin install matilha-sysdesign-pack@matilha-sysdesign-pack` |
 | **[matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack)** | 15 | Day-to-day engineering discipline (Danilo-experience) — KISS, RORO, Pythonic idioms, commits, documentation, task tracking, critical analysis | `/plugin install matilha-software-eng-pack@matilha-software-eng-pack` |
+| **[matilha-software-arch-pack](https://github.com/danilods/matilha-software-arch-pack)** | 17 | Architecture from Argos + Gravicode practice — layering + Lambda chain, event-driven boundaries, dual-store (Postgres+DynamoDB), bounded contexts without microservice-spaghetti, disciplined scaling | `/plugin install matilha-software-arch-pack@matilha-software-arch-pack` |
 
 ### What makes the packs different from each other
 
