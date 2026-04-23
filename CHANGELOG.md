@@ -1,5 +1,30 @@
 # Changelog
 
+## [Wave 5f] — 2026-04-23 — matilha-software-eng-pack shipped (Caminho C)
+
+Fifth companion pack shipped. First Caminho C (opinions-from-practice) pack — distilled from Danilo-experience rules, not literature. 15 skills on day-to-day coding discipline.
+
+### New external pack
+
+- **[matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack) v0.1.0** — 15 skills in 5 families (princípios de código × 4, documentação viva × 3, rastreabilidade × 2, gestão de tarefas × 3, análise crítica × 3). Source: `/Memory/docs/rules/` (7 documents, ~2,095 lines — Danilo's curated engineering rules). Tag `wave-5f-software-eng-pack-0.1.0`.
+
+### New workflow documented
+
+- First pack to introduce the **source distillation workflow** (2-layer distillation from Danilo rule → skill) as opposed to the 3-layer paraphrase workflow (book → wiki concept → skill) used by ux/growth/harness/sysdesign packs. This keeps Danilo's voice intact — the pack is opinions-from-practice, not literature summary.
+
+### Updated
+
+- `README.md` — companion packs list references software-eng-pack as 5th shipped pack. Reserved packs list updated accordingly.
+
+### Cross-repo
+
+- `matilha` CLI validator extended with 126 new tests. Line-range for sweng skills relaxed to 100-500 (vs 150-500 for other packs) to accommodate 2-layer distillation's natural compactness. Uniqueness heuristic's stopword list expanded with PT terms (de, da, do, para, com, em, quando, que, ao) since source rules are in Portuguese. Total: 1085 → 1211 passing, zero regressions.
+
+### Overlap disclosures
+
+- `sweng-kiss-antidote-overengineering` **Complementa** `matilha-harness-pack:harness-code-is-free` — harness treats code as cheap (AI writes fast); sweng-kiss treats simplicity as human-architectural-value discipline.
+- `sweng-pre-analise-clarifying` **Complementa** `matilha:matilha-plan` — matilha-plan for new features (spec authoring); sweng-pre-analise for reviewing existing code/architecture (diagnose before judge).
+
 ## [Wave 5e] — 2026-04-23 — matilha-sysdesign-pack shipped
 
 Fourth companion pack shipped. Distributed-systems methodology layer, zero overlap with ux/growth/harness. Established from Wave 5d.1 composition infrastructure (plugin-namespace detection, sigil emission, lazy-bootstrap).
