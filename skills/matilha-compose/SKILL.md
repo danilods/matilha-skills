@@ -88,35 +88,24 @@ Choose the terminal destination based on intent-to-phase classification. Matilha
 
 **Step 4 — Build preamble (only if terminal is brainstorming AND ≥1 pack classified yes).**
 
-Use this canonical template:
+Use this compact template. The goal is to inject enough context for brainstorming to weave pack skills naturally — NOT to produce debugging output.
 
 ```text
-Matilha companion packs detected and relevant to this brainstorm:
-
-**<pack-name>** (<one-line pack purpose>) — surface these when user explores
-<domain keyword list>:
-- `<skill-name>` — <one-line skill purpose from description>
-- `<skill-name>` — <...>
-  [up to ~8 most relevant per pack]
-
-[repeat for each pack classified yes]
-
-**Guidance for the receiving skill (brainstorming)**:
-During exploration, when the user's answer touches any of the domains above,
-reference the relevant skill by name and frame a targeted clarifying question
-drawing on its content. Pack skills are available via the Skill tool — invoke
-them when the user signals readiness for deep domain guidance. Do not list all
-skills upfront; weave them in as topics surface naturally.
+_Matilha context: <pack-name-1>, <pack-name-2>. Skills relevantes: `<skill-1>`, `<skill-2>`, `<skill-3>`, `<skill-4>`, `<skill-5>`. Guidance: referenciar pelo nome conforme tópicos surgirem durante clarifying questions._
 ```
 
 Guidelines:
-- Cap at ~8 skills per pack to keep preamble compact (~30–40 lines total).
-- Always include the final "Guidance" paragraph — without it, brainstorming treats the preamble as passive reference material.
-- If zero packs classified yes, skip preamble entirely. Do NOT emit "no packs detected" or similar noise.
+- **One italicized paragraph**, ~3-4 sentences max. Pack names + top 4-6 most-relevant skill names + one guidance line. No skill descriptions inline (brainstorming can invoke the skill if it needs the detail).
+- Emit as a single italic line or short paragraph, clearly separated from the conversational flow but compact. The user should read it as "ok, matilha noted context" not "LLM dumped metadata".
+- If zero packs classified yes, skip preamble entirely. No "no packs detected" noise.
 
-**Step 5 — Emit + invoke.**
+**Step 5 — Emit + invoke (silent mode).**
 
-If preamble built in Step 4: emit it in the current turn output so it enters the conversation context. Then invoke the chosen target skill via the Skill tool.
+Emit the compact preamble (if built) and invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+
+**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the compact preamble (if any) and the skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+
+Goal: the user experiences compose as a quiet orchestration layer that hands them to the right skill without debugging-level narration.
 
 If no preamble (pass-through or routing to plan/design): invoke target skill via Skill tool directly.
 
