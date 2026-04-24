@@ -10,16 +10,26 @@
 #   3. Embedded fallback (if no file available)
 #
 # Replace assets/sigil.txt with your ascii-image-converter output any time.
-# Suggested generation:
-#   ascii-image-converter input.png --width 30 > assets/sigil.txt
-#   ascii-image-converter input.png --width 35 --complex > assets/sigil.txt
-#   ascii-image-converter input.png --width 35 --complex --dither > assets/sigil.txt
+# Canonical generation command (white-on-black logos — the matilha default):
+#   ascii-image-converter input.png -W 60 -n -m " .#" > assets/sigil.txt
 #
-# Constraints for the image that will render well:
-#   - Width <= 40 columns (safe across terminals + mobile)
-#   - Height <= 15 rows (doesn't dominate conversation)
-#   - Consistent line widths (avoid trailing-space trimming issues)
-#   - Plain ASCII or widely supported UTF-8 (avoid braille for LLM-adjacent display)
+# Flag rationale:
+#   -W 60           = width in chars (50 compact / 60 default / 80 hero)
+#   -n              = negative; inverts polarity so white subjects on black bg
+#                     render as light chars on dark (readable at a glance)
+#   -m " .#"        = 3-char palette (dark→light): solid #, sparse dots, blank.
+#                     Eliminates @ : = + - visual noise from the default palette.
+#
+# Alternatives for different source types:
+#   Dark subject on light bg:  drop -n, keep -m " .#"
+#   Need more gradient levels: -m " .:-+#" (5 chars) for photos / illustrations
+#   Ultra-high density:         -W 60 -b --dither (braille; terminal must support UTF-8)
+#
+# Constraints that keep the render clean:
+#   - Width <= 80 columns (safe across modern terminals + wrap-safe in mobile views)
+#   - Height <= 40 rows (height auto-follows width via aspect ratio)
+#   - Consistent line widths (no trailing-space trimming issues)
+#   - Plain ASCII or widely supported UTF-8 (avoid braille for terminals without font)
 
 set -euo pipefail
 

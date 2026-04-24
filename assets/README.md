@@ -35,14 +35,24 @@ MATILHA_SIGIL_PATH=/tmp/custom-sigil.txt bash hooks/print-sigil.sh
 
 ## Regenerating sigils from a new logo
 
-If you update the matilha logo image, regenerate all three sizes at once:
+The canonical render command for matilha logos (white subject on black background):
+
+```
+ascii-image-converter <img> -W <width> -n -m " .#"
+```
+
+- `-n` inverts polarity so white wolves render as light chars (readable instantly)
+- `-m " .#"` uses a clean 3-char palette (solid `#`, sparse `.`, blank) — avoids `@:=+` noise from the default palette
+- `-W <width>` sets width; height auto-follows aspect ratio
+
+Regenerate all three sizes at once:
 
 ```bash
 SRC=./assets/new-logo.png
 
-ascii-image-converter "$SRC" -W 50 > assets/sigil-w50.txt
-ascii-image-converter "$SRC" -W 60 > assets/sigil-w60.txt
-ascii-image-converter "$SRC" -W 80 > assets/sigil-w80.txt
+ascii-image-converter "$SRC" -W 50 -n -m " .#" > assets/sigil-w50.txt
+ascii-image-converter "$SRC" -W 60 -n -m " .#" > assets/sigil-w60.txt
+ascii-image-converter "$SRC" -W 80 -n -m " .#" > assets/sigil-w80.txt
 
 # Promote new W60 as default:
 cp assets/sigil-w60.txt assets/sigil.txt
@@ -51,6 +61,26 @@ cp assets/sigil-w60.txt assets/sigil.txt
 for f in assets/sigil*.txt; do
   echo "$f: widths = $(awk '{ print length }' "$f" | sort -u | tr '\n' ' ')"
 done
+```
+
+### If your logo is dark on light background
+
+Drop the `-n` flag:
+
+```bash
+ascii-image-converter "$SRC" -W 60 -m " .#" > assets/sigil-w60.txt
+```
+
+### If you want a richer palette (for photographic logos)
+
+```bash
+ascii-image-converter "$SRC" -W 60 -n -m " .:-+#" > assets/sigil-w60.txt
+```
+
+### If you want maximum density (terminal must support UTF-8 braille)
+
+```bash
+ascii-image-converter "$SRC" -W 60 -n -b --dither > assets/sigil-w60.txt
 ```
 
 ## Banner image (for README hero)
