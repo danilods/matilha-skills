@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.0] — 2026-04-24 — Polish release (sigil + README + CI)
+
+Incremental post-1.0.0 improvements. No breaking changes; all packs retain identical activation semantics. Users on 1.0.0 can upgrade freely.
+
+### Added
+- **`/matilha-install` slash command** — formatted install guide rendered inside Claude Code. Reduces friction for users adding companion packs after the core install. Per-pack table with triggering-intent descriptions.
+- **Deterministic sigil rendering** — new `hooks/print-sigil.sh` + `assets/sigil.txt` (+ `sigil-w50.txt`, `sigil-w60.txt`, `sigil-w80.txt` variants). Replaces LLM-reproduced sigil with a Bash-invoked renderer. Eliminates character-drift; unlocks richer ASCII/braille output without reproduction fragility. Default is braille 60×30 for maximum visual fidelity; ASCII fallbacks shipped for terminals without UTF-8 braille font support.
+- **Ecosystem map in README** — table listing all 9 matilha repos with roles (hub / CLI / 7 packs), enabling new visitors to understand the surface area within seconds.
+- **"Born from the field" section in README** — attribution to Gravicode, CNH Pass, Sinapise, Speechia, Argos as the real agentic-coding projects that shaped matilha's Caminho C packs. Establishes lineage and authority without oversell.
+- **"Inspired by" section in README** — Karpathy's LLM-OS, Anthropic harness engineering, OpenAI Codex agent-centric, Zhiyong Tan, Weinschenk, Krug, Eyal, Lopopolo. Intellectual transparency.
+- **20 GitHub repository topics** configured via `gh repo edit`: matilha, claude-code, claude-code-plugin, ai-assisted-development, llm-methodology, agent-orchestration, multi-agent, context-engineering, agentic-patterns, cognitive-harness, prompt-engineering, cursor, gemini-cli, codex, anthropic, skills, harness-engineering, composition-layer, software-methodology, llm-ops.
+- **`docs/rules/`** — 9 canonical Caminho C rules shipped with the core plugin for transparency (5 architecture + 4 security).
+- **`docs/staging/caminho-c-arch/`** + **`docs/staging/caminho-c-security/`** — historical drafting artifacts for Waves 5h and 5i.
+- **`assets/` directory** with banner placeholder + sigil variants.
+
+### Changed
+- **README.md — v2 redesign** applying matilha's own pack principles (Weinschenk attention, Krug 5-second test, cognitive-load ≤7-item chunking, progressive disclosure, anticipation + aha moments, social proof). 109 → 312+ lines. English examples throughout; all atmospheric preambles translated (sigil text adapts to prompt language at runtime).
+- **GitHub repository description** — "You lead. Agents hunt. Cognitive + methodological harness for AI-assisted software — 139 skills across 7 companion packs + composition layer. Cross-tool (Claude Code, Cursor, Codex, Gemini CLI)."
+- **All 7 companion pack READMEs** updated with "🏠 This is a companion pack" call-out pointing back to `danilods/matilha-skills` as canonical entry point. Canonical hub + satellites navigation pattern.
+- **ux-pack + growth-pack + harness-pack READMEs** — added user-scope install recommendation + matilha-compose reference (resolves pre-v1.0.0 audit blocker).
+
+### Fixed
+- **CI workflow** — removed obsolete MATILHA_MANAGED marker check (Wave 4a eliminated these markers; CI was never updated). Replaced with canonical 11-section check aligned with the matilha CLI validator. Unblocks every skill-added push since Wave 4a (matilha-bootstrap, matilha-compose, matilha-review).
+- **marketplace.json schema** for matilha-ux-pack + matilha-growth-pack — flat schema replaced with canonical `owner + metadata + plugins[]` shape (resolves the Wave 5c cleanup TODO). Both packs now live-installable via `/plugin install`.
+
 ## [1.0.0] — 2026-04-23 — First official release
 
 Matilha ecosystem reaches v1.0.0. Core plugin (matilha-skills) + 7 companion packs shipped.
