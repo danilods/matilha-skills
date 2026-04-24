@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.0] — Unreleased — Unified install UX (Wave 5g)
+
+### Added
+- feat(templates): canonical CLAUDE.md snippet + merge-or-create contract at docs/matilha/templates/ (Wave 5g SP-B)
+
 ## [1.1.0] — 2026-04-24 — Polish release (sigil + README + CI)
 
 Incremental post-1.0.0 improvements. No breaking changes; all packs retain identical activation semantics. Users on 1.0.0 can upgrade freely.
