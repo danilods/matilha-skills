@@ -5,6 +5,7 @@
 ### Added
 - feat(templates): canonical CLAUDE.md snippet + merge-or-create contract at docs/matilha/templates/ (Wave 5g SP-B)
 - feat(commands): /matilha-install upgraded to interactive wizard with preset selection + CLAUDE.md bootstrap (Wave 5g SP-C)
+- feat(compose): Step 0 preflight dependency check — matilha-compose now detects missing CLAUDE.md / missing priority-rule block / orphan AGENTS.md | GEMINI.md | cursor configs and emits a one-line advisory notice pointing at `/matilha-install` (Wave 5g SP-D, non-blocking, self-healing)
 
 ## [1.1.0] — 2026-04-24 — Polish release (sigil + README + CI)
 

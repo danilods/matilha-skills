@@ -42,7 +42,47 @@ Project-context signals (`docs/matilha/` directory, `project-status.md` file, an
 
 ## Execution Workflow
 
-Five steps, executed in order:
+Six steps, executed in order — one preflight step followed by five routing steps:
+
+**Step 0 — Preflight dependency check (lightweight, advisory).**
+
+Before routing, silently check the workspace for matilha harness dependencies. The goal: surface fixable gaps (missing `CLAUDE.md`, missing priority-rule block) that would otherwise cause compose to lose activation on subsequent turns — the sigil and phase routing only work when the priority rule is ambient in the session.
+
+The check is **always advisory, never blocking**. Compose continues to Step 1 regardless of outcome.
+
+1. **Check `./CLAUDE.md`** via the Read tool.
+   - Read fails / file does not exist → flag `claude_md_missing`.
+   - Read succeeds, content lacks the literal string `<!-- matilha-start v` → flag `claude_md_no_marker`.
+   - Read succeeds, marker present → no flag (healthy state).
+
+2. **Soft-check multi-harness config files** (best effort, only if file exists — do not create noise for users who don't use these harnesses):
+   - `./AGENTS.md` (Codex / OpenAI agentic CLIs): if present without `<!-- matilha-start v` → flag `agents_md_no_marker`. Absent file → skip silently.
+   - `./GEMINI.md` (Gemini CLI): if present without `<!-- matilha-start v` → flag `gemini_md_no_marker`. Absent file → skip silently.
+   - `./.cursor/rules/` directory: if present and no file under it references matilha → flag `cursor_no_rule`. Absent directory → skip silently.
+
+3. **Emit a ONE-LINE preflight notice to the user per flag set**, in this order of priority. Use the exact formats below (friendly, actionable, non-blocking):
+   - `claude_md_missing`:
+     ```
+     ⚠️ Matilha preflight: no CLAUDE.md in this workspace. The activation priority rule is not ambient — compose may lose activation on future turns. Run `/matilha-install` to bootstrap, or copy `docs/matilha/templates/claude-matilha-snippet.md` manually.
+     ```
+   - `claude_md_no_marker`:
+     ```
+     ⚠️ Matilha preflight: CLAUDE.md exists but lacks the matilha priority-rule block. Run `/matilha-install` and accept the "Bootstrap CLAUDE.md" option to merge the block idempotently.
+     ```
+   - `agents_md_no_marker` / `gemini_md_no_marker` / `cursor_no_rule`: emit only if the corresponding file/dir is present AND no `claude_md_*` flag fired (to avoid notice storm). Format:
+     ```
+     ℹ️ Matilha preflight: <file> present without matilha block — if you use <harness> alongside Claude Code, bootstrap via `/matilha-install` for cross-harness parity.
+     ```
+
+4. **Emit, then continue.** Do not wait for user confirmation. Do not repeat the notice within the same turn. Proceed immediately to Step 1 (Pack detection). If the user acts on the notice (runs `/matilha-install`), subsequent compose invocations pass the check silently and the notice stops — natural self-healing, no state to maintain.
+
+**What this step does NOT do:**
+- Does NOT write any file. Bootstrap is the user's explicit action via `/matilha-install`.
+- Does NOT block or delay routing. Advisory only.
+- Does NOT check companion-pack installation state (that's Step 1's job).
+- Does NOT check `project-status.md` or `docs/matilha/` — those are lazy-bootstrapped by downstream phase skills, not prerequisites for compose.
+
+**Rationale**: a user who installs matilha-skills via `/plugin install` on a fresh project never triggers `matilha-init`. Without CLAUDE.md, the priority rule is not loaded → compose may fail to win activation against `superpowers:brainstorming` → the sigil never appears → user assumes matilha "doesn't work". Step 0 surfaces this gap on first fire and points to the fix.
 
 **Step 1 — Pack detection.**
 
