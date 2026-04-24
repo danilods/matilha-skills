@@ -51,7 +51,7 @@ software engineering discipline, KISS, clean code, LLM OS, agent methodology.
 |---|---|
 | 🐺 **Methodology always on** | Every software-construction prompt routes through matilha first — phase awareness, state tracking, lazy bootstrap. No `matilha-init` required. |
 | 📚 **139 curated skills** | 22 UX (Weinschenk/Krug) + 20 growth (AARRR/JTBD) + 22 agent-harness (Anthropic/OpenAI) + 19 system design (Tan) + 15 engineering discipline + 17 architecture + 13 AI-ops security. |
-| 🎭 **Storytelling activation** | When matilha fires, you see an atmospheric sigil mirroring your domain language — *"A alcateia farejou território familiar: Lambda/EventBridge/DynamoDB"*. Recognition aha moment, then brainstorming runs enriched. |
+| 🎭 **Storytelling activation** | When matilha fires, you see an atmospheric sigil mirroring your domain language — *"The pack sensed familiar territory: Lambda / EventBridge / DynamoDB"*. Recognition aha moment, then brainstorming runs enriched. The sigil adapts to your language — Portuguese, English, or whichever vocabulary you use in the prompt. |
 
 ---
 
@@ -111,19 +111,19 @@ Claude Code shows a formatted guide with per-pack descriptions — **install à 
 ### Example 1 — scaling question
 
 **You**:
-> "Como escalo meu sistema pra 10k QPS com P99 < 100ms?"
+> "How do I scale my system to 10k QPS with P99 under 100ms?"
 
 **matilha** (emits sigil + atmospheric preamble):
 
 ```
-A alcateia farejou território familiar: escalabilidade de sistema
-distribuído com metas rígidas de latência.
+The pack sensed familiar territory: scaling a distributed system
+with hard latency targets.
 
-matilha-sysdesign-pack ao lado → sysdesign-scalability-horizontal-vs-vertical,
+matilha-sysdesign-pack at your side → sysdesign-scalability-horizontal-vs-vertical,
 sysdesign-load-balancers, sysdesign-latency-targets-techniques,
 sysdesign-consistency-cap, sysdesign-monitoring-4-golden-signals.
 
-Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
+Brainstorming ahead. Skills enter as topics surface.
 ```
 
 Then brainstorming runs enriched, weaving `sysdesign-*` skills naturally.
@@ -131,40 +131,40 @@ Then brainstorming runs enriched, weaving `sysdesign-*` skills naturally.
 ### Example 2 — security question in an AI-assisted app
 
 **You**:
-> "Frontend chamando OpenAI direto com a API key na .env — tá certo?"
+> "Frontend calling OpenAI directly with the API key in .env — is that ok?"
 
 **matilha** (emits sigil):
 
 ```
-A alcateia farejou território familiar: vazamento de chaves em
-ambiente de cliente.
+The pack sensed familiar territory: API-key exposure
+in a client-side environment.
 
-matilha-security-pack ao lado → swsec-secrets-never-in-frontend,
+matilha-security-pack at your side → swsec-secrets-never-in-frontend,
 swsec-secrets-manager-discipline, swsec-backend-authorization-layer,
 swsec-llm-cost-as-availability.
 
-Brainstorming adiante.
+Brainstorming ahead.
 ```
 
 ### Example 3 — architecture intent
 
 **You**:
-> "Como estruturo uma cadeia de Lambdas AWS pra não virar espaguete?"
+> "How do I structure a chain of AWS Lambdas without turning it into spaghetti?"
 
 **matilha**:
 
 ```
-A alcateia farejou território familiar: cadeia de Lambdas
-com disciplina de domínio.
+The pack sensed familiar territory: Lambda chain
+with domain discipline.
 
-matilha-software-arch-pack ao lado → swarch-lambda-chain-shape,
+matilha-software-arch-pack at your side → swarch-lambda-chain-shape,
 swarch-handler-as-adapter, swarch-dependency-direction,
 swarch-fact-vs-command-events.
 
-Brainstorming adiante.
+Brainstorming ahead.
 ```
 
-The atmospheric line mirrors **your** vocabulary — proof the tool read your prompt. Recognition aha moment, then methodology + pack expertise wrap the exploration.
+The atmospheric line mirrors **your** vocabulary — proof the tool read your prompt. Recognition aha moment, then methodology + pack expertise wrap the exploration. The sigil text adapts to your prompt language — examples above are English, but Portuguese/Spanish/any-language prompts get mirrored in kind.
 
 ---
 
@@ -184,6 +184,26 @@ matilha fixes this at the harness layer, not the prompt layer:
 - **Sigil storytelling** — recognition aha moment prevents the "generic LLM slop" feeling
 
 **You lead. Agents hunt.** Matilha keeps the decision seat where it belongs (you). Agents carry execution: parallel worktrees, per-SP focus, gated output, companion-pack enrichment.
+
+---
+
+## 🔬 Born from the field — real projects, real decisions
+
+Matilha is **not a theoretical framework**. It was distilled from building and operating large-scale software projects under agentic-coding workflows — where AI agents are not a gimmick but the primary execution surface, and methodology is what keeps multi-week projects coherent.
+
+Projects that shaped matilha's decisions, architectural patterns, and opinionated rules:
+
+| Project | Domain | What it taught matilha |
+|---|---|---|
+| **Gravicode** | AI mentor ecosystem — agent viewer, knowledge graph 3D, dual-brain architecture | Pack composition, context engineering at scale, how agent-centric codebases evolve |
+| **CNH Pass** | Driver's license preparation platform (Brazilian public-exam adjacent) | Large content pipelines, LGPD operational basics, frontend-as-consumer trust boundary |
+| **Sinapise** | Intelligent content orchestration for education | Event-driven architectures across bounded contexts, dual-store (Postgres + DynamoDB) patterns |
+| **Speechia** | Voice + language AI platform | LLM cost-as-availability discipline, prompt-injection defense, output sanitization in production |
+| **Argos** | Content-intelligence platform for Brazilian public-exam preparation | GSI-based scheduling (Ticker pattern), Lambda Chain + Event Gateway, escalabilidade sem prematuridade |
+
+Many of the **Caminho C** packs (software-eng, software-arch, security) are **direct distillations** of rules that survived contact with these projects — commits we wish we'd made, bugs we shipped, architectural decisions we had to unwind. The literature packs (ux, growth, harness, sysdesign) were then chosen because they answered questions these projects kept raising.
+
+matilha = **methodology documented by someone who ships agentic AI software at scale, not someone who reads about it.**
 
 ---
 
