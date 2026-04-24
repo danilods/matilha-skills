@@ -12,9 +12,10 @@ merge_order: [SP-B, SP-A, SP-C]
 
 | SP | Description | Repo | Branch | Hours | Status |
 |---|---|---|---|---|---|
-| SP-B | CLAUDE.md snippet + contract | matilha-skills | wave-5g/sp-b-claudemd-snippet | 1 | dispatched |
-| SP-A | `matilha install-plugins` CLI | matilha (CLI) | wave-5g/sp-a-install-plugins | 3-4 | dispatched |
-| SP-C | `/matilha-install` wizard | matilha-skills | wave-5g/sp-c-matilha-install-wizard | 2 | dispatched |
+| SP-B | CLAUDE.md snippet + contract | matilha-skills | wave-5g/sp-b-claudemd-snippet | 1 | merged |
+| SP-A | `matilha install-plugins` CLI | matilha (CLI) | wave-5g/sp-a-install-plugins | 3-4 | merged |
+| SP-C | `/matilha-install` wizard | matilha-skills | wave-5g/sp-c-matilha-install-wizard | 2 | merged |
+| SP-D | compose Step 0 preflight dep-check | matilha-skills | (direct on main) | 0.5 | merged |
 
 ## Cross-SP contracts (locked in spec)
 
@@ -30,3 +31,7 @@ End-to-end smoke on fresh dir: `npm i -g matilha@1.2.0` → `matilha install-plu
 ## Progress log
 
 - 2026-04-24 — Wave dispatched with 3 parallel agents.
+- 2026-04-24 — All 3 parallel agents reported clean. SP-B (e019afb), SP-A (548942f on CLI), SP-C (19db62a).
+- 2026-04-24 — Merges landed: matilha-skills main = 18ab7f0 (SP-B) → b35c107 (SP-C); matilha CLI main = 0104fa4 (SP-A). One CHANGELOG conflict resolved during SP-C merge (both SPs branched from main, not stacked).
+- 2026-04-24 — SP-D added mid-wave per user insight: compose Step 0 preflight dep-check. Detects missing CLAUDE.md / priority-rule block, emits advisory notice pointing at /matilha-install. Committed a7d013b on matilha-skills main.
+- 2026-04-24 — Validator suite 1482 tests green post-merge + post-compose-edit.
