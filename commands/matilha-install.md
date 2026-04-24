@@ -70,7 +70,7 @@ Apply the merge-or-create contract based on the state from Step 1:
 
 Confirm the write/edit succeeded before proceeding.
 
-## Step 6 — Output the `/plugin install` block
+## Step 6 — Resolve `selected_packs`
 
 Resolve `selected_packs` from the preset map:
 
@@ -81,6 +81,56 @@ Resolve `selected_packs` from the preset map:
 - **Core only** → `matilha-skills`
 - **Custom selection** → whatever the user checked in Step 3, plus `matilha-skills`
 
+## Step 6.5 — Choose install mode
+
+Invoke `AskUserQuestion` with:
+
+- Question: `How do you want to install the selected packs?`
+- Options:
+  1. **Run it now** — execute `claude plugin install` for each pack via the Bash tool. Zero paste. Requires `claude` CLI on PATH (standard when Claude Code is installed).
+  2. **Show paste block** — emit `/plugin install` commands as a code block for me to paste into Claude Code manually.
+
+Record the user's choice as `install_mode`.
+
+## Step 7 — Execute install
+
+### Step 7a — If `install_mode` == `Run it now`
+
+First probe: use the Bash tool to run `command -v matilha || true` (captures whether the matilha CLI is on PATH without failing).
+
+**Best path — matilha CLI present:**
+
+If `command -v matilha` returned a non-empty path, use the Bash tool to run a single command that delegates the whole install to the CLI (which handles detection, idempotency, progress, and CLAUDE.md merge internally). Compose the command from the user's choices in Step 2:
+
+- Preset chosen → `matilha install-plugins --preset <backend|ux|fullstack|security> --deep --no-clipboard` (plus `--with-claudemd` if Step 4's bootstrap decision was Yes)
+- `Full-stack` → map to `--preset fullstack`
+- `UX / Product` → map to `--preset ux`
+- `Security-focused` → map to `--preset security`
+- `Backend` → map to `--preset backend`
+- `Core only` → `matilha install-plugins --core-only --deep --no-clipboard`
+- `Custom selection` → pass `--full --deep` only if ALL 7 packs were selected; otherwise fall through to the "claude CLI only" path below (the CLI does not yet expose a custom pack list via flags)
+
+Note: when you pass `--with-claudemd`, the matilha CLI writes `./CLAUDE.md` itself via the merge-or-create contract. Skip Step 5 above if you take this path AND Step 4 was Yes — the CLI already did it. If Step 5 already wrote CLAUDE.md before reaching Step 7, omit `--with-claudemd` to avoid a redundant re-apply.
+
+Stream the Bash tool's stdout back so the user sees per-pack progress.
+
+**Fallback path — only `claude` CLI present (no matilha CLI):**
+
+If `command -v matilha` was empty, probe `command -v claude || true`. If claude is present, iterate through `selected_packs` with individual Bash calls. For each pack, run:
+
+```
+claude plugin marketplace add danilods/<pack-slug>
+claude plugin install <plugin-name>@<pack-slug> --scope user
+```
+
+Use `matilha-skills`'s plugin-name special case (`matilha@matilha-skills`). Handle failures gracefully — "already installed" exits are success. After the loop completes, proceed to Step 7c.
+
+**Last-resort fallback — neither CLI present:**
+
+If both probes returned empty, tell the user that neither `matilha` nor `claude` CLI is on PATH, and ask them to either install one of them or switch to `Show paste block` mode. Then re-ask Step 6.5 (or just emit the paste block as in Step 7b).
+
+### Step 7b — If `install_mode` == `Show paste block`
+
 Emit the install commands as a fenced code block in the chat. For each pack in `selected_packs`, output two lines:
 
 ```
@@ -90,25 +140,28 @@ Emit the install commands as a fenced code block in the chat. For each pack in `
 
 Special case: for `matilha-skills` the install command is `/plugin install matilha@matilha-skills --user` (the plugin name inside the marketplace is `matilha`, not `matilha-skills`).
 
-Separate consecutive pack blocks with one blank line. Example for the `Core only` preset:
+Separate consecutive pack blocks with one blank line. Tell the user to copy-paste the block into their Claude Code prompt to actually install the plugins.
 
-```
-/plugin marketplace add danilods/matilha-skills
-/plugin install matilha@matilha-skills --user
-```
+### Step 7c — Run `/reload-plugins` (both paths)
 
-Tell the user to copy-paste the block into their Claude Code prompt to actually install the plugins.
+After a successful `Run it now` install, tell the user — in plain text, not as an executed command — to run `/reload-plugins` in their current Claude Code session to hot-reload the newly installed plugins without restarting. Alternatively, they can start a new Claude Code session and the plugins auto-load.
 
-## Step 7 — Post-install notes
+Do NOT emit `/reload-plugins` as if you could run it yourself — slash commands are user-invoked.
+
+## Step 8 — Post-install notes
 
 Print a brief summary covering:
 
-- Which preset was chosen and how many packs will install.
-- Current CLAUDE.md state after Step 5 (created, merged, replaced, or untouched).
-- Next action: open a fresh Claude Code session in this directory and type a creative-work prompt (e.g. `brainstorm a new feature`). The sigil / matilha-compose preamble should appear, confirming activation.
-- If the sigil does not appear, run `/plugin list` to verify all selected packs show as **enabled**.
+- Which preset was chosen and how many packs were installed (or will be, in paste-block mode).
+- Whether installation ran directly (Step 7a / `Run it now`) or needs a paste (Step 7b).
+- Current CLAUDE.md state after Step 5 or CLI auto-write (created, merged, replaced, or untouched).
+- Next action:
+  - If `Run it now` succeeded: remind the user to run `/reload-plugins` in this session to activate without restarting, or start a new Claude Code session.
+  - If `Show paste block`: user must paste the block into Claude Code.
+- After activation, type a creative-work prompt (e.g. `brainstorm a new feature`) and confirm the sigil / matilha-compose preamble appears.
+- If the sigil does not appear, run `/plugin list` to verify all selected packs show as **enabled**, and check CLAUDE.md has the `<!-- matilha-start v1 -->` block.
 
-## Step 8 — Fallback
+## Step 9 — Fallback
 
 If the `AskUserQuestion` tool is not available in the current session (older Claude Code build, non-Claude-Code platform, etc.), OR the user explicitly asks for the "old guide" / declines the wizard, do NOT attempt the interactive steps above. Instead:
 
@@ -117,7 +170,7 @@ If the `AskUserQuestion` tool is not available in the current session (older Cla
 
 ---
 
-## Canonical snippet (used by Steps 4, 5, and 8)
+## Canonical snippet (used by Steps 4, 5, and 9)
 
 This is the exact snippet to write between `<!-- matilha-start v1 -->` and `<!-- matilha-end v1 -->`. It must be copied byte-for-byte; do not paraphrase or reformat.
 

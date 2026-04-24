@@ -6,6 +6,7 @@
 - feat(templates): canonical CLAUDE.md snippet + merge-or-create contract at docs/matilha/templates/ (Wave 5g SP-B)
 - feat(commands): /matilha-install upgraded to interactive wizard with preset selection + CLAUDE.md bootstrap (Wave 5g SP-C)
 - feat(compose): Step 0 preflight dependency check — matilha-compose now detects missing CLAUDE.md / missing priority-rule block / orphan AGENTS.md | GEMINI.md | cursor configs and emits a one-line advisory notice pointing at `/matilha-install` (Wave 5g SP-D, non-blocking, self-healing)
+- feat(commands): /matilha-install wizard gains "Run it now" install mode (Wave 5g SP-E) — after preset selection, wizard asks whether to execute install via Bash tool (`matilha install-plugins --deep` if matilha CLI present, or iterative `claude plugin install` via Bash if only Claude CLI present) or fall back to paste-block mode. Zero-paste path when CLI tooling is available. Ends by reminding user to run `/reload-plugins` in their session or start a new one.
 
 ## [1.1.0] — 2026-04-24 — Polish release (sigil + README + CI)
 
