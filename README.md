@@ -3,6 +3,8 @@
 > **You lead. Agents hunt.**
 > A cognitive + methodological harness for building complex projects with AI.
 
+> 🏠 **Official entry point.** This is the canonical repository for the matilha ecosystem. New users — start here, follow [Quick start](#quick-start) below. The 7 companion packs + CLI are satellites; this repo has the full install walkthrough, docs, and rules.
+
 ```
             ♛
         /\___/\
@@ -17,6 +19,20 @@
 ```
 
 **You are the alpha.** The pack hunts at your side — 7 companion packs with 128 domain skills across UX, growth, agent architecture, system design, engineering discipline, software architecture, and AI-ops security. Plus 11 core methodology skills. **139 skills total**. Methodology wraps craft; the wolf does not replace your thinking.
+
+## Ecosystem map
+
+| Repository | Role | Where to go |
+|---|---|---|
+| **[danilods/matilha-skills](https://github.com/danilods/matilha-skills)** (this repo) | **Official hub** — core plugin + docs + rules + install guide | Start here |
+| [danilods/matilha](https://github.com/danilods/matilha) | npm CLI (deterministic twin) — `npm install -g matilha` | After plugin install, if you want CLI |
+| [danilods/matilha-ux-pack](https://github.com/danilods/matilha-ux-pack) | 22 UX + cognitive skills | Via `/matilha-install` after core |
+| [danilods/matilha-growth-pack](https://github.com/danilods/matilha-growth-pack) | 20 growth + product strategy skills | Via `/matilha-install` |
+| [danilods/matilha-harness-pack](https://github.com/danilods/matilha-harness-pack) | 22 agent architecture skills | Via `/matilha-install` |
+| [danilods/matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack) | 19 distributed systems skills | Via `/matilha-install` |
+| [danilods/matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack) | 15 engineering discipline skills | Via `/matilha-install` |
+| [danilods/matilha-software-arch-pack](https://github.com/danilods/matilha-software-arch-pack) | 17 software architecture skills | Via `/matilha-install` |
+| [danilods/matilha-security-pack](https://github.com/danilods/matilha-security-pack) | 13 AI-ops security skills | Via `/matilha-install` |
 
 ---
 
