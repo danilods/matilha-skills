@@ -7,15 +7,15 @@
     "url": "https://github.com/danilods"
   },
   "metadata": {
-    "description": "Matilha core methodology plugin — phase-gated skills (scout, plan, hunt, gather, howl, review, den, pack) plus the matilha-compose companion-pack-aware gateway.",
-    "version": "0.4.0"
+    "description": "Matilha core methodology plugin — phase-gated skills (scout, plan, hunt, gather, howl, review, den, pack), matilha-compose companion-pack-aware gateway, matilha-bootstrap SessionStart hook, matilha-design UX/UI router, matilha-init project bootstrap.",
+    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "matilha",
       "source": "./",
-      "description": "11 methodology orchestration skills — init, scout, plan, hunt, gather, howl, review, den, pack, design, and compose (Wave 5d gateway).",
-      "version": "0.4.0",
+      "description": "11 methodology orchestration skills + SessionStart activation priority hook. Works standalone OR composes with 7 companion packs (ux, growth, harness, sysdesign, software-eng, software-arch, security) delivering 128 domain skills.",
+      "version": "1.0.0",
       "category": "workflow",
       "tags": ["matilha", "methodology", "agentic", "cognitive-harness", "cross-tool"]
     }

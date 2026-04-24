@@ -1,7 +1,7 @@
 {
   "name": "matilha",
-  "version": "0.4.0",
-  "description": "You lead. Agents hunt. A harness for building complex projects with AI — phase-gated methodology plus pluggable intelligence packs.",
+  "version": "1.0.0",
+  "description": "You lead. Agents hunt. A cognitive + methodological harness for building complex AI-assisted projects — 11 phase-gated core skills, composition layer with plugin-namespace detection, SessionStart hook for cross-workspace activation, and 7 companion packs shipping 128 skills across UX, growth, agent architecture, system design, engineering discipline, software architecture, and AI-ops security.",
   "author": {
     "name": "Danilo de Sousa"
   },

@@ -1,5 +1,62 @@
 # Changelog
 
+## [1.0.0] — 2026-04-23 — First official release
+
+Matilha ecosystem reaches v1.0.0. Core plugin (matilha-skills) + 7 companion packs shipped.
+
+**You lead. Agents hunt.**
+
+### Ecosystem summary
+
+- **Core**: 11 methodology skills + matilha-compose gateway + matilha-bootstrap SessionStart hook + matilha-design UX router + matilha-init bootstrap.
+- **7 companion packs**: 128 domain skills across ux, growth, harness, sysdesign, software-eng, software-arch, security.
+- **Total**: 139 skills + full composition architecture (plugin-namespace detection + storytelling sigil preamble + lazy-bootstrap).
+- **Cross-tool**: Claude Code, Cursor, Codex, Gemini CLI.
+- **Twin identity**: npm CLI (`matilha@1.0.0`) + plugin ecosystem, both shipped.
+
+### What the 1.0.0 tag signifies
+
+- All 6 live-installable companion-pack marketplace.json schemas pass Claude Code validator (cleanup completed for ux + growth in Wave 5d.1 + 5h/5i cycle).
+- SessionStart hook validated in runtime smoke (Wave 5d.1 storytelling mode — see `docs/matilha/smoke-results/wave-5d-smoke.md` sub-result 1d).
+- 1466 validator tests passing in the matilha CLI, zero regressions across the arc 3a → 5i.
+- Paraphrase + distillation discipline enforced (3-layer for literature packs, 2-layer for Caminho C packs).
+- Honest scope framing — each pack declares what it does NOT cover.
+
+### Install (recommended: user scope)
+
+```
+/plugin marketplace add danilods/matilha-skills
+/plugin install matilha@matilha-skills --user
+```
+
+Then install companion packs à la carte (all user-scope recommended):
+
+```
+/plugin install matilha-ux-pack@matilha-ux-pack --user
+/plugin install matilha-growth-pack@matilha-growth-pack --user
+/plugin install matilha-harness-pack@matilha-harness-pack --user
+/plugin install matilha-sysdesign-pack@matilha-sysdesign-pack --user
+/plugin install matilha-software-eng-pack@matilha-software-eng-pack --user
+/plugin install matilha-software-arch-pack@matilha-software-arch-pack --user
+/plugin install matilha-security-pack@matilha-security-pack --user
+```
+
+Or via npm for CLI-only:
+
+```
+npm install -g matilha
+```
+
+### Post-1.0.0 roadmap (teaser)
+
+- Additional companion packs from Danilo's B-pack queue (TBD domains)
+- Wave 3c `matilha-review` runtime (6-agent parallel quality review)
+- Formal `sec-*` literature-based security pack (STRIDE + OWASP + Shostack) as complement to the AI-ops `swsec-*` baseline
+
+### Source-of-record for 1.0.0 content
+
+- See below (Wave 5i, 5h, 5f, 5e, 5d.1, 5d, 5c, 5b, 5a, 4a, 3b, 3a) for the full shipped arc.
+
 ## [Wave 5i] — 2026-04-23 — matilha-security-pack shipped (Caminho C, AI-ops scoped)
 
 Seventh companion pack shipped. Third Caminho C pack. **Honest scope framing**: baseline for AI-assisted software operational security, does NOT replace formal STRIDE/OWASP/Shostack threat modeling (those would ship in a future `sec-*` literature-based pack). 13 skills in 5 families.
