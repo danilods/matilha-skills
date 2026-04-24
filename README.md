@@ -8,12 +8,9 @@ Hexagonal architecture, Domain-Driven Design, bounded contexts, event sourcing,
 software engineering discipline, KISS, clean code, LLM OS, agent methodology.
 -->
 
-<!--
-  BANNER IMAGE SLOT — place the image file here and link below.
-  Suggested: assets/matilha-banner.png (1280x400 ou proporção similar)
--->
-
-<!-- ![matilha banner](./assets/matilha-banner.png) -->
+<p align="center">
+  <img src="./assets/matilha-banner.png" alt="matilha — You Lead. Agents Hunt. 139 skills across 7 companion packs. Compatible with Claude Code, Cursor, Codex, Gemini, Kimi Moonshot." width="100%" />
+</p>
 
 # matilha
 
