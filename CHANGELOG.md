@@ -4,6 +4,7 @@
 
 ### Added
 - feat(templates): canonical CLAUDE.md snippet + merge-or-create contract at docs/matilha/templates/ (Wave 5g SP-B)
+- feat(commands): /matilha-install upgraded to interactive wizard with preset selection + CLAUDE.md bootstrap (Wave 5g SP-C)
 
 ## [1.1.0] — 2026-04-24 — Polish release (sigil + README + CI)
 
