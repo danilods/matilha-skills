@@ -16,6 +16,7 @@ merge_order: [SP-B, SP-A, SP-C]
 | SP-A | `matilha install-plugins` CLI | matilha (CLI) | wave-5g/sp-a-install-plugins | 3-4 | merged |
 | SP-C | `/matilha-install` wizard | matilha-skills | wave-5g/sp-c-matilha-install-wizard | 2 | merged |
 | SP-D | compose Step 0 preflight dep-check | matilha-skills | (direct on main) | 0.5 | merged |
+| SP-E | `--deep` zero-paste install (CLI + wizard) | matilha-skills + matilha | (direct on main) | 2 | merged |
 
 ## Cross-SP contracts (locked in spec)
 
@@ -35,3 +36,6 @@ End-to-end smoke on fresh dir: `npm i -g matilha@1.2.0` → `matilha install-plu
 - 2026-04-24 — Merges landed: matilha-skills main = 18ab7f0 (SP-B) → b35c107 (SP-C); matilha CLI main = 0104fa4 (SP-A). One CHANGELOG conflict resolved during SP-C merge (both SPs branched from main, not stacked).
 - 2026-04-24 — SP-D added mid-wave per user insight: compose Step 0 preflight dep-check. Detects missing CLAUDE.md / priority-rule block, emits advisory notice pointing at /matilha-install. Committed a7d013b on matilha-skills main.
 - 2026-04-24 — Validator suite 1482 tests green post-merge + post-compose-edit.
+- 2026-04-24 — Research revealed `claude plugin install` / `/reload-plugins` exist as documented public API (docs.claude.com/plugins-reference). Original Wave 5g assumed plugins could only be installed via in-session /plugin paste — incorrect.
+- 2026-04-24 — SP-E added to consolidate wave before release: CLI gains `--deep` flag (runs claude plugin install per pack via execFile, idempotent, with merge-or-create CLAUDE.md when --with-claudemd), wizard gains "Run it now" mode (delegates to matilha CLI --deep via Bash, or falls back to per-pack claude plugin install). +14 tests → 1496 total. CLI commit on matilha; wizard commit f176cf2 on matilha-skills main.
+- 2026-04-24 — Wave 5g consolidated with SP-E. Ready for v1.2.0 tag in both repos.

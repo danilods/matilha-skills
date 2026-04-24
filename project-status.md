@@ -6,7 +6,7 @@ created: 2026-04-24T00:00:00Z
 last_update: 2026-04-24T00:00:00Z
 current_phase: 60
 phase_status: ready_for_release
-next_action: "Wave 5g shipped (SP-B + SP-A + SP-C + SP-D). Tag matilha-skills v1.2.0 + matilha CLI v1.2.0, publish npm, run end-to-end smoke on fresh dir."
+next_action: "Wave 5g shipped (SP-B + SP-A + SP-C + SP-D + SP-E). Tag matilha-skills v1.2.0 + matilha CLI v1.2.0, publish npm, run end-to-end zero-paste smoke on fresh dir."
 tools_detected: [node, pnpm, git]
 companion_skills:
   impeccable: not_installed
@@ -48,11 +48,12 @@ design_locked: true
 
 ## Wave 5g — Unified Install UX (shipped)
 
-All 4 SPs merged to main. Ready to tag matilha-skills v1.2.0 + matilha CLI v1.2.0 and run end-to-end smoke.
+All 5 SPs merged to main. Ready to tag matilha-skills v1.2.0 + matilha CLI v1.2.0 and run end-to-end zero-paste smoke.
 
 - **SP-B** — CLAUDE.md snippet + merge-or-create contract in `docs/matilha/templates/` ✅
-- **SP-A** — `matilha install-plugins` CLI subcommand with 4 presets + clipboard + `--with-claudemd` flag (1482 tests passing, +16 SP-A tests) ✅
+- **SP-A** — `matilha install-plugins` CLI subcommand with 4 presets + clipboard + `--with-claudemd` flag (+16 SP-A tests) ✅
 - **SP-C** — `/matilha-install` wizard with AskUserQuestion presets + CLAUDE.md bootstrap step ✅
 - **SP-D** — compose Step 0 preflight dep-check (detects missing CLAUDE.md / priority rule, emits advisory notice) ✅
+- **SP-E** — `--deep` zero-paste install: CLI runs `claude plugin install` per pack (execFile, idempotent, merge-or-create CLAUDE.md); wizard gains "Run it now" mode delegating to matilha CLI via Bash (+14 tests → 1496 total) ✅
 
 Artifacts: `docs/matilha/specs/wave-5g-unified-install-spec.md`, `docs/matilha/plans/wave-5g-unified-install-plan.md`, `docs/matilha/waves/wave-5g-status.md`.
