@@ -1,5 +1,29 @@
 # Changelog
 
+## [Wave 5i] — 2026-04-23 — matilha-security-pack shipped (Caminho C, AI-ops scoped)
+
+Seventh companion pack shipped. Third Caminho C pack. **Honest scope framing**: baseline for AI-assisted software operational security, does NOT replace formal STRIDE/OWASP/Shostack threat modeling (those would ship in a future `sec-*` literature-based pack). 13 skills in 5 families.
+
+### New external pack
+
+- **[matilha-security-pack](https://github.com/danilods/matilha-security-pack) v0.1.0** — 13 skills (trust+key × 3, backend-only × 3, LLM risks × 3, LGPD × 2, operational defense × 2). Caminho C source: 4 new rules in `docs/rules/` (1,110 lines). Tag `wave-5i-security-pack-0.1.0`.
+
+### New rules (in matilha-skills)
+
+- `docs/rules/Trust Boundary e Secret Management.md` (240 lines)
+- `docs/rules/LLM-Specific Operational Risks.md` (253 lines)
+- `docs/rules/PII e LGPD na Prática.md` (282 lines)
+- `docs/rules/Defesa Operacional por Engenharia.md` (335 lines)
+
+### Cross-repo
+
+- `matilha` CLI validator extended with 110 new tests. Total: 1356 → 1466 passing, zero regressions.
+
+### Overlap disclosures (2)
+
+- `swsec-rate-limiting-as-defense` **Complementa** `matilha-sysdesign-pack:sysdesign-rate-limiting-strategies` — sysdesign focuses on algorithms (token bucket vs sliding window); swsec focuses on rate limiting as primary abuse defense + fail-closed discipline.
+- `swsec-llm-cost-as-availability` **Complementa** `matilha-harness-pack:harness-nfrs-as-prompts` — harness treats NFRs as constraints in system prompts; swsec treats LLM cost runaway as availability risk.
+
 ## [Wave 5h] — 2026-04-23 — matilha-software-arch-pack shipped (Caminho C)
 
 Sixth companion pack shipped. Second Caminho C pack — architectural patterns distilled from Argos + Gravicode practice. 17 skills in 5 families.

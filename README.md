@@ -102,6 +102,7 @@ during clarifying questions.
 | **[matilha-sysdesign-pack](https://github.com/danilods/matilha-sysdesign-pack)** | 19 | Distributed systems — NFRs, scalability, availability, CAP, Kafka, CDN, rate limiting, 11 design cases (Tan) | `/plugin install matilha-sysdesign-pack@matilha-sysdesign-pack` |
 | **[matilha-software-eng-pack](https://github.com/danilods/matilha-software-eng-pack)** | 15 | Day-to-day engineering discipline (Danilo-experience) — KISS, RORO, Pythonic idioms, commits, documentation, task tracking, critical analysis | `/plugin install matilha-software-eng-pack@matilha-software-eng-pack` |
 | **[matilha-software-arch-pack](https://github.com/danilods/matilha-software-arch-pack)** | 17 | Architecture from Argos + Gravicode practice — layering + Lambda chain, event-driven boundaries, dual-store (Postgres+DynamoDB), bounded contexts without microservice-spaghetti, disciplined scaling | `/plugin install matilha-software-arch-pack@matilha-software-arch-pack` |
+| **[matilha-security-pack](https://github.com/danilods/matilha-security-pack)** | 13 | AI-software operational security (baseline, not a STRIDE/OWASP replacement) — keys + trust boundary, backend responsibility, LLM risks (prompt injection, output sanitization, cost as availability), LGPD minimization, operational defense | `/plugin install matilha-security-pack@matilha-security-pack` |
 
 ### What makes the packs different from each other
 
