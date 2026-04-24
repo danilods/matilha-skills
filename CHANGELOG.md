@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.0] — Unreleased — Unified install UX (Wave 5g)
+## [1.2.0] — 2026-04-24 — Unified install UX (Wave 5g)
 
 ### Added
 - feat(templates): canonical CLAUDE.md snippet + merge-or-create contract at docs/matilha/templates/ (Wave 5g SP-B)
