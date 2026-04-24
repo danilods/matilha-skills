@@ -25,17 +25,37 @@ software engineering discipline, KISS, clean code, LLM OS, agent methodology.
 
 **139 skills. 7 companion packs. Composition layer. SessionStart activation.** Cross-tool across Claude Code, Cursor, Codex CLI, and Gemini CLI. Methodology wraps craft — **you keep the decision seat, agents carry the execution.**
 
-```
-            ♛
-        /\___/\
-       ( ◉   ◉ )
-        \  v  /
-         ‾‾‾‾‾
+> [!IMPORTANT]
+> **Matilha is not a theoretical framework.** The methodology was distilled from shipping **Gravicode**, **CNH Pass**, **Sinapise**, **Speechia**, and **Argos** — real projects where AI agents are the primary execution surface and discipline decides whether a multi-week build ships on time.
 
-   /\_/\   /\_/\   /\_/\
-  ( ● ● ) ( ● ● ) ( ● ● )
-    \/      \/      \/
-          matilha
+### How matilha thinks
+
+```
+    USER PROMPT (any software-construction intent)
+              │
+              ▼
+    ┌─────────────────────────────┐
+    │  1. DETECT                  │  SessionStart hook injects
+    │     matilha priority active │  activation priority at session start
+    └─────────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────────────┐
+    │  2. ROUTE                   │  matilha-compose classifies intent
+    │     phase OR creative       │  → phase skill (scout/plan/design/...)
+    └─────────────────────────────┘  OR → superpowers:brainstorming
+              │                         with pack-aware preamble
+              ▼
+    ┌─────────────────────────────┐
+    │  3. ENRICH                  │  Companion packs (ux / growth /
+    │     domain expertise woven  │  harness / sysdesign / sweng /
+    └─────────────────────────────┘  swarch / swsec) surface skills by
+              │                         name during exploration.
+              ▼
+    ┌─────────────────────────────┐
+    │  4. EXECUTE                 │  Superpowers handles craft
+    │     you lead, agents hunt   │  (brainstorming, writing-plans, TDD).
+    └─────────────────────────────┘  Matilha tracks phase + state.
 ```
 
 > 🏠 **Official entry point.** This is the canonical repository for the matilha ecosystem. The 7 companion packs + CLI are satellites — this hub has the install guide, docs, and rules.
