@@ -9,27 +9,30 @@
 #   2. $PLUGIN_ROOT/assets/sigil.txt (default shipped asset)
 #   3. Embedded fallback (if no file available)
 #
-# Replace assets/sigil.txt with your ascii-image-converter output any time.
-# Canonical generation command (white-on-black logos — the matilha default):
-#   ascii-image-converter input.png -W 60 -n -m " .#" > assets/sigil.txt
+# Current default (assets/sigil.txt) uses BRAILLE rendering for maximum visual fidelity.
+# Canonical generation command:
+#   ascii-image-converter input.jpg -b -d 60,30 > assets/sigil.txt
 #
 # Flag rationale:
-#   -W 60           = width in chars (50 compact / 60 default / 80 hero)
-#   -n              = negative; inverts polarity so white subjects on black bg
-#                     render as light chars on dark (readable at a glance)
-#   -m " .#"        = 3-char palette (dark→light): solid #, sparse dots, blank.
-#                     Eliminates @ : = + - visual noise from the default palette.
+#   -b              = braille; each char is a 2x4 dot matrix → 8x density vs ASCII.
+#                     Terminal must support UTF-8 with braille font coverage
+#                     (modern macOS/Linux terminals do; older Windows consoles may not).
+#   -d 60,30        = explicit width x height in chars. Preserves source aspect ratio
+#                     without the terminal-char-aspect distortion that -W alone causes.
 #
-# Alternatives for different source types:
-#   Dark subject on light bg:  drop -n, keep -m " .#"
-#   Need more gradient levels: -m " .:-+#" (5 chars) for photos / illustrations
-#   Ultra-high density:         -W 60 -b --dither (braille; terminal must support UTF-8)
+# ASCII fallback variants shipped at assets/sigil-w50.txt and assets/sigil-w80.txt
+# (generated with -n -m " .#") for terminals that render braille poorly. Swap via:
+#   cp assets/sigil-w50.txt assets/sigil.txt    # compact ASCII
+#   cp assets/sigil-w80.txt assets/sigil.txt    # hero ASCII with tagline
+#
+# Alternate generation commands:
+#   ASCII clean 3-char palette:   ascii-image-converter img -W 60 -n -m " .#"
+#   ASCII high-detail 6-char:     ascii-image-converter img -W 80 -n -m " .:-+#"
+#   Braille with dither:          ascii-image-converter img -b -d 60,30 --dither
 #
 # Constraints that keep the render clean:
 #   - Width <= 80 columns (safe across modern terminals + wrap-safe in mobile views)
-#   - Height <= 40 rows (height auto-follows width via aspect ratio)
 #   - Consistent line widths (no trailing-space trimming issues)
-#   - Plain ASCII or widely supported UTF-8 (avoid braille for terminals without font)
 
 set -euo pipefail
 

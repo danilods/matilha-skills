@@ -2,14 +2,14 @@
 
 ## Sigil variants
 
-Three pre-rendered ASCII sigils generated from the matilha logo via [ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter):
+Pre-rendered sigils from the matilha logo via [ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter):
 
-| File | Width | Height | Best for |
+| File | Render | Dimensions | Best for |
 |---|---|---|---|
-| `sigil-w50.txt` | 50 cols | 25 rows | Compact (every-turn, low footprint) |
-| **`sigil.txt`** (= `sigil-w60.txt`) | 60 cols | 30 rows | **Default — balanced visibility** |
-| `sigil-w60.txt` | 60 cols | 30 rows | Same as `sigil.txt` (kept for clarity) |
-| `sigil-w80.txt` | 80 cols | 40 rows | Hero / README banner — tagline "YOU LEAD. AGENTS HUNT!" fully visible |
+| **`sigil.txt`** (= `sigil-w60.txt`) | **Braille** | 60x30 | **Default — highest visual fidelity** (requires UTF-8 braille font in terminal) |
+| `sigil-w60.txt` | Braille | 60x30 | Same as `sigil.txt` (kept for clarity) |
+| `sigil-w50.txt` | ASCII `-n -m " .#"` | 50x25 | **Fallback** — compact, works in any terminal |
+| `sigil-w80.txt` | ASCII `-n -m " .#"` | 80x40 | **Hero / README** — tagline "YOU LEAD. AGENTS HUNT!" visible |
 
 The file loaded by `hooks/print-sigil.sh` is always `sigil.txt`. Swap the default by copying a different variant into place:
 
@@ -35,31 +35,31 @@ MATILHA_SIGIL_PATH=/tmp/custom-sigil.txt bash hooks/print-sigil.sh
 
 ## Regenerating sigils from a new logo
 
-The canonical render command for matilha logos (white subject on black background):
+The canonical render command for the default sigil (braille, maximum visual fidelity):
 
 ```
-ascii-image-converter <img> -W <width> -n -m " .#"
+ascii-image-converter <img> -b -d 60,30
 ```
 
-- `-n` inverts polarity so white wolves render as light chars (readable instantly)
-- `-m " .#"` uses a clean 3-char palette (solid `#`, sparse `.`, blank) — avoids `@:=+` noise from the default palette
-- `-W <width>` sets width; height auto-follows aspect ratio
+- `-b` enables braille mode — each char is a 2x4 dot matrix (8x density vs ASCII)
+- `-d 60,30` sets explicit width x height in chars; preserves aspect without distortion
 
-Regenerate all three sizes at once:
+Regenerate all variants at once:
 
 ```bash
-SRC=./assets/new-logo.png
+SRC=./assets/new-logo.jpg
 
+# Braille default (terminal must support UTF-8 braille font)
+ascii-image-converter "$SRC" -b -d 60,30 > assets/sigil.txt
+cp assets/sigil.txt assets/sigil-w60.txt
+
+# ASCII fallbacks for terminals without braille support
 ascii-image-converter "$SRC" -W 50 -n -m " .#" > assets/sigil-w50.txt
-ascii-image-converter "$SRC" -W 60 -n -m " .#" > assets/sigil-w60.txt
 ascii-image-converter "$SRC" -W 80 -n -m " .#" > assets/sigil-w80.txt
 
-# Promote new W60 as default:
-cp assets/sigil-w60.txt assets/sigil.txt
-
-# Verify width consistency (each variant should show one number):
+# Verify widths (braille counts bytes but renders 60 cols visually):
 for f in assets/sigil*.txt; do
-  echo "$f: widths = $(awk '{ print length }' "$f" | sort -u | tr '\n' ' ')"
+  echo "$f: $(wc -l < $f) lines"
 done
 ```
 
