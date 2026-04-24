@@ -16,7 +16,7 @@
           matilha
 ```
 
-**You are the alpha.** The pack hunts at your side — companion packs with 98+ skills across UX, growth, agent architecture, system design, and engineering discipline. Methodology wraps craft; the wolf does not replace your thinking.
+**You are the alpha.** The pack hunts at your side — 7 companion packs with 128 domain skills across UX, growth, agent architecture, system design, engineering discipline, software architecture, and AI-ops security. Plus 11 core methodology skills. **139 skills total**. Methodology wraps craft; the wolf does not replace your thinking.
 
 ---
 
@@ -37,20 +37,22 @@ Matilha is a harness — a methodology wrapper around `superpowers:*` skills + a
 
 ## Quick start
 
-### Install (recommended: user scope)
+### Prerequisites
 
-Matilha is most valuable when installed globally (available in every workspace), not per-project:
+- **[Claude Code](https://docs.anthropic.com/claude/claude-code)** installed (or Cursor / Codex CLI / Gemini CLI with plugin support)
+- Git (for marketplace fetches)
+- Internet access (plugin marketplace + initial clone only; matilha runs offline after)
+
+### Install on a new machine (full ecosystem, recommended)
+
+Start Claude Code in any directory, then paste these commands:
 
 ```
+# 1. Core plugin (required)
 /plugin marketplace add danilods/matilha-skills
 /plugin install matilha@matilha-skills --user
-```
 
-(If `--user` is not recognized, use the `/plugin` interactive menu and select **user scope**.)
-
-Then install whichever companion packs match your work:
-
-```
+# 2. Companion packs (install the ones relevant to your work)
 /plugin marketplace add danilods/matilha-ux-pack
 /plugin install matilha-ux-pack@matilha-ux-pack --user
 
@@ -65,7 +67,55 @@ Then install whichever companion packs match your work:
 
 /plugin marketplace add danilods/matilha-software-eng-pack
 /plugin install matilha-software-eng-pack@matilha-software-eng-pack --user
+
+/plugin marketplace add danilods/matilha-software-arch-pack
+/plugin install matilha-software-arch-pack@matilha-software-arch-pack --user
+
+/plugin marketplace add danilods/matilha-security-pack
+/plugin install matilha-security-pack@matilha-security-pack --user
 ```
+
+The `--user` flag installs at user scope (global for your account, available in every workspace). If your version of Claude Code doesn't recognize `--user`, use the interactive `/plugin` menu and select **user scope**. Per-project install also works but must be repeated for each new workspace.
+
+### Verify install
+
+```
+/plugin list
+```
+
+Should show `matilha` + all installed companion packs as **enabled**.
+
+Open a fresh Claude Code session in any directory and type a creative-work prompt. The SessionStart hook activates matilha priority automatically — you'll see the sigil preamble before the first response.
+
+### Optional: CLI for CI / determinism
+
+If you also want the deterministic CLI (for scripts, CI pipelines, or power-user workflows):
+
+```
+npm install -g matilha
+matilha --version  # 1.0.0
+```
+
+The CLI is **optional** — the plugin ecosystem works fully without it. They're twin surfaces of the same methodology source.
+
+### Plugin-only deployment (no npm required)
+
+If you don't have npm / don't want to install the CLI, **skip it entirely**. The full methodology is available via the 8 plugin installs above. Phase skills (`matilha-plan`, `matilha-scout`, etc.) are all plugin-native — they run inside Claude Code without any CLI dependency. Lazy-bootstrap means `docs/matilha/` structure is created on demand by phase skills themselves.
+
+The CLI is a **separate surface** (deterministic, scriptable, CI-friendly). Use it when you want:
+- Reproducible CI pipelines that verify matilha methodology state
+- Shell-scripted project bootstrap (`matilha init` from Makefile)
+- Headless automation (generate spec + plan without Claude Code session)
+
+For interactive development in Claude Code, the plugin ecosystem is complete.
+
+---
+
+## Why install at user scope?
+
+Plugin scoping in Claude Code is **per-project** by default. Per-project install means you'd need to repeat `/plugin install` for every new workspace. User-scope install makes matilha available globally — matilha-bootstrap's SessionStart hook fires in any directory, not just matilha-bootstrapped projects.
+
+Methodology-everywhere only works at user scope.
 
 ### Try it
 
@@ -92,7 +142,7 @@ during clarifying questions.
 
 ---
 
-## Companion packs — 98 skills across 5 domains
+## Companion packs — 128 skills across 7 domains
 
 | Pack | Skills | What it covers | Install |
 |---|---|---|---|
@@ -299,22 +349,22 @@ Full details:
 
 ## Roadmap
 
-### Shipped
-- **Core plugin** — 11 methodology skills + composition layer + SessionStart hook + 1211 validator tests
+### Shipped (v1.0.0)
+- **Core plugin** — 11 methodology skills + composition layer + SessionStart hook + 1466 validator tests
 - **matilha-ux-pack** — 22 skills (Weinschenk + Krug + cognitive)
 - **matilha-growth-pack** — 20 skills (AARRR + JTBD + pricing + retention)
 - **matilha-harness-pack** — 22 skills (Anthropic + OpenAI Codex + Lopopolo)
 - **matilha-sysdesign-pack** — 19 skills (Zhiyong Tan + NFRs + 11 cases)
-- **matilha-software-eng-pack** — 15 skills (Danilo-experience rules)
+- **matilha-software-eng-pack** — 15 skills (Danilo-experience rules, Caminho C)
+- **matilha-software-arch-pack** — 17 skills (Argos + Gravicode practice, Caminho C)
+- **matilha-security-pack** — 13 skills (AI-ops operational baseline, Caminho C)
 
-### Planned (requires source material / wiki ingestion)
-- `matilha-software-arch-pack` — hexagonal + Clean Arch + DDD (Cockburn + Uncle Bob + Evans)
-- `matilha-security-pack` — threat modeling + OWASP Top 10 (Shostack + OWASP)
-- Additional B packs — domain-specific (TBD)
-
-### Under design
+### Planned (post-v1.0.0)
+- Additional B packs — domain-specific (TBD, user-driven)
+- `sec-*` formal security pack — STRIDE + OWASP Top 10 + Adam Shostack threat modeling, complement to the AI-ops swsec-* baseline (requires wiki ingestion)
 - Wave 3c `matilha-review` runtime (6-agent parallel quality review)
-- Marketplace submission + public announcement
+- Marketplace submission to official Claude Code plugin marketplace
+- Community-pack template + author onboarding materials
 
 ---
 
