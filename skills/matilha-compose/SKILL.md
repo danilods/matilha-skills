@@ -145,11 +145,45 @@ Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 
 **Step 5 — Emit + invoke (storytelling mode, not debug mode).**
 
-Emit the preamble with sigil + atmospheric paragraph + pack lines + closing line. Then invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+The emission has two parts now:
 
-**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the preamble and the skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+**(a) Sigil via Bash (deterministic render, no LLM reproduction)**
 
-Goal: the user experiences compose as an atmospheric opening — the pack's presence acknowledged with a wink of recognition, then the work begins.
+Invoke the Bash tool to run the sigil renderer script:
+
+```
+bash "${CLAUDE_PLUGIN_ROOT}/hooks/print-sigil.sh"
+```
+
+The script prints the pack sigil ASCII art directly to the user's terminal. This is a deterministic render — the sigil comes from `assets/sigil.txt` (or embedded fallback), never reproduced character-by-character by you. If `CLAUDE_PLUGIN_ROOT` is unavailable in your environment, fall back to emitting the sigil text inline (same content as `assets/sigil.txt`).
+
+**(b) Atmospheric text + pack lines + transition (your output)**
+
+After the Bash tool returns, emit the atmospheric paragraph + pack lines + closing transition as regular text output. The LLM-emitted portion keeps the language-mirroring property — you match the user's prompt vocabulary (English, Portuguese, Spanish, etc.).
+
+Example sequence the user sees:
+
+```
+⏺ matilha:matilha-compose
+⏺ Bash(bash "${CLAUDE_PLUGIN_ROOT}/hooks/print-sigil.sh")
+  ⎿ [sigil ASCII rendered deterministically]
+
+The pack sensed familiar territory: <domain phrase mirroring user prompt>.
+
+<pack-name> at your side → <skill-1>, <skill-2>, <skill-3>, <skill-4>, <skill-5>.
+
+Brainstorming ahead. Skills enter as topics surface.
+
+⏺ superpowers:brainstorming
+```
+
+Then invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+
+**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the sigil (via Bash) + atmospheric text + skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+
+**Silent pass-through exception**: when zero packs are classified relevant (Case C), skip both the sigil Bash call AND the preamble text. The pack does not howl without territory.
+
+Goal: the user experiences compose as an atmospheric opening — the pack's presence acknowledged with a wink of recognition (deterministic sigil), then the language-mirroring atmospheric text reinforces domain understanding, then brainstorming begins.
 
 If no preamble (pass-through or routing to plan/design): invoke target skill via Skill tool directly.
 
