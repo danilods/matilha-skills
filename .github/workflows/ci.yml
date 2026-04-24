@@ -26,14 +26,34 @@ jobs:
             fi
           done
 
-      - name: Check all skill files have MANAGED block markers
+      - name: Check all skill files have required canonical sections
         run: |
+          # Wave 4a removed MATILHA_MANAGED markers; the plugin path is now source of truth.
+          # Current contract: each SKILL.md must carry the 12 canonical body sections
+          # defined in docs/matilha/skill-authoring-guide.md. Full validation lives in
+          # the matilha CLI validator (tests/registry/content-validation.test.ts).
+          required_sections=(
+            "## When this fires"
+            "## Preconditions"
+            "## Execution Workflow"
+            "## Rules: Do"
+            "## Rules: Don't"
+            "## Expected Behavior"
+            "## Quality Gates"
+            "## Companion Integration"
+            "## Output Artifacts"
+            "## Example Constraint Language"
+            "## Troubleshooting"
+          )
+          failed=0
           for f in skills/*/SKILL.md; do
             if [ -f "$f" ]; then
-              grep -q "MATILHA_MANAGED_START" "$f" || { echo "Missing MANAGED_START: $f"; exit 1; }
-              grep -q "MATILHA_MANAGED_END" "$f" || { echo "Missing MANAGED_END: $f"; exit 1; }
+              for section in "${required_sections[@]}"; do
+                grep -qF "$section" "$f" || { echo "Missing '$section' in $f"; failed=1; }
+              done
             fi
           done
+          if [ $failed -ne 0 ]; then exit 1; fi
 
       - name: Validate templates have placeholder syntax
         run: |
