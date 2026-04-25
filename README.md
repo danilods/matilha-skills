@@ -72,9 +72,61 @@ software engineering discipline, KISS, clean code, LLM OS, agent methodology.
 
 ---
 
-## 🚀 Install on a new machine (one copy-paste)
+## 🚀 Install
 
-Inside Claude Code, paste this block:
+There are three paths. Pick the one that fits you.
+
+---
+
+### Path A — Zero paste via npm (recommended)
+
+**1 terminal command installs everything: core + 7 packs + CLAUDE.md.**
+
+```bash
+npm install -g matilha
+matilha install-plugins --full --deep --with-claudemd
+```
+
+What happens under the hood:
+- Adds `danilods/matilha-skills` marketplace and installs all 8 plugins via `claude plugin install`
+- Writes the activation-priority snippet to `./CLAUDE.md` in your current project
+
+**2.** Open Claude Code in your project and run:
+
+```
+/reload-plugins
+```
+
+Done. Type any software prompt and the sigil appears.
+
+> **Pick your packs instead of `--full`:** use `--preset backend`, `--preset ux`, `--preset fullstack`, or `--preset security` to install only the packs relevant to your work.
+
+---
+
+### Path B — Wizard inside Claude Code (no npm needed)
+
+**1.** Install the core plugin:
+
+```
+/plugin marketplace add danilods/matilha-skills
+/plugin install matilha@matilha-skills --user
+```
+
+**2.** In any Claude Code session, run the install wizard:
+
+```
+/matilha-install
+```
+
+The wizard asks which packs you want, then runs `claude plugin install` for each one automatically. At the end it offers to write the CLAUDE.md activation snippet.
+
+> **Why two steps?** The Claude Code marketplace has no dependency system — installing `matilha-skills` does not auto-install the companion packs. The wizard is the zero-npm solution to close that gap.
+
+---
+
+### Path C — Manual paste block
+
+If you prefer full control, paste the commands one by one inside Claude Code:
 
 ```
 /plugin marketplace add danilods/matilha-skills
@@ -104,22 +156,14 @@ Inside Claude Code, paste this block:
 
 Verify with `/plugin list` → all 8 should be **enabled** at user scope.
 
-### Or CLI-only (for CI / determinism):
+---
 
-```
-npm install -g matilha
-matilha --version   # 1.0.0
-```
+### After installing — activate in your project
 
-### Start with only what you need:
+Matilha uses an activation-priority rule in `CLAUDE.md` to win routing over other skills. Without it the sigil still appears, but on long sessions compose may lose activation against competing skills.
 
-After installing the **core** (first 2 commands above), type inside Claude Code:
-
-```
-/matilha-install
-```
-
-Claude Code shows a formatted guide with per-pack descriptions — **install à la carte based on your work**.
+- **Path A** writes it automatically (`--with-claudemd`).
+- **Paths B and C**: in any Claude Code session inside your project, run `/matilha-install` and choose *"Apply CLAUDE.md snippet"*.
 
 ---
 
