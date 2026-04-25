@@ -78,28 +78,34 @@ There are three paths. Pick the one that fits you.
 
 ---
 
-### Path A — Zero paste via npm (recommended)
+### Path A — Via npm (recommended)
 
-**1 terminal command installs everything: core + 7 packs + CLAUDE.md.**
+**1.** Install the CLI and run the interactive picker:
 
 ```bash
 npm install -g matilha
+matilha install-plugins
+```
+
+The picker asks which packs you want (presets or custom multiselect), whether to write CLAUDE.md, and copies the install block to clipboard — or add `--deep` to skip the paste entirely:
+
+```bash
+matilha install-plugins --deep
+```
+
+**Install everything non-interactively** (core + all 7 packs + CLAUDE.md):
+
+```bash
 matilha install-plugins --full --deep --with-claudemd
 ```
 
-What happens under the hood:
-- Adds `danilods/matilha-skills` marketplace and installs all 8 plugins via `claude plugin install`
-- Writes the activation-priority snippet to `./CLAUDE.md` in your current project
-
-**2.** Open Claude Code in your project and run:
+**2.** Open Claude Code and run:
 
 ```
 /reload-plugins
 ```
 
 Done. Type any software prompt and the sigil appears.
-
-> **Pick your packs instead of `--full`:** use `--preset backend`, `--preset ux`, `--preset fullstack`, or `--preset security` to install only the packs relevant to your work.
 
 ---
 
