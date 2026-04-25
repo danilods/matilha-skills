@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1] — 2026-04-24 — Novo sigil: ASCII art do lobo com wordmark MATILHA
+
+### Changed
+
+- `assets/sigil.txt` — substituído render braille pelo ASCII art `#`-based do lobo com wordmark MATILHA embarcado na arte.
+- `hooks/print-sigil.sh` — fallback embarcado atualizado para o mesmo ASCII art.
+- `skills/matilha-compose/SKILL.md` — template inline do preamble atualizado; semântica do sigil revisada para refletir o novo render.
+
 ## [1.2.0] — 2026-04-24 — Unified install UX (Wave 5g)
 
 ### Added
