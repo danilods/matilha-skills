@@ -5,8 +5,8 @@ archetype: library
 created: 2026-04-24T00:00:00Z
 last_update: 2026-04-24T00:00:00Z
 current_phase: 60
-phase_status: ready_for_release
-next_action: "Wave 5g shipped (SP-B + SP-A + SP-C + SP-D + SP-E). Tag matilha-skills v1.2.0 + matilha CLI v1.2.0, publish npm, run end-to-end zero-paste smoke on fresh dir."
+phase_status: released
+next_action: "v1.2.0 shipped end-to-end (tags + GitHub releases + npm publish). Optional next: post-release smoke on fresh dir (Phase 2 of test plan), then plan Wave 5h or next deliverable."
 tools_detected: [node, pnpm, git]
 companion_skills:
   impeccable: not_installed
@@ -34,9 +34,11 @@ feature_artifacts:
 recent_decisions:
   - "2026-04-24: A+C approved for unified install, option 3 (SP-B first) to address CLAUDE.md bootstrap gap"
   - "2026-04-24: SP-D added mid-wave — compose Step 0 preflight dep-check — after user flagged that installs on fresh projects leave CLAUDE.md empty and priority rule invisible"
+  - "2026-04-24: SP-E added mid-wave — --deep zero-paste install — after research surfaced documented `claude plugin install` shell API + `/reload-plugins` hot-reload"
+  - "2026-04-25: v1.2.0 released — matilha-skills + matilha CLI tagged + GitHub-released; matilha@1.2.0 published to npm registry"
 pending_decisions:
-  - "npm publish of matilha@1.2.0 requires 2FA OTP from user"
   - "Optional: extend SP-D to actively offer bootstrap via AskUserQuestion instead of advisory notice (currently passive — user sees notice, must run /matilha-install manually)"
+  - "Post-release smoke (Phase 2 of test plan): validate end-to-end on fresh dir + matilha@1.2.0 from npm"
 blockers: []
 aesthetic_direction: null
 design_locked: true
