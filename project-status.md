@@ -4,9 +4,9 @@ name: matilha-skills
 archetype: library
 created: 2026-04-24T00:00:00Z
 last_update: 2026-04-24T00:00:00Z
-current_phase: 60
-phase_status: released
-next_action: "v1.2.0 shipped end-to-end (tags + GitHub releases + npm publish). Optional next: post-release smoke on fresh dir (Phase 2 of test plan), then plan Wave 5h or next deliverable."
+current_phase: 30
+phase_status: complete
+next_action: "Run /matilha-hunt wave-5h-max-activation — spec + plan ready, 2 SPs (SP-A routing table + SP-B 7 trigger skills) ready to dispatch."
 tools_detected: [node, pnpm, git]
 companion_skills:
   impeccable: not_installed
@@ -31,7 +31,10 @@ completed_waves:
 feature_artifacts:
   - docs/matilha/specs/wave-5g-unified-install-spec.md
   - docs/matilha/plans/wave-5g-unified-install-plan.md
+  - docs/matilha/specs/wave-5h-max-activation-spec.md
+  - docs/matilha/plans/wave-5h-max-activation-plan.md
 recent_decisions:
+  - "2026-04-24: Wave 5h approved — maximum deterministic pack activation via routing table (SP-A) + trigger skills (SP-B). Root causes: no CLAUDE.md on fresh install + non-deterministic LLM classification."
   - "2026-04-24: A+C approved for unified install, option 3 (SP-B first) to address CLAUDE.md bootstrap gap"
   - "2026-04-24: SP-D added mid-wave — compose Step 0 preflight dep-check — after user flagged that installs on fresh projects leave CLAUDE.md empty and priority rule invisible"
   - "2026-04-24: SP-E added mid-wave — --deep zero-paste install — after research surfaced documented `claude plugin install` shell API + `/reload-plugins` hot-reload"
@@ -46,7 +49,18 @@ design_locked: true
 
 # matilha-skills — project status
 
-**Current phase:** 60 (Den — Wave 5g shipped, release prep pending)
+**Current phase:** 30 (Spec + plan ready — Wave 5h)
+
+## Wave 5h — Maximum Deterministic Pack Activation (in planning)
+
+Spec + plan artifacts written. Ready to hunt.
+
+- **SP-A** — `skills/matilha-compose/routing-table.md` + compose Step 2 update (keyword lookup before LLM classification)
+- **SP-B** — 7 trigger skills (one per pack, keyword-rich description, fires independently of compose)
+
+Target version: matilha-skills `1.3.0`
+
+---
 
 ## Wave 5g — Unified Install UX (shipped)
 
