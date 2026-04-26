@@ -5,7 +5,14 @@ created: 2026-04-26
 started: 2026-04-26
 ended: 2026-04-26
 status: completed
-regression_status: pending
+regression_status: passed
+regression_summary:
+  command: "npm test (in matilha CLI repo)"
+  total: 1540
+  passed: 1540
+  failed: 0
+  delta_from_baseline: "+44 (1496 → 1540) — added validators per plan A.3 + B.8"
+  validator_extension_commit: "matilha:36e0bbd"
 merge_order:
   - sp-a-routing-table
   - sp-b-trigger-skills
@@ -16,7 +23,7 @@ sps:
     worktree: ../matilha-skills-sp-a-routing-table
     status: completed
     feat_commit: 9e6de57
-    merge_commit: pending
+    merge_commit: 9971ca6
     touches:
       - skills/matilha-compose/routing-table.md
       - skills/matilha-compose/SKILL.md
@@ -79,4 +86,14 @@ methodology_lessons:
       Trust-but-verify caught it: a `find` across the claimed paths
       returned zero files. Without verification, gather would have
       run on phantom artifacts.
+  - validator_must_evolve_with_skill_categories: >
+      The validator was built for craft skills (Caminho C / Wikinha
+      distillations: 100-500 lines, mandatory Sources, 11 required
+      sections). When SP-B introduced trigger skills (compact routing
+      surfaces: ~37 lines, no Sources, focused subset of sections),
+      the existing validator failed 39 tests. Lesson: any new skill
+      category requires a category-aware validator extension before
+      ship — not as a follow-up SP. The original SP-A.3 / SP-B.8
+      "out-of-scope" deferral was a mistake; validator support for
+      a new surface is *part of the surface*, not a subsequent task.
 ---
