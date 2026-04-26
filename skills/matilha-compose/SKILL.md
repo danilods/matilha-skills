@@ -95,7 +95,15 @@ Do NOT maintain any hardcoded list of skill prefixes or pack names in this skill
 
 If no skills match the `matilha-*-pack` namespace pattern, proceed to Step 3 with zero packs detected.
 
-**Step 2 — Intent classification (prose semantic, inclusive).**
+**Step 2 — Intent classification (routing-table first, then prose semantic).**
+
+**Step 2a — Routing table lookup (deterministic).**
+
+Read `routing-table.md` co-located with this skill (same directory: `skills/matilha-compose/`). Parse each non-comment line as `keyword | pack-namespace`. For each entry, check case-insensitively whether the user prompt contains the keyword. If it does, mark that pack as `relevant` immediately — no LLM inference needed for this pack.
+
+Fallback: if the file is unavailable or unreadable, skip 2a and proceed to 2b.
+
+**Step 2b — Prose semantic classification (for packs not matched by 2a).**
 
 For each detected pack, decide whether the user prompt touches its domain in ANY way. Use the pack's shipped skill descriptions (visible in the ambient list) to inform the decision. Binary output per pack: `relevant` | `off-topic`.
 
