@@ -18,12 +18,12 @@ software engineering discipline, KISS, clean code, LLM OS, agent methodology.
 > A cognitive + methodological harness for multi-week AI-assisted software development.
 
 [![npm version](https://img.shields.io/npm/v/matilha?label=npm&color=e34c26)](https://www.npmjs.com/package/matilha)
-[![tests](https://img.shields.io/badge/tests-1466%20passing-brightgreen)](#-architecture-highlights)
+[![tests](https://img.shields.io/badge/tests-1540%20passing-brightgreen)](#-architecture-highlights)
 [![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
-[![skills](https://img.shields.io/badge/skills-139-8A2BE2)](#-the-ecosystem-7-packs-139-skills)
+[![skills](https://img.shields.io/badge/skills-146-8A2BE2)](#-the-ecosystem-7-packs-146-skills)
 [![cross-tool](https://img.shields.io/badge/cross--tool-Claude_Code_·_Cursor_·_Codex_·_Gemini-2ea44f)](#-install-on-a-new-machine-one-copy-paste)
 
-**139 skills. 7 companion packs. Composition layer. SessionStart activation.** Cross-tool across Claude Code, Cursor, Codex CLI, and Gemini CLI. Methodology wraps craft — **you keep the decision seat, agents carry the execution.**
+**146 skills. 7 companion packs. Composition layer. SessionStart activation.** Cross-tool across Claude Code, Cursor, Codex CLI, and Gemini CLI. Methodology wraps craft — **you keep the decision seat, agents carry the execution.**
 
 > [!IMPORTANT]
 > **Matilha is not a theoretical framework.** The methodology was distilled from shipping **Gravicode**, **CNH Pass**, **Sinapise**, **Speechia**, and **Argos** — real projects where AI agents are the primary execution surface and discipline decides whether a multi-week build ships on time.
@@ -173,6 +173,60 @@ Matilha uses an activation-priority rule in `CLAUDE.md` to win routing over othe
 
 ---
 
+## 🔄 Update
+
+### Update the CLI
+
+```bash
+npm install -g matilha@latest
+matilha --version
+```
+
+### Update the plugins (Claude Code)
+
+Re-running the install is idempotent — `claude plugin install` upgrades to latest if a newer version is available:
+
+```bash
+matilha install-plugins --full --deep
+```
+
+Or inside Claude Code:
+
+```
+/matilha-install
+```
+
+Choose your packs → "Run it now" → plugins update in place. Then `/reload-plugins`.
+
+---
+
+## 🗑️ Uninstall
+
+### Uninstall the CLI
+
+```bash
+npm uninstall -g matilha
+```
+
+### Uninstall the plugins (Claude Code)
+
+```bash
+claude plugin uninstall matilha --scope user
+claude plugin uninstall matilha-ux-pack --scope user
+claude plugin uninstall matilha-growth-pack --scope user
+claude plugin uninstall matilha-harness-pack --scope user
+claude plugin uninstall matilha-sysdesign-pack --scope user
+claude plugin uninstall matilha-software-eng-pack --scope user
+claude plugin uninstall matilha-software-arch-pack --scope user
+claude plugin uninstall matilha-security-pack --scope user
+```
+
+Then open a new Claude Code session — the plugins will no longer activate.
+
+**Optional:** remove the CLAUDE.md snippet matilha wrote. Look for the block between `<!-- matilha-start v1 -->` and `<!-- matilha-end v1 -->` and delete it.
+
+---
+
 ## 💡 How it feels in practice
 
 ### Example 1 — scaling question
@@ -285,7 +339,7 @@ matilha = **methodology documented by someone who ships agentic AI software at s
 | **Sigil storytelling** | 5d.1 | Compose emits atmospheric ASCII preamble mirroring user vocabulary. Recognition → aha → anticipation. |
 | **2-layer Caminho C distillation** | 5f | Opinions-from-practice packs (software-eng, software-arch, security) preserve author voice without wiki-paraphrase layer. |
 
-**1466 validator tests passing.** Zero regressions across Waves 3a → v1.0.0. Paraphrase discipline enforced (3-layer for literature packs, 2-layer for Caminho C). Each pack declares what it does NOT cover — honest scope framing.
+**1540 validator tests passing.** Zero regressions across Waves 3a → v1.3.0. Paraphrase discipline enforced (3-layer for literature packs, 2-layer for Caminho C). Each pack declares what it does NOT cover — honest scope framing.
 
 ---
 
@@ -305,7 +359,7 @@ matilha = **methodology documented by someone who ships agentic AI software at s
 
 ---
 
-## 📦 The 7 companion packs (128 domain skills)
+## 📦 The 7 companion packs (135 domain skills)
 
 | Pack | Skills | What it covers | Source type |
 |---|---|---|---|
@@ -319,7 +373,7 @@ matilha = **methodology documented by someone who ships agentic AI software at s
 
 **Literature packs** synthesize published books/articles with 3-layer paraphrase discipline (source → wiki → skill). **Caminho C packs** distill author experience with 2-layer preservation of voice.
 
-Plus **11 core methodology skills** in this hub (init, scout, plan, hunt, gather, howl, review, den, pack, design, compose).
+Plus **11 core methodology skills** in this hub (init, scout, plan, hunt, gather, howl, review, den, pack, design, compose) and **7 trigger skills** (one per pack domain — independent activation surface).
 
 ---
 
