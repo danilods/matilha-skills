@@ -203,8 +203,13 @@ the user's prompt — e.g., "orquestração de eventos com Lambda, EventBridge
 e DynamoDB" or "fluxo de signup com foco em ativação" or "arquitetura de
 agentes com planner/executor">.
 
-<pack-name-1> ao lado → <skill-1>, <skill-2>, <skill-3>, <skill-4>, <skill-5>.
-[repeat per pack classified yes, one line per pack]
+  ▸ <pack-short-1>   <skill-short-1> · <skill-short-2> · <skill-short-3>
+                     <skill-short-4> · <skill-short-5>
+
+  ▸ <pack-short-2>   <skill-short-1> · <skill-short-2> · <skill-short-3>
+                     <skill-short-4> · <skill-short-5>
+
+[repeat per pack classified yes]
 
 Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 ```
@@ -219,10 +224,26 @@ Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 - Keep it to one sentence maximum.
 - Do not summarize the prompt — name the *territory* (the domain / problem space).
 
-**Pack lines**:
-- One line per pack classified yes.
-- Format: `<pack-name> ao lado → <skill>, <skill>, <skill>, <skill>, <skill>` (4-6 most relevant skills per pack).
-- Skill names only, no inline descriptions. Brainstorming can invoke skills via Skill tool if it needs detail.
+**Pack lines** — visual format:
+- One entry per pack classified yes.
+- `▸ <pack-short>` — strip `matilha-` prefix and `-pack` suffix from pack name. Examples: `matilha-sysdesign-pack` → `sysdesign`, `matilha-software-arch-pack` → `sw-arch`, `matilha-software-eng-pack` → `sw-eng`, `matilha-security-pack` → `security`, `matilha-ux-pack` → `ux`, `matilha-growth-pack` → `growth`, `matilha-harness-pack` → `harness`.
+- Skill names: strip the domain prefix (e.g., `sysdesign-`, `swarch-`, `swsec-`, `sweng-`, `ux-`, `cog-`, `growth-`, `harness-`). Skill `sysdesign-nfr-clarification` → `nfr-clarification`. This avoids redundancy since the pack name already declares the domain.
+- Max 3 skills per line. Overflow wraps to the next line, indented to align with the first skill (pack name column is 16 chars, padded with spaces).
+- `·` (middle dot, U+00B7) as separator between skills on the same line.
+- One blank line between packs.
+- Skill names only, no inline descriptions. Brainstorming invokes skills via Skill tool for detail.
+
+**Example rendered output** (for reference, not to copy verbatim):
+```
+  ▸ sysdesign    nfr-clarification · latency-targets · scalability-h-vs-v
+                 consistency-cap · rate-limiting · monitoring-4-golden
+
+  ▸ sw-arch      lambda-chain-shape · handler-as-adapter · measure-before-scale
+                 dual-store-source-of-truth · dependency-direction
+
+  ▸ security     lgpd-operational · backend-auth-layer · rate-limiting-defense
+                 iam-least-privilege · encryption · secrets-manager
+```
 
 **Closing line** (`Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.`):
 - Signals to user that the conversation flow continues; establishes anticipation without listing all skills upfront.
