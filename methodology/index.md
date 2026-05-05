@@ -7,7 +7,7 @@ sources:
 status: deep
 maturity: v1
 created: 2026-04-15
-updated: 2026-04-17
+updated: 2026-05-05
 tags: [methodology, index]
 author: matilha
 license: MIT
@@ -43,8 +43,9 @@ KISS · DRY · SOLID · Clean Architecture · Coesão × Acoplamento · TDD · C
 
 ## Cross-cutting: Agentic engineering cluster
 
-Três concepts embasam toda arquitetura agentic da metodologia:
+Seis concepts embasam toda arquitetura agentic da metodologia:
 
+- **[karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md)** — Software 1/2/3, vibe coding como spike, agentic engineering como loop fechado com ambiente, evals e artefatos versionados.
 - **[harness-engineering](../concepts/harness-engineering.md)** — orquestração para compensar gaps do modelo (Planner/Generator/Evaluator + sprint contract + context reset vs compactação).
 - **[agentic-patterns](../concepts/agentic-patterns.md)** — taxonomia de 5 padrões (augmented LLM → chain → routing → parallelization → orchestrator → evaluator-optimizer → agent autônomo) + princípios ACI (Agent-Computer Interface).
 - **[agent-centric-codebase](../concepts/agent-centric-codebase.md)** — repo otimizado para agentes (AGENTS.md como índice, `docs/` como system of record, linters custom com mensagens-instrução, Ralph Wiggum loop, janitor agent contra doc-rot).
@@ -57,6 +58,7 @@ Fases afetadas: [20-stack](./20-stack.md) (tech chata ganha), [30-skills-agents]
 1. **Humans drive, agents execute** — papel humano = ambiente + intenção + feedback loops. Não código.
 2. **Simplicidade primeiro** — start com single LLM + retrieval. Agent autônomo é último recurso, não primeiro.
 3. **Legibilidade pelo agente é objetivo** — tudo que o agente não vê não existe. Tooling, docs, observability devem ser agent-readable.
+4. **Prompts, skills e rules são software** — instruções persistentes precisam de versão, smoke, review e remoção de código morto.
 
 ## Agnosticismo de ferramenta
 
@@ -107,4 +109,5 @@ Cada brain-dump novo seu ou artefato de projeto novo que você trouxer para `raw
 - [70-onboarding-time](./70-onboarding-time.md) — Fase Onboarding do time (skeleton, v1)
 - **[materializacoes](./materializacoes.md)** — adapter de ações da metodologia para cada ferramenta (Claude Code ± superpowers, Cursor, Gemini CLI, Codex, genérico)
 - log — histórico de ingests e updates
+- **[karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md)** — Software 3.0 aplicado ao ciclo Matilha
 - Relacionado: [leis-de-krug](../concepts/leis-de-krug.md), [jtbd-positioning](../concepts/jtbd-positioning.md), [nfr-system-design](../concepts/nfr-system-design.md), [frameworks-comportamentais](../concepts/frameworks-comportamentais.md)

@@ -11,7 +11,7 @@ Pre-rendered sigils from the matilha logo via [ascii-image-converter](https://gi
 | `sigil-w50.txt` | ASCII `-n -m " .#"` | 50x25 | **Fallback** — compact, works in any terminal |
 | `sigil-w80.txt` | ASCII `-n -m " .#"` | 80x40 | **Hero / README** — tagline "YOU LEAD. AGENTS HUNT!" visible |
 
-The file loaded by `hooks/print-sigil.sh` is always `sigil.txt`. Swap the default by copying a different variant into place:
+`skills/matilha-compose/SKILL.md` embeds the canonical sigil template inline so activation never asks for shell permission. To change the runtime preamble, update the inline template there and keep `assets/sigil.txt` in sync:
 
 ```bash
 # Use the compact version:
@@ -23,14 +23,6 @@ cp assets/sigil-w80.txt assets/sigil.txt
 # Commit the change:
 git add assets/sigil.txt
 git commit -m "chore(sigil): switch default sigil to W<N> variant"
-```
-
-## One-off override (no file swap)
-
-If you want to test a different sigil without committing, use the `MATILHA_SIGIL_PATH` env var:
-
-```bash
-MATILHA_SIGIL_PATH=/tmp/custom-sigil.txt bash hooks/print-sigil.sh
 ```
 
 ## Regenerating sigils from a new logo

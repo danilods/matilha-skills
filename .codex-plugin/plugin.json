@@ -1,0 +1,41 @@
+{
+  "name": "matilha",
+  "version": "1.3.0",
+  "description": "You lead. Agents hunt. A cognitive + methodological harness for building complex AI-assisted projects with phase-gated skills and companion-pack composition.",
+  "author": {
+    "name": "Danilo de Sousa",
+    "url": "https://github.com/danilods"
+  },
+  "homepage": "https://github.com/danilods/matilha-skills",
+  "repository": "https://github.com/danilods/matilha-skills",
+  "license": "MIT",
+  "keywords": [
+    "methodology",
+    "agentic",
+    "ai",
+    "cognitive-harness",
+    "matilha",
+    "cross-tool",
+    "codex",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Matilha",
+    "shortDescription": "Phase-gated AI software development harness.",
+    "longDescription": "Matilha keeps long-running AI-assisted software work disciplined with phase-aware skills, project state, planning gates, review loops, and reusable methodology artifacts. You keep intent, taste, and verification; agents carry execution.",
+    "developerName": "Danilo de Sousa",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/danilods/matilha-skills",
+    "defaultPrompt": [
+      "Use Matilha to assess the current project phase and recommend the next gated action.",
+      "Use Matilha to turn this feature idea into a phase-gated implementation plan.",
+      "Use Matilha to review whether this AI-assisted workflow has enough context, tests, and verification."
+    ],
+    "brandColor": "#E34C26"
+  }
+}

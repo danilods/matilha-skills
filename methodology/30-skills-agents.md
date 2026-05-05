@@ -7,7 +7,7 @@ sources:
 status: deep
 maturity: v1
 created: 2026-04-15
-updated: 2026-04-17
+updated: 2026-05-05
 tags: [methodology, skills, agents, hooks, commands, claude-code]
 author: matilha
 license: MIT
@@ -158,6 +158,20 @@ Goldilocks zone entre:
 
 **Optimal**: específico o bastante para guiar, flexível o bastante para heurísticas funcionarem. Estrutura via XML tags ou Markdown headers. **Minimal ≠ curto** — minimal = suficiente. Comece mínimo com modelo melhor; adicione sob demanda baseado em failure modes reais.
 
+### Software 3.0: prompt, skill e rule como programa
+
+Ver [karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md).
+
+Nesta fase, todo artefato que muda comportamento do agente deve ser tratado como software versionado:
+
+- `SKILL.md` e rules são módulos;
+- `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.cursor/rules/*.mdc` e `CONVENTIONS.md` são entrypoints;
+- hook e tool descriptions são interfaces;
+- slash commands e kickoff prompts são executáveis textuais;
+- evals e smoke prompts são testes.
+
+**Gate:** alterou instrução persistente? Rode smoke manual ou teste automatizado que prove o comportamento esperado. Se não houver como testar, registre o risco em `project-status.md` ou ADR.
+
 ### ACI (Agent-Computer Interface) — design de tools
 
 Tools são a ponte agent↔ambiente. Ver [agentic-patterns](../concepts/agentic-patterns.md) seção ACI para princípios; ver [context-engineering](../concepts/context-engineering.md) para ACI como mecanismo de retrieval (JIT).
@@ -302,6 +316,7 @@ Proporção calibrada: projeto médio (~15-20 RFs), 12 skills, 6 agents, docs au
 - **Harness engineering (arquitetura de agentes para tarefas longas):** [harness-engineering](../concepts/harness-engineering.md)
 - **Agentic patterns (taxonomia + ACI):** [agentic-patterns](../concepts/agentic-patterns.md)
 - **Agent-centric codebase (AGENTS.md como índice, docs/ como system of record):** [agent-centric-codebase](../concepts/agent-centric-codebase.md)
+- **Karpathy / Software 3.0:** [karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md)
 - **Context engineering (system prompt altitude, ACI para retrieval):** [context-engineering](../concepts/context-engineering.md)
 - **Agent evaluation (testar que o agent/skill faz o que espera):** [agent-evaluation](../concepts/agent-evaluation.md)
 - Conceitos embasadores: [frameworks-comportamentais](../concepts/frameworks-comportamentais.md), [padroes-implementacao](../concepts/padroes-implementacao.md), [leis-de-krug](../concepts/leis-de-krug.md)

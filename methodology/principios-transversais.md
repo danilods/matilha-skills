@@ -7,7 +7,7 @@ sources:
 status: deep
 maturity: v1
 created: 2026-04-15
-updated: 2026-04-17
+updated: 2026-05-05
 tags: [methodology, principles, engineering]
 author: matilha
 license: MIT
@@ -34,6 +34,7 @@ Regras que atravessam todas as fases do ciclo. Invocadas implicitamente em cada 
 8. **Checkpoint discipline.** Projetos com >1 agente exigem arquivo de controle/status que TODOS os agentes atualizam. Previne estouro de janela de contexto e permite retomada sem perda de estado.
 9. **Valide só nas bordas.** Input do usuário e APIs externas. Código interno confia.
 10. **Commits convencionais.** `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:` + escopo quando relevante.
+11. **Software 3.0 também é software.** Prompts, skills, rules, hooks, tool descriptions e evals persistentes precisam de versão, teste/smoke, review e limpeza. Vibe coding é permitido como spike; entrega exige agentic engineering com feedback objetivo.
 
 ### Checklist operacional (se aplica a cada feature)
 
@@ -45,6 +46,7 @@ Regras que atravessam todas as fases do ciclo. Invocadas implicitamente em cada 
 - [ ] Erros tratados com contexto? Logs estruturados (não `print`)?
 - [ ] Arquivo excedeu limite do projeto (300 ou 400 linhas)? Função excedeu 20-40 linhas? Split.
 - [ ] Commit message segue convenção?
+- [ ] Prompt/skill/rule persistente mudou? Smoke ou review cobriu o novo comportamento?
 - [ ] Coverage ≥80% global, ≥90% em core/domain?
 
 ### Limites quantitativos (ajuste por arquétipo)
@@ -75,6 +77,7 @@ Regras que atravessam todas as fases do ciclo. Invocadas implicitamente em cada 
 - ❌ Comentários que reafirmam o código (explica WHY, não WHAT).
 - ❌ Arquitetura em camadas sem injeção (`domain/` importando `infrastructure/`).
 - ❌ Teste que roda só no happy path.
+- ❌ "Funcionou na conversa" sem diff pequeno, teste/eval ou registro de decisão.
 
 ### Árvore de decisão — "esta regra se aplica?"
 
@@ -92,6 +95,7 @@ Pontos que exigem pensamento real, caso a caso. Checklist aqui é falso conforto
 - **Quando dispensar TDD** — explorações rápidas em notebook/REPL para descobrir API de uma lib. TDD atrasa a descoberta. Decisão: quando já sei o contrato, volto ao TDD.
 - **Quando confiar na borda e quando fortificar** — validação em camadas multiplica código. Decisão depende de: quem é a borda real? (usuário direto vs. outro serviço meu).
 - **Quando aceitar dívida técnica explícita** — MVP de 2 semanas vs. refactor de 2 dias que atrasa o launch. Dívida documentada (em `docs/tech-debt.md` ou similar) é OK; dívida esquecida é bomba.
+- **Quando promover vibe coding para engenharia.** Exploração livre acelera descoberta, mas vira risco quando permanece no produto sem contrato. Promova quando a direção estiver clara: documente decisão, escreva teste/eval, reduza diff e apague alternativas mortas.
 
 ## ═══ NARRATIVA ═══
 
@@ -144,5 +148,6 @@ A calibração dos limites (300 vs 400, 20 vs 40) **é decisão de juízo** na f
 - [20-stack](./20-stack.md) — fase Stack calibra os limites quantitativos
 - [30-skills-agents](./30-skills-agents.md) — fase Skills/Agents materializa as regras em hooks que bloqueiam
 - **Materializações por ferramenta:** [materializacoes](./materializacoes.md)
+- **Karpathy / Software 3.0:** [karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md)
 - Conceitos embasadores: [nfr-system-design](../concepts/nfr-system-design.md), [leis-de-krug](../concepts/leis-de-krug.md)
 - Raw: 2026-04-15-danilo-brain-dump

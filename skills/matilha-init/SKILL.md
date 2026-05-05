@@ -18,7 +18,7 @@ User is at the start of a project (no `project-status.md`) or wants to bootstrap
 ## Execution Workflow
 
 1. Verify preconditions via Bash `test -f project-status.md`. If present and user didn't say "force", ask the user before overwriting.
-2. Prompt the user for `archetype` (one of: `api-standalone`, `web-app`, `cli-tool`, `library`, `mobile`, `other`).
+2. Prompt the user for `archetype` (one of: `saas-b2b`, `saas-b2c`, `frontend-only`, `cli`, `library`, `ml-service`, `marketplace`).
 3. Compute ISO-UTC timestamp via Bash `date -u +%Y-%m-%dT%H:%M:%SZ`.
 4. Write `project-status.md` via Write tool. Frontmatter shape: `schema_version: 1`, `name`, `archetype`, `created: <iso>`, `last_update: <iso>`, `current_phase: 0`, `phase_status: not_started`, `next_action: "Run /matilha-scout to enter Phase 10 discovery."`, `tools_detected: []`, `companion_skills: {impeccable: not_installed, shadcn: not_installed, superpowers: not_installed, typeui: not_installed}`, `active_waves: []`, `completed_waves: []`, `feature_artifacts: []`, `recent_decisions: []`, `pending_decisions: []`, `blockers: []`, `aesthetic_direction: null`, `design_locked: false`.
 5. Write `CLAUDE.md` / `AGENTS.md` / `GEMINI.md` if absent (copy from this repo's templates if available via `matilha pull`, else from skeletons).
@@ -71,7 +71,7 @@ No companion integrations in Wave 4a. Future packs may extend this skill.
 ## Troubleshooting
 
 - **"project-status.md already exists"**: User confirms overwrite explicitly, or chooses a different directory.
-- **"archetype not recognized"**: Must be one of the enum values; ask user to pick from the list.
+- **"archetype not recognized"**: Must be one of `saas-b2b`, `saas-b2c`, `frontend-only`, `cli`, `library`, `ml-service`, `marketplace`; ask user to pick from the list.
 
 ## CLI shortcut (optional)
 

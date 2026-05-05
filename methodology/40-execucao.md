@@ -7,7 +7,7 @@ sources:
 status: skeleton
 maturity: v1
 created: 2026-04-16
-updated: 2026-04-17
+updated: 2026-05-05
 tags: [methodology, execution, orchestration, checkpoint]
 author: matilha
 license: MIT
@@ -89,6 +89,7 @@ Como materializar esta decomposição: ver [materializacoes](./materializacoes.m
 4. **Nunca avance com quality gate vermelho.** Lint falha, teste falha, type check falha = task não está `completed`.
 5. **Contexto tem orçamento — context reset > compactação.** Quando janela satura, PREFIRA **context reset com handoff estruturado** (janela nova + artefato que carrega estado) em vez de só compactação in-place. Compactação não resolve "context anxiety" (modelo encerra prematuramente achando que vai estourar). Ver [harness-engineering](../concepts/harness-engineering.md) seção "Context reset vs compactação".
 6. **Handoff via arquivo, não via mensagem.** Mensagens são efêmeras e se perdem entre sessões. Artefato em arquivo (status + decisões tomadas + próximos passos) é reproduzível.
+7. **Vibe coding precisa de promoção.** Exploração livre pode gerar o primeiro formato, mas a wave só termina quando o resultado foi convertido em contrato: spec/plano/status, teste/eval/smoke, diff revisável e cleanup de alternativas mortas.
 
 ### Árvore de decisão
 
@@ -109,6 +110,23 @@ Quantos agentes envolvidos simultaneamente?
     ├── Executores PEGAM tasks e atualizam status
     └── Orquestrador VERIFICA e re-prioriza ao fim de cada ciclo
 ```
+
+### Gate Karpathy: vibe coding -> agentic engineering
+
+Use este gate quando uma parte da execução nasceu de exploração livre com LLM.
+
+- [ ] O spike tem nome e objetivo claro?
+- [ ] A decisão escolhida foi registrada em spec, plano, ADR ou `project-status.md`?
+- [ ] Código experimental descartado foi removido?
+- [ ] Existe teste, eval, smoke manual ou checklist objetivo que pegue regressão?
+- [ ] O diff está pequeno o bastante para review humano?
+- [ ] Prompts/skills/rules afetados foram atualizados como artefatos versionados?
+
+**Se falhar:** mantenha a task `in_progress`, crie subtask de hardening e não marque SP-DONE.
+
+**Regra:** vibe coding responde "o que pode ser?". Agentic engineering responde "o que está pronto, por que confiamos e como retomamos?".
+
+Ver [karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md).
 
 ### Long-horizon context management (3 técnicas canônicas)
 
@@ -251,5 +269,6 @@ Ver [principios-transversais](./principios-transversais.md) regra 8 — checkpoi
 - **Harness engineering (context reset, handoff artifacts):** [harness-engineering](../concepts/harness-engineering.md)
 - **Agent-centric codebase (Ralph Wiggum, worktree-per-change, observability para agente):** [agent-centric-codebase](../concepts/agent-centric-codebase.md)
 - **Context engineering (compaction, note-taking, sub-agents para long-horizon):** [context-engineering](../concepts/context-engineering.md)
+- **Karpathy / Software 3.0:** [karpathy-agentic-engineering](../concepts/karpathy-agentic-engineering.md)
 - Conceitos embasadores: [nfr-system-design](../concepts/nfr-system-design.md)
 - Raw: 2026-04-15-danilo-brain-dump

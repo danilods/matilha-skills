@@ -217,7 +217,7 @@ Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 **Semiotics of the sigil** (why this matters, not just decoration):
 - **Wolf portrait** — the alpha in focus; matilha leads, doesn't replace. "You lead. Agents hunt."
 - **`MATILHA` wordmark** — embedded in the art, grounds the glyph to the harness name.
-- Rendered deterministically from `assets/sigil.txt` via Bash — never reproduced character-by-character by the LLM.
+- Emitted inline from the canonical template above. Do not call shell hooks or scripts to render it.
 
 **Language rules for the atmospheric paragraph** (line starting "A alcateia farejou território familiar"):
 - The domain phrase MUST mirror concrete language from the user's prompt (technology names, specific nouns). This is the aha-moment trigger — the user sees "oh, it actually understood what I'm asking about, not generic help."
@@ -253,29 +253,22 @@ Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
 
 **Step 5 — Emit + invoke (storytelling mode, not debug mode).**
 
-The emission has two parts now:
+Emit the complete preamble as regular assistant text, then invoke the target skill via the Skill tool.
 
-**(a) Sigil via Bash (deterministic render, no LLM reproduction)**
+The preamble is the canonical text block built in Step 4:
 
-Invoke the Bash tool to run the sigil renderer script:
+1. Sigil ASCII art.
+2. Atmospheric paragraph.
+3. Pack lines.
+4. Closing transition.
 
-```
-bash "${CLAUDE_PLUGIN_ROOT}/hooks/print-sigil.sh"
-```
-
-The script prints the pack sigil ASCII art directly to the user's terminal. This is a deterministic render — the sigil comes from `assets/sigil.txt` (or embedded fallback), never reproduced character-by-character by you. If `CLAUDE_PLUGIN_ROOT` is unavailable in your environment, fall back to emitting the sigil text inline (same content as `assets/sigil.txt`).
-
-**(b) Atmospheric text + pack lines + transition (your output)**
-
-After the Bash tool returns, emit the atmospheric paragraph + pack lines + closing transition as regular text output. The LLM-emitted portion keeps the language-mirroring property — you match the user's prompt vocabulary (English, Portuguese, Spanish, etc.).
+Do not use Bash, shell hooks, plugin-root paths, or external renderer scripts for the sigil. Shell permission prompts break the flow and reduce cross-CLI compatibility.
 
 Example sequence the user sees:
 
 ```
 ⏺ matilha:matilha-compose
-⏺ Bash(bash "${CLAUDE_PLUGIN_ROOT}/hooks/print-sigil.sh")
-  ⎿ [sigil ASCII rendered deterministically]
-
+[inline sigil ASCII from Step 4]
 The pack sensed familiar territory: <domain phrase mirroring user prompt>.
 
 <pack-name> at your side → <skill-1>, <skill-2>, <skill-3>, <skill-4>, <skill-5>.
@@ -285,13 +278,13 @@ Brainstorming ahead. Skills enter as topics surface.
 ⏺ superpowers:brainstorming
 ```
 
-Then invoke the target skill via the Skill tool. Then stop — let the target skill take over.
+After emitting the preamble, invoke the target skill via the Skill tool. Then stop — let the target skill take over.
 
-**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the sigil (via Bash) + atmospheric text + skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
+**Do NOT narrate your internal steps** ("Step 1 — Pack detection...", "Step 2 — Intent classification...") in the user-facing output. Those steps happen inside your reasoning; only the inline sigil + atmospheric text + skill invocation should reach the user. Exception: if the user explicitly asks you to explain what compose did (e.g., `/matilha-compose --debug` or "explain your routing"), then show the steps.
 
-**Silent pass-through exception**: when zero packs are classified relevant (Case C), skip both the sigil Bash call AND the preamble text. The pack does not howl without territory.
+**Silent pass-through exception**: when zero packs are classified relevant (Case C), skip both the sigil AND the preamble text. The pack does not howl without territory.
 
-Goal: the user experiences compose as an atmospheric opening — the pack's presence acknowledged with a wink of recognition (deterministic sigil), then the language-mirroring atmospheric text reinforces domain understanding, then brainstorming begins.
+Goal: the user experiences compose as an atmospheric opening — the pack's presence acknowledged with the inline sigil, then the language-mirroring atmospheric text reinforces domain understanding, then brainstorming begins.
 
 If no preamble (pass-through or routing to plan/design): invoke target skill via Skill tool directly.
 
