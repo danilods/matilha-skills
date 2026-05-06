@@ -263,7 +263,7 @@ Verify with:
 
 You should see `matilha` + the packs you chose, all marked as **enabled**.
 
-Open a fresh session in any directory and type a software-construction prompt. The SessionStart hook fires matilha-bootstrap, then matilha-compose detects installed packs and injects atmospheric preamble before dispatching to brainstorming. The sigil (♛ + pack dogs) confirms the flow is working.
+Open a fresh session in any directory and type a software-construction prompt. The SessionStart hook fires matilha-bootstrap, then matilha-compose detects installed packs and injects the compact atmospheric preamble before dispatching to brainstorming. The `matilha` wordmark confirms the flow is working.
 
 ## Tip
 

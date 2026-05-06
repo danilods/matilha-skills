@@ -203,7 +203,7 @@ Matilha v1.0.0 marks the first official release of the methodology harness + its
 
 - `matilha-compose` gateway detects installed companion packs via plugin-namespace (`matilha-*-pack`) and routes brainstorming through pack-aware preamble.
 - SessionStart hook injects activation priority into every matilha-installed workspace (cross-workspace availability).
-- Storytelling-mode sigil (alpha wolf + pack dogs) + atmospheric line mirroring user's domain vocabulary when a relevant pack is installed.
+- Storytelling-mode compact `matilha` wordmark + atmospheric line mirroring user's domain vocabulary when a relevant pack is installed.
 - Default-EMIT rule: at least one relevant pack installed → emit sigil.
 
 ### Activation

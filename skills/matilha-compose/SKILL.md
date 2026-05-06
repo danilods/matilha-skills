@@ -142,66 +142,25 @@ Choose the terminal destination based on intent-to-phase classification. Matilha
 - Zero companion packs installed (ambient list contains no `matilha-*-pack` namespaces), OR
 - All installed packs are clearly off-topic (e.g., only growth-pack installed, and prompt is pure DevOps/infrastructure with zero product dimension).
 
-In any other case — especially when the prompt is technical/creative/software-construction-shaped and at least one pack is installed — EMIT the full sigil + atmospheric + pack lines + closing. This is the matilha signature and the user's aha moment; withholding it when a pack is available wastes the harness.
+In any other case — especially when the prompt is technical/creative/software-construction-shaped and at least one pack is installed — EMIT the compact sigil + atmospheric + pack lines + closing. This is the matilha signature and the user's aha moment; withholding it when a pack is available wastes the harness.
 
 Use this canonical template. The goal combines three purposes at once: (a) signal to the user that matilha's methodology layer activated, (b) make the "aha" moment visible (LLM mirroring domain-specific language proves it *read* the prompt), (c) inject pack context for brainstorming to weave skills naturally.
 
 ```text
 
-    #################################################################################################
-    ####################################   ###################-  ####################################
-    ###################################  #  +################  #  ###################################
-    ##################################  ####  .############  ####  ##################################
-    ##################################  #  +##  +########  +##  #  ##################################
-    ##################################  #-   ###-........###.   #  ##################################
-    ##################################  ##    -############    ##  ##################################
-    ##################################  ##    +############    ##  ##################################
-    ##################################  #    ###############.   #  ##################################
-    #################################  +   -##  -#######+  ###   .  #################################
-    ################################  #+    ###   .####   ###    .#  ################################
-    ################################  ###     #############.    ###. ################################
-    #######################  #######  .###########+####+##########+  #######  #######################
-    ####################### #  +######   ########  ####  #######   #######  # .#######  #############
-    ################  +###  ###  .######+   ####   ####   ######+  ###+ #####    #############
-    ################ #+  # ##  ##  #######. .##    ####   +##  #######+ ###  #  #+  ##. #############
-    ################ ##-  +#-   ##  #######  +##   ###+  ###  -####### -#.   ###+   .   #############
-    ################   ######   ###  #######.  ##       +#.  ########  ##    #######   ##############
-    ##############  ########### ####.  #######-  ########  ########- -###  ###########+  ############
-    #############  ####.  ####### #####  ##   +#+  ####  ##+  +##. +###..#######.+######  ###########
-    #############  ##   +#########  +#####. ##  ###+##+###  #+ #######  #########    ###  ###########
-    ###########- .#######      +###  #####  # ##  ######  ## # ######  ####     ######### .##########
-    #########+ +##            #####. -####  #  +##-....-##   # +####  ######           ###. #########
-    #######. ###            #####   ######  #   ##########   # +######   #####           +##  #######
-    ######-  +.              ###  .#######    #############+ . +#######-  ##               ..  ######
-    ######## .     ++   #  #####  #######.   ################   -#######  -####     #      # .#######
-    ##########      ######  ###   ######     ##    ####    ##    .######+  ###  ####-       #########
-    #################  ##  +###  ######  ##   ####-####+####   ## .######  ###  -## #################
-    #################  #- ####   ######+ ####.  ##########  .###. ########  ###  #  #################
-    #################  ######  +### -###   ######- -### .######  +###+ ####  #####  #################
-    ##################  +##- .###. #######+  ####  -###  ####  ########  #### ###  ##################
-    ####################  #####+  ##########+ .#.  -###   ##  ##########+  #####  ###################
-    #####################  ###  +############  ##   ##+  ##  #############+  ## -####################
-    ####################### #+ ###############  .#      ##  ################ + ######################
-    ############################################  ######  +##########################################
-    ##############################################  ### -############################################
-    #################################################################################################
-    #######     #####     +####.     +##            #     #     ######+    ###    +###+      ########
-    #######       ##      +###+       ##            #     #     ######+    ###    +###        #######
-    #######               +###         #####    #####     #     ######+           +##         #######
-    #######               +##     #     ####    #####     #     ######+           +#     #.    ######
-    #######     #    #    +#             ###    #####     #     ######+    +##    ++            #####
-    #######     ## +##    +-             ###    #####     #          ++    ###    +              ####
-    #######    .######    +     #####.    ##    #####     #         .##    ###    -    ######    ####
-    #################################################################################+###############
-    #######+.......+#        # ## +#+  .   -   ####   #   .          .#      .      . +#........#####
-    ################## .       ##                #+                   #  #        # . ###############
-    ###################################################. ############################################
-    #################################################################################################
+matilha
+                 _   _ _ _
+ _ __ ___   __ _| |_(_) | |__   __ _
+| '_ ' _ \ / _' | __| | | '_ \ / _' |
+| | | | | | (_| | |_| | | | | | (_| |
+|_| |_| |_|\__,_|\__|_|_|_| |_|\__,_|
 
-A alcateia farejou território familiar: <specific domain phrase mirroring
-the user's prompt — e.g., "orquestração de eventos com Lambda, EventBridge
-e DynamoDB" or "fluxo de signup com foco em ativação" or "arquitetura de
-agentes com planner/executor">.
+You lead. Agents hunt.
+
+The pack sensed familiar territory: <specific domain phrase mirroring
+the user's prompt — e.g., "event orchestration with Lambda, EventBridge
+and DynamoDB" or "signup flow focused on activation" or "agent
+architecture with planner/executor">.
 
   ▸ <pack-short-1>   <skill-short-1> · <skill-short-2> · <skill-short-3>
                      <skill-short-4> · <skill-short-5>
@@ -211,15 +170,15 @@ agentes com planner/executor">.
 
 [repeat per pack classified yes]
 
-Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
+Brainstorming ahead. Skills enter as topics surface.
 ```
 
 **Semiotics of the sigil** (why this matters, not just decoration):
-- **Wolf portrait** — the alpha in focus; matilha leads, doesn't replace. "You lead. Agents hunt."
-- **`MATILHA` wordmark** — embedded in the art, grounds the glyph to the harness name.
+- **Compact wordmark** — keeps the activation marker readable in chat transcripts and terminal recordings.
+- **Tagline** — `You lead. Agents hunt.` grounds the harness promise without flooding the session.
 - Emitted inline from the canonical template above. Do not call shell hooks or scripts to render it.
 
-**Language rules for the atmospheric paragraph** (line starting "A alcateia farejou território familiar"):
+**Language rules for the atmospheric paragraph** (line starting "The pack sensed familiar territory"):
 - The domain phrase MUST mirror concrete language from the user's prompt (technology names, specific nouns). This is the aha-moment trigger — the user sees "oh, it actually understood what I'm asking about, not generic help."
 - Keep it to one sentence maximum.
 - Do not summarize the prompt — name the *territory* (the domain / problem space).
@@ -245,9 +204,8 @@ Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.
                  iam-least-privilege · encryption · secrets-manager
 ```
 
-**Closing line** (`Brainstorming adiante. Skills entram em cena conforme os tópicos surgirem.`):
+**Closing line** (`Brainstorming ahead. Skills enter as topics surface.`):
 - Signals to user that the conversation flow continues; establishes anticipation without listing all skills upfront.
-- In English contexts, use: `Brainstorming ahead. Skills enter as topics surface.`
 
 **If zero packs classified yes**: skip preamble entirely, including the sigil. The pack doesn't howl when there's no territory to hunt (silent pass-through Case C). The user just sees brainstorming running directly.
 
@@ -268,7 +226,7 @@ Example sequence the user sees:
 
 ```
 ⏺ matilha:matilha-compose
-[inline sigil ASCII from Step 4]
+[inline compact sigil from Step 4]
 The pack sensed familiar territory: <domain phrase mirroring user prompt>.
 
 <pack-name> at your side → <skill-1>, <skill-2>, <skill-3>, <skill-4>, <skill-5>.

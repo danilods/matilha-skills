@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.1] — 2026-05-06 — Compact compose sigil
+
+Runtime polish for Claude Code recordings and cross-CLI usage.
+
+### Changed
+
+- `skills/matilha-compose/SKILL.md` — replaced the large inline sigil with the compact `matilha` wordmark and English default preamble.
+- `hooks/session-start` — updated the SessionStart guidance skeleton to the same compact preamble.
+- `assets/sigil.txt` — synchronized the shipped sigil asset with the compact wordmark.
+- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json` — bumped plugin metadata to `1.3.1`.
+
 ## [1.2.1] — 2026-04-24 — Novo sigil: ASCII art do lobo com wordmark MATILHA
 
 ### Changed

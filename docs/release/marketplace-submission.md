@@ -27,7 +27,7 @@ All descriptions derive from `plugin.json` + `marketplace.json` but polished for
 > - **Session start** — injects activation priority so matilha-compose fires before creative-work skills.
 > - **Phase awareness** — 11 orchestration skills cover discovery through knowledge capture. Lazy-bootstraps project scaffolding on demand (no mandatory `matilha-init`).
 > - **Composition** — detects installed companion packs (`matilha-*-pack` namespace) and enriches brainstorming automatically. No hardcoded pack list.
-> - **Storytelling mode** — when a relevant pack is installed, compose emits a canonical sigil (alpha wolf + pack dogs) plus an atmospheric line that mirrors the user's domain vocabulary.
+> - **Storytelling mode** — when a relevant pack is installed, compose emits a compact `matilha` wordmark plus an atmospheric line that mirrors the user's domain vocabulary.
 > - **Runs standalone** — methodology works without `superpowers:*`; enriches when present.
 >
 > **Cross-tool**: Claude Code, Cursor, Codex, Gemini. Same plugin format, same SessionStart hook.
